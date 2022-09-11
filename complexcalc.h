@@ -9,13 +9,13 @@ QT_END_NAMESPACE
 
 class ComplexCalc : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    ComplexCalc(QWidget *parent = nullptr);
-    ~ComplexCalc();
+  ComplexCalc(QWidget *parent = nullptr);
+  ~ComplexCalc();
 
 private:
-    Ui::ComplexCalc *ui;
+  Ui::ComplexCalc *ui;
 };
 #endif // COMPLEXCALC_H

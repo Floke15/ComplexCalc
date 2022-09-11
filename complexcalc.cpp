@@ -13,3 +13,4 @@ ComplexCalc::~ComplexCalc()
     delete ui;
 }
 
+//TODO: Get OpenGL to run! Test in new Project: https://icode.best/i/61087846187635
