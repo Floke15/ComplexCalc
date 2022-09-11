@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class ComplexCalc; }
+namespace Ui { class ComplexCalcClass; }
 QT_END_NAMESPACE
 
 class ComplexCalc : public QMainWindow
@@ -16,6 +16,6 @@ public:
   ~ComplexCalc();
 
 private:
-  Ui::ComplexCalc *ui;
+  Ui::ComplexCalcClass *ui;
 };
 #endif // COMPLEXCALC_H

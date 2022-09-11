@@ -3,7 +3,7 @@
 
 ComplexCalc::ComplexCalc(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::ComplexCalc)
+    , ui(new Ui::ComplexCalcClass)
 {
     ui->setupUi(this);
 }
