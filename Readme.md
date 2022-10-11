@@ -26,7 +26,13 @@ Generate Visual Studio Project:
 
 1. Install cmake (GUI)
 2. Open cmake and set <Project-Path> as Source and <Project-Path>/build as Build.
-3. Click "Configure" and Select the VS Version and select "x64"
+3. Click "Environment..."
+4. Click "Add Entry"
+5. Insert:
+    * Name: QTDIR
+    * Value C:\Qt\6.4.0\msvc2019_64\lib\cmake
+6. Click Ok twice
+3. In the main window click "Configure" and Select the VS Version and select "x64"
 4. Click "Generate"
 5. Click "Open Project"
 6. In VS right-click "ComplexCalc" and select "Set as Startup Project"
