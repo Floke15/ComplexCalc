@@ -18,7 +18,8 @@ Windows:
 9. Finish the Installation
 
 Linux:
-1. sudo apt-get install libxcb-xinerama0
+
+1. sudo apt-get install libxcb-xinerama0 libgl1-mesa-dev
 2. Download the QT-installer from https://www.qt.io/download-qt-installer
 3. Assign execute rights with "chmod +x <download_path>/qt-unified-linux-x64-<version>-online.run
 4. Log in or create an account (it is free and you can use throwaway credentials)
