@@ -1,22 +1,5 @@
 Debug-Build Guide:
 
-Windows:
-
-1. Download the QT-installer from https://www.qt.io/download-qt-installer
-2. Start the QT Installer and Log in or create an account (it is free and you can use throwaway credentials)
-3. Agree to the GNU-License and check the box "not using QT for a company"
-4. Disable statistics
-5. Select "Custom Installation" and use the default path
-6. Now select the following within the newest QT version (at time of writing 6.4.0):
-    * gcc 64-bit
-    * WebAssembly
-7. Under "Developer and Designer Tools" select:
-    * Qt Design Studio 3.7.0
-    * CMake
-    * Ninja
-8. Click next and agree to the license
-9. Finish the Installation
-
 Linux:
 
 1. sudo apt-get install libxcb-xinerama0 libgl1-mesa-dev
@@ -27,19 +10,36 @@ Linux:
 6. Disable statistics
 7. Select "Custom Installation" and use the default path
 8. Now select the following within the newest QT version (at time of writing 6.4.0):
+    * gcc 64-bit
+    * WebAssembly
+9. Under "Developer and Designer Tools" select:
+    * Qt Design Studio 3.7.0
+    * CMake
+    * Ninja
+10. Click next and agree to the license
+11. Finish the Installation
+12. QT Creator can be started by executing "<Qt-install-Dir>/Tools/QtCreator/bin/qtcreator.sh"
+
+Windows:
+
+1. Download the QT-installer from https://www.qt.io/download-qt-installer
+2. Start the QT Installer and Log in or create an account (it is free and you can use throwaway credentials)
+3. Agree to the GNU-License and check the box "not using QT for a company"
+4. Disable statistics
+5. Select "Custom Installation" and use the default path
+6. Now select the following within the newest QT version (at time of writing 6.4.0):
     * WebAssembly
     * MSVC 2019 64-bit
     * MinGW 11.2.0 64-bit
-9. Under "Developer and Designer Tools" select:
+7. Under "Developer and Designer Tools" select:
     * Qt Creator 8.0.1 CDB Debugger Support
     * Debugging Tools for Windows
     * Qt Design Studio 3.7.0
     * MinGW 11.2.0 64-bit
     * CMake
     * Ninja
-10. Click next and agree to the license
-11. Finish the Installation
-12. QT Creator can be started by executing "<Qt-install-Dir>/Tools/QtCreator/bin/qtcreator.sh"
+8. Click next and agree to the license
+9. Finish the Installation
 
 Generate Visual Studio Project:
 
@@ -70,5 +70,10 @@ ToDo:
 Fix WebAssembly (may work on Linux):
 
 1. Python 3.6 or higher has to be installed
-2. Install Emscripten as described here: https://emscripten.org/docs/getting_started/downloads.html
-3. Enable the Build in Qt Creator as described here https://doc.qt.io/qtcreator/creator-setup-webassembly.html
+2. sudo apt-get install ninja-build gcc gdb clang git
+3. execute git clone https://github.com/emscripten-core/emsdk.git
+4. cd emsdk
+5. ./emsdk install 3.1.14
+6. ./emsdk activate 3.1.14
+7. source ./emsdk_env.sh
+8. Enable the Build in Qt Creator as described here https://doc.qt.io/qtcreator/creator-setup-webassembly.html
