@@ -26,6 +26,5 @@ private:
   QColor m_background;
   int m_frames = 0;
   QElapsedTimer m_time;
-  ComplexCalc* m_mainCalc;
 };
 #endif // MAINGLWIDGET_H

@@ -38,6 +38,10 @@ void MainGLWidget::paintGL()
 
   painter.end();
 
+  if (!(m_frames % 100)) {
+    m_time.start();
+    m_frames = 0;
+  }
   ++m_frames;
   
   update();
