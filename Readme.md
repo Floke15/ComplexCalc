@@ -20,6 +20,17 @@ Linux:
 11. Finish the Installation
 12. QT Creator can be started by executing "<Qt-install-Dir>/Tools/QtCreator/bin/qtcreator.sh"
 
+WebAssembly (Linux):
+
+1. Python 3.6 or higher has to be installed
+2. sudo apt-get install ninja-build gcc gdb clang git
+3. execute git clone https://github.com/emscripten-core/emsdk.git
+4. cd emsdk
+5. ./emsdk install 3.1.14
+6. ./emsdk activate 3.1.14
+7. source ./emsdk_env.sh
+8. Enable the Build in Qt Creator as described here https://doc.qt.io/qtcreator/creator-setup-webassembly.html
+
 Windows:
 
 1. Download the QT-installer from https://www.qt.io/download-qt-installer
@@ -64,16 +75,3 @@ Qt6Guid.dll
 Qt6OpenGLd.dll
 Qt6OpenGLWidgetsd.dll
 Qt6Widgetsd.dll
-
-ToDo:
-
-Fix WebAssembly (may work on Linux):
-
-1. Python 3.6 or higher has to be installed
-2. sudo apt-get install ninja-build gcc gdb clang git
-3. execute git clone https://github.com/emscripten-core/emsdk.git
-4. cd emsdk
-5. ./emsdk install 3.1.14
-6. ./emsdk activate 3.1.14
-7. source ./emsdk_env.sh
-8. Enable the Build in Qt Creator as described here https://doc.qt.io/qtcreator/creator-setup-webassembly.html

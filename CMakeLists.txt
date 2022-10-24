@@ -13,8 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_PREFIX_PATH $ENV{QTDIR})
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools OpenGL OpenGLWidgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools OpenGL OpenGLWidgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Gui Widgets LinguistTools OpenGL OpenGLWidgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui Widgets LinguistTools OpenGL OpenGLWidgets)
 
 set(TS_FILES ComplexCalc_en_150.ts)
 
@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         complexcalc.cpp
         complexcalc.h
         complexcalc.ui
+        mainglwidget.cpp
+        mainglwidget.h
         ${TS_FILES}
 )
 
@@ -53,7 +55,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(ComplexCalc PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::OpenGL Qt${QT_VERSION_MAJOR}::OpenGLWidgets ${OPENGL_LIBRARIES})
+target_link_libraries(ComplexCalc PRIVATE Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::OpenGL Qt${QT_VERSION_MAJOR}::OpenGLWidgets ${OPENGL_LIBRARIES})
 
 set_target_properties(ComplexCalc PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

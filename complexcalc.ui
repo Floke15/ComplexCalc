@@ -38,7 +38,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QOpenGLWidget" name="openGLWidget"/>
+        <widget class="MainGLWidget" name="openGLWidget"/>
        </item>
        <item row="0" column="0">
         <widget class="QTextEdit" name="textEdit">
@@ -151,6 +151,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MainGLWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">mainglwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="complexcalc.qrc"/>
  </resources>
