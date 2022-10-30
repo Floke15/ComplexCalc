@@ -1,4 +1,4 @@
-#include <QtWidgets>
+/*#include <QtWidgets>
 #include <QtOpenGL>
 
 #include "mainglwidget.h"
@@ -51,3 +51,4 @@ void MainGLWidget::resizeGL(int width, int height)
 {
   //glViewport(0, 0, width, height);
 }
+*/

@@ -7,6 +7,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    qputenv("QT3D_RENDERER", "opengl");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();

@@ -13,8 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_PREFIX_PATH $ENV{QTDIR})
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Gui Widgets LinguistTools OpenGL OpenGLWidgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui Widgets LinguistTools OpenGL OpenGLWidgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets LinguistTools OpenGL OpenGLWidgets 3DCore 3DRender 3DInput 3DExtras)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets LinguistTools OpenGL OpenGLWidgets 3DCore 3DRender 3DInput 3DExtras)
 
 set(TS_FILES ComplexCalc_en_150.ts)
 
@@ -55,7 +55,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(ComplexCalc PRIVATE Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::OpenGL Qt${QT_VERSION_MAJOR}::OpenGLWidgets ${OPENGL_LIBRARIES})
+target_link_libraries(ComplexCalc PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::OpenGL Qt${QT_VERSION_MAJOR}::OpenGLWidgets Qt${QT_VERSION_MAJOR}::3DCore Qt${QT_VERSION_MAJOR}::3DRender Qt${QT_VERSION_MAJOR}::3DInput Qt${QT_VERSION_MAJOR}::3DExtras ${OPENGL_LIBRARIES})
 
 set_target_properties(ComplexCalc PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
