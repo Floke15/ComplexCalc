@@ -12,13 +12,15 @@ Linux:
 8. Now select the following within the newest QT version (at time of writing 6.4.0):
     * gcc 64-bit
     * WebAssembly
-9. Under "Developer and Designer Tools" select:
+9. Under "Additional Libraries" select:
+    * Qt 3D
+10. Under "Developer and Designer Tools" select:
     * Qt Design Studio 3.7.0
     * CMake
     * Ninja
-10. Click next and agree to the license
-11. Finish the Installation
-12. QT Creator can be started by executing "<Qt-install-Dir>/Tools/QtCreator/bin/qtcreator.sh"
+11. Click next and agree to the license
+12. Finish the Installation
+13. QT Creator can be started by executing "<Qt-install-Dir>/Tools/QtCreator/bin/qtcreator.sh"
 
 WebAssembly (Linux):
 
@@ -42,15 +44,17 @@ Windows:
     * WebAssembly
     * MSVC 2019 64-bit
     * MinGW 11.2.0 64-bit
-7. Under "Developer and Designer Tools" select:
+7. Under "Additional Libraries" select:
+    * Qt 3D
+8. Under "Developer and Designer Tools" select:
     * Qt Creator 8.0.1 CDB Debugger Support
     * Debugging Tools for Windows
     * Qt Design Studio 3.7.0
     * MinGW 11.2.0 64-bit
     * CMake
     * Ninja
-8. Click next and agree to the license
-9. Finish the Installation
+9. Click next and agree to the license
+10. Finish the Installation
 
 Generate Visual Studio Project:
 
@@ -70,8 +74,16 @@ Generate Visual Studio Project:
 
 platforms/qwindowsd.dll
 styles/qwindowsvistastyled.dll
+renderes/openglrendererd.dll
 Qt6Cored.dll
 Qt6Guid.dll
 Qt6OpenGLd.dll
 Qt6OpenGLWidgetsd.dll
 Qt6Widgetsd.dll
+Qt63DExtrasd.dll
+Qt63Logicd.dll
+Qt63DInputd.dll
+Qt63DRenderd.dll
+Qt63DCored.dll
+Qt6Concurrentd.dll
+Qt6Networkd.dll
