@@ -74,7 +74,7 @@ Generate Visual Studio Project:
 
 platforms/qwindowsd.dll
 styles/qwindowsvistastyled.dll
-renderes/openglrendererd.dll
+renderers/openglrendererd.dll
 Qt6Cored.dll
 Qt6Guid.dll
 Qt6OpenGLd.dll
