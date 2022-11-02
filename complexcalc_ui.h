@@ -23,6 +23,7 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <mainglwidget.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -39,6 +40,7 @@ public:
   QWidget* widget;
   QGridLayout* gridLayout;
   QPushButton* pushButton;
+  MainGLWidget* openGLWidget;
   QTextEdit* textEdit;
   QListWidget* listWidget;
   QSlider* horizontalSlider;
@@ -51,7 +53,7 @@ public:
   {
     if (ComplexCalcClass->objectName().isEmpty())
       ComplexCalcClass->setObjectName("ComplexCalcClass");
-    ComplexCalcClass->resize(986, 759);
+    ComplexCalcClass->resize(1013, 737);
     QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
@@ -89,6 +91,11 @@ public:
 
     gridLayout->addWidget(pushButton, 0, 1, 1, 1);
 
+    openGLWidget = new MainGLWidget(widget);
+    openGLWidget->setObjectName("openGLWidget");
+
+    gridLayout->addWidget(openGLWidget, 1, 0, 1, 1);
+
     textEdit = new QTextEdit(widget);
     textEdit->setObjectName("textEdit");
     QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -113,7 +120,7 @@ public:
     sizePolicy3.setHeightForWidth(listWidget->sizePolicy().hasHeightForWidth());
     listWidget->setSizePolicy(sizePolicy3);
 
-    gridLayout->addWidget(listWidget, 2, 1, 1, 1);
+    gridLayout->addWidget(listWidget, 1, 1, 1, 1);
 
 
     verticalLayout_2->addWidget(widget);
@@ -127,7 +134,7 @@ public:
     ComplexCalcClass->setCentralWidget(centralWidget);
     menuBar = new QMenuBar(ComplexCalcClass);
     menuBar->setObjectName("menuBar");
-    menuBar->setGeometry(QRect(0, 0, 986, 22));
+    menuBar->setGeometry(QRect(0, 0, 1013, 22));
     menuFile = new QMenu(menuBar);
     menuFile->setObjectName("menuFile");
     menuhelp = new QMenu(menuBar);
