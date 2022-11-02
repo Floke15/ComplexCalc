@@ -3,7 +3,7 @@
 
 #include "mainglwidget.h"
 
-MainGLWidget::MainGLWidget(QWidget* parent) : QOpenGLWidget {parent}
+MainGLWidget::MainGLWidget(QWidget* parent) : QOpenGLWidget{ parent }
 {
   m_background = qRgb(20, 20, 50);
 }
@@ -43,7 +43,7 @@ void MainGLWidget::paintGL()
     m_frames = 0;
   }
   ++m_frames;
-  
+
   update();
 }
 

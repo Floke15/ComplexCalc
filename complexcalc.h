@@ -13,10 +13,10 @@ class ComplexCalc : public QMainWindow
   Q_OBJECT
 
 public:
-  ComplexCalc(QWidget *parent = nullptr);
+  ComplexCalc(QWidget* parent = nullptr);
   ~ComplexCalc();
 
 private:
-  Ui::ComplexCalcClass *ui;
+  Ui::ComplexCalcClass* ui;
 };
 #endif // COMPLEXCALC_H
