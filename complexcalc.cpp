@@ -1,5 +1,5 @@
 #include "complexcalc.h"
-#include "./ui_complexcalc.h"
+#include "complexcalc_ui.h"
 
 #include<Qt3DExtras>
 

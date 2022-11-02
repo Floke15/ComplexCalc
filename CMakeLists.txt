@@ -22,7 +22,7 @@ set(PROJECT_SOURCES
         main.cpp
         complexcalc.cpp
         complexcalc.h
-        complexcalc.ui
+        complexcalc_ui.h
         mainglwidget.cpp
         mainglwidget.h
         ${TS_FILES}

@@ -1,6 +1,6 @@
 #ifndef MAINGLWIDGET_H
 #define MAINGLWIDGET_H
-/*
+
 #include <QColor>
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
@@ -26,5 +26,5 @@ private:
   QColor m_background;
   int m_frames = 0;
   QElapsedTimer m_time;
-};*/
+};
 #endif // MAINGLWIDGET_H
