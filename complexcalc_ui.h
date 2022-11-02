@@ -23,6 +23,7 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <Qt3DExtras>
 #include <mainglwidget.h>
 
 QT_BEGIN_NAMESPACE
@@ -41,6 +42,7 @@ public:
   QGridLayout* gridLayout;
   QPushButton* pushButton;
   MainGLWidget* openGLWidget;
+  Qt3DExtras::Qt3DWindow* openGL3DWindow;
   QTextEdit* textEdit;
   QListWidget* listWidget;
   QSlider* horizontalSlider;
@@ -91,10 +93,14 @@ public:
 
     gridLayout->addWidget(pushButton, 0, 1, 1, 1);
 
-    openGLWidget = new MainGLWidget(widget);
+    /*openGLWidget = new MainGLWidget(widget);
     openGLWidget->setObjectName("openGLWidget");
 
-    gridLayout->addWidget(openGLWidget, 1, 0, 1, 1);
+    gridLayout->addWidget(openGLWidget, 1, 0, 1, 1);*/
+
+    openGL3DWindow = new Qt3DExtras::Qt3DWindow();
+    openGL3DWindow->defaultFrameGraph()->setClearColor(QColor(QRgb(0xFF0000)));
+    gridLayout->addWidget(QWidget::createWindowContainer(openGL3DWindow));
 
     textEdit = new QTextEdit(widget);
     textEdit->setObjectName("textEdit");
