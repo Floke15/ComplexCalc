@@ -2,11 +2,12 @@
 #define COMPLEXCALC_H
 
 #include <QMainWindow>
-#include <QTimer>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class ComplexCalcClass; }
+namespace Ui { class ComplexCalcUI; }
 QT_END_NAMESPACE
+
+class GLWindowControl;
 
 class ComplexCalc : public QMainWindow
 {
@@ -17,6 +18,7 @@ public:
   ~ComplexCalc();
 
 private:
-  Ui::ComplexCalcClass* ui;
+  Ui::ComplexCalcUI* ui;
+  GLWindowControl* mainGL;
 };
 #endif // COMPLEXCALC_H
