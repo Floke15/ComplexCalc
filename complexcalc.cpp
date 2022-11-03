@@ -6,15 +6,15 @@
 
 ComplexCalc::ComplexCalc(QWidget* parent)
   : QMainWindow(parent)
-  , ui(new Ui::ComplexCalcUI)
+  , ui_(new Ui::ComplexCalcUI)
 {
-  ui->setupUi(this);
+  ui_->setupUi(this);
 
-  mainGL = new GLWindowControl(ui->openGL3DWindow);
+  mainGL_ = new GLWindowControl(ui_->openGL3DWindow);
 
 }
 
 ComplexCalc::~ComplexCalc()
 {
-  delete ui;
+  delete ui_;
 }

@@ -18,7 +18,7 @@ public:
   ~ComplexCalc();
 
 private:
-  Ui::ComplexCalcUI* ui;
-  GLWindowControl* mainGL;
+  Ui::ComplexCalcUI* ui_;
+  GLWindowControl* mainGL_;
 };
 #endif // COMPLEXCALC_H
