@@ -1,5 +1,5 @@
-#ifndef MAINGLWIDGET_H
-#define MAINGLWIDGET_H
+#ifndef GLWINDOWCONTROL_H
+#define GLWINDOWCONTROL_H
 
 #include <Qt3DExtras/qt3dwindow.h>
 #include <complex>
@@ -15,4 +15,4 @@ public:
 private:
   Qt3DExtras::Qt3DWindow* glWindow_;
 };
-#endif // MAINGLWIDGET_H
+#endif // GLWINDOWCONTROL_H
