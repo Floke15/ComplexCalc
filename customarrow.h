@@ -13,6 +13,7 @@ public:
 
 private:
   Qt3DCore::QEntity* rootEntity_;
+  Qt3DCore::QTransform* sphereTransform_;
   Qt3DExtras::QCylinderMesh* cylinder_;
   Qt3DCore::QTransform* cylinderTransform_;
   QColor color_;
