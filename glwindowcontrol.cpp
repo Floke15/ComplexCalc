@@ -32,7 +32,11 @@ GLWindowControl::GLWindowControl(Qt3DExtras::Qt3DWindow* glWindow) :
   lightTransform->setTranslation(cameraEntity->position());
   lightEntity->addComponent(lightTransform);
 
-  CustomArrow* arr1 = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 45.0f);
+  CustomArrow* realPositiveAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 0);
+  CustomArrow* realNegativeAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 180.0f);
+  CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 90.0f);
+  CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 270.0f);
+
 
   glWindow->setRootEntity(rootEntity);
 

@@ -14,6 +14,9 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
 {
   assert(rootEntity && "rootEntity cannot be null");
 
+  //TODO: if length < cone_length find new representation
+  float cone_length = 6.0f;
+
   // Sphere shape data
   Qt3DExtras::QSphereMesh* sphere = new Qt3DExtras::QSphereMesh();
   sphere->setRadius(0);
@@ -21,7 +24,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   sphere->setSlices(1);
 
   // SphereMesh Transform
-  sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), rotation - 90.0f)); //
+  sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), rotation - 90.0f));
 
   // Sphere
   Qt3DCore::QEntity* sphereEntity = new Qt3DCore::QEntity(rootEntity_);
@@ -30,12 +33,12 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
 
   // Cylinder shape data
   cylinder_->setRadius(1);
-  cylinder_->setLength(length);
+  cylinder_->setLength(length - cone_length);
   cylinder_->setRings(100);
   cylinder_->setSlices(20);
 
   // CylinderMesh Transform
-  cylinderTransform_->setTranslation(QVector3D(translation.x(), translation.y() + length/2, 0));//
+  cylinderTransform_->setTranslation(QVector3D(translation.x(), translation.y() + cylinder_->length() / 2, 0));
 
   Qt3DExtras::QPhongMaterial* cylinderMaterial = new Qt3DExtras::QPhongMaterial();
   cylinderMaterial->setDiffuse(QColor(QRgb(0x000000)));
@@ -50,7 +53,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   Qt3DExtras::QConeMesh* cone = new Qt3DExtras::QConeMesh();
   cone->setTopRadius(0);
   cone->setBottomRadius(3);
-  cone->setLength(6);
+  cone->setLength(cone_length);
   cone->setRings(50);
   cone->setSlices(20);
 
