@@ -6,19 +6,41 @@
 #include <Qt3DRender/qcamera.h>
 #include <Qt3DRender/qpointlight.h>
 
-GLWindowControl::GLWindowControl(Qt3DExtras::Qt3DWindow* glWindow) :
-  glWindow_(glWindow)
+OpenGLWindow::OpenGLWindow(bool isMainWindow) : Qt3DExtras::Qt3DWindow()
+  , isMainWindow_(isMainWindow)
 {
-  glWindow_->defaultFrameGraph()->setClearColor(QColor(QRgb(0x4d4d4f)));
+  defaultFrameGraph()->setClearColor(QColor(QRgb(0x4d4d4f)));
 
   // Root entity
   Qt3DCore::QEntity* rootEntity = new Qt3DCore::QEntity();
 
   // Camera
-  Qt3DRender::QCamera* cameraEntity = glWindow->camera();
+  Qt3DRender::QCamera* cameraEntity = camera();
 
   //für isometrische Ansicht: setOrthographicProjection
-  cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+  if(isMainWindow_)
+    cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+  else
+  {
+    int width = this->width();
+    int height = this->height();
+
+    float ratio = static_cast<float>(width) / static_cast<float>(height);
+
+    if (ratio >= 1.0)
+    {
+      height = 200;
+      width = ratio * height;
+    }
+    else
+    {
+      width = 200;
+      height = width / ratio;
+    }
+
+    cameraEntity->lens()->setOrthographicProjection(-width/2, width/2, -height/2, height/2, 0.1f, 1000.0f);
+  }
+
   cameraEntity->setPosition(QVector3D(0, 0, 300));
   cameraEntity->setUpVector(QVector3D(0, 1, 0));
   cameraEntity->setViewCenter(QVector3D(0, 0, 0));
@@ -37,7 +59,8 @@ GLWindowControl::GLWindowControl(Qt3DExtras::Qt3DWindow* glWindow) :
   CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 90.0f);
   CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 270.0f);
 
+  //TODO: Draw given variables
 
-  glWindow->setRootEntity(rootEntity);
+  setRootEntity(rootEntity);
 
 }

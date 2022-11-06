@@ -7,7 +7,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class ComplexCalcUI; }
 QT_END_NAMESPACE
 
-class GLWindowControl;
+class OpenGLWindow;
 
 class ComplexCalc : public QMainWindow
 {
@@ -19,6 +19,6 @@ public:
 
 private:
   Ui::ComplexCalcUI* ui_;
-  GLWindowControl* mainGL_;
+  OpenGLWindow* mainGL_;
 };
 #endif // COMPLEXCALC_H

@@ -1,18 +1,20 @@
-#ifndef GLWINDOWCONTROL_H
-#define GLWINDOWCONTROL_H
+#ifndef OPENGLWINDOW_H
+#define OPENGLWINDOW_H
 
 #include <Qt3DExtras/qt3dwindow.h>
 #include <complex>
 
 #include "complexcalc.h"
 
-class GLWindowControl
+class OpenGLWindow : public Qt3DExtras::Qt3DWindow
 {
+  Q_OBJECT
+
 public:
-  GLWindowControl(Qt3DExtras::Qt3DWindow* glWindow);
-  //~GLWindowControl();
+  OpenGLWindow(bool isMainWindow = false);
+  //~OpenGLWindow();
 
 private:
-  Qt3DExtras::Qt3DWindow* glWindow_;
+  bool isMainWindow_;
 };
-#endif // GLWINDOWCONTROL_H
+#endif // OPENGLWINDOW_H

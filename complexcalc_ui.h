@@ -24,6 +24,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include <Qt3DExtras>
+#include <glwindowcontrol.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -92,7 +93,7 @@ namespace Ui {
 
       gridLayout->addWidget(pushButton, 0, 1, 1, 1);
 
-      openGL3DWindow = new Qt3DExtras::Qt3DWindow();
+      openGL3DWindow = new OpenGLWindow(true);
       gridLayout->addWidget(QWidget::createWindowContainer(openGL3DWindow));
 
       textEdit = new QTextEdit(widget);
