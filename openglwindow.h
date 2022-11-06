@@ -14,6 +14,8 @@ public:
   OpenGLWindow(bool isMainWindow = false);
   //~OpenGLWindow();
 
+  void resizeEvent(QResizeEvent* event) override;
+
 private:
   bool isMainWindow_;
 };

@@ -17,29 +17,7 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) : Qt3DExtras::Qt3DWindow()
   // Camera
   Qt3DRender::QCamera* cameraEntity = camera();
 
-  //für isometrische Ansicht: setOrthographicProjection
-  if(isMainWindow_)
-    cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-  else
-  {
-    int width = this->width();
-    int height = this->height();
-
-    float ratio = static_cast<float>(width) / static_cast<float>(height);
-
-    if (ratio >= 1.0)
-    {
-      height = 200;
-      width = ratio * height;
-    }
-    else
-    {
-      width = 200;
-      height = width / ratio;
-    }
-
-    cameraEntity->lens()->setOrthographicProjection(-width/2, width/2, -height/2, height/2, 0.1f, 1000.0f);
-  }
+  cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
   cameraEntity->setPosition(QVector3D(0, 0, 300));
   cameraEntity->setUpVector(QVector3D(0, 1, 0));
@@ -63,4 +41,30 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) : Qt3DExtras::Qt3DWindow()
 
   setRootEntity(rootEntity);
 
+}
+
+void OpenGLWindow::resizeEvent(QResizeEvent* event)
+{
+  Qt3DExtras::Qt3DWindow::resizeEvent(event);
+
+  if (!isMainWindow_)
+  {
+    int width = this->width();
+    int height = this->height();
+
+    float ratio = static_cast<float>(width) / static_cast<float>(height);
+
+    if (ratio >= 1.0)
+    {
+      height = 220;
+      width = ratio * height;
+    }
+    else
+    {
+      width = 220;
+      height = width / ratio;
+    }
+
+    camera()->lens()->setOrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, 0.1f, 1000.0f);
+  }
 }
