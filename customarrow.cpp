@@ -41,7 +41,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   cylinderTransform_->setTranslation(QVector3D(translation.x(), translation.y() + cylinder_->length() / 2, 0));
 
   Qt3DExtras::QPhongMaterial* cylinderMaterial = new Qt3DExtras::QPhongMaterial();
-  cylinderMaterial->setDiffuse(QColor(QRgb(0x000000)));
+  cylinderMaterial->setDiffuse(color_);
 
   // Cylinder
   Qt3DCore::QEntity* cylinderEntity = new Qt3DCore::QEntity(sphereEntity);
@@ -62,7 +62,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   coneTransform->setTranslation(QVector3D(0, cylinder_->length() / 2 + cone->length() / 2, 0));
 
   Qt3DExtras::QPhongMaterial* coneMaterial = new Qt3DExtras::QPhongMaterial();
-  coneMaterial->setDiffuse(QColor(QRgb(0x000000)));
+  coneMaterial->setDiffuse(color_);
 
   // Cone
   Qt3DCore::QEntity* coneEntity = new Qt3DCore::QEntity(cylinderEntity);
