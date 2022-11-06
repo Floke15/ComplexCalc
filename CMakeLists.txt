@@ -23,8 +23,8 @@ set(PROJECT_SOURCES
         complexcalc.cpp
         complexcalc.h
         complexcalc_ui.h
-        glwindowcontrol.cpp
-        glwindowcontrol.h
+        openglwindow.cpp
+        openglwindow.h
         customarrow.cpp
         customarrow.h
         ${TS_FILES}

@@ -1,4 +1,4 @@
-#include "glwindowcontrol.h"
+#include "openglwindow.h"
 #include "customarrow.h"
 
 #include <Qt3DExtras/qforwardrenderer.h>

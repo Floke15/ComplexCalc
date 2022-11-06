@@ -9,6 +9,8 @@
 #ifndef UI_COMPLEXCALC_H
 #define UI_COMPLEXCALC_H
 
+#include "openglwindow.h"
+
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
@@ -24,7 +26,6 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include <Qt3DExtras>
-#include <glwindowcontrol.h>
 
 QT_BEGIN_NAMESPACE
 
