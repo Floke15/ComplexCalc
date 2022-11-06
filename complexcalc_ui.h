@@ -33,11 +33,6 @@ namespace Ui {
   class ComplexCalcUI
   {
   public:
-    QAction* actionopen;
-    QAction* actionsave_as;
-    QAction* actionrecent;
-    QAction* actionclose;
-    QAction* actionAbout;
     QWidget* centralWidget;
     QVBoxLayout* verticalLayout_2;
     QWidget* widget;
@@ -47,10 +42,6 @@ namespace Ui {
     QTextEdit* textEdit;
     QListWidget* listWidget;
     QSlider* horizontalSlider;
-    QMenuBar* menuBar;
-    QMenu* menuFile;
-    QMenu* menuhelp;
-    QStatusBar* statusBar;
 
     void setupUi(QMainWindow* ComplexCalcClass)
     {
@@ -62,16 +53,6 @@ namespace Ui {
       sizePolicy.setVerticalStretch(0);
       sizePolicy.setHeightForWidth(ComplexCalcClass->sizePolicy().hasHeightForWidth());
       ComplexCalcClass->setSizePolicy(sizePolicy);
-      actionopen = new QAction(ComplexCalcClass);
-      actionopen->setObjectName("actionopen");
-      actionsave_as = new QAction(ComplexCalcClass);
-      actionsave_as->setObjectName("actionsave_as");
-      actionrecent = new QAction(ComplexCalcClass);
-      actionrecent->setObjectName("actionrecent");
-      actionclose = new QAction(ComplexCalcClass);
-      actionclose->setObjectName("actionclose");
-      actionAbout = new QAction(ComplexCalcClass);
-      actionAbout->setObjectName("actionAbout");
       centralWidget = new QWidget(ComplexCalcClass);
       centralWidget->setObjectName("centralWidget");
       verticalLayout_2 = new QVBoxLayout(centralWidget);
@@ -94,7 +75,7 @@ namespace Ui {
 
       gridLayout->addWidget(pushButton, 0, 1, 1, 1);
 
-      openGL3DWindow = new OpenGLWindow(true);
+      openGL3DWindow = new OpenGLWindow();
       gridLayout->addWidget(QWidget::createWindowContainer(openGL3DWindow));
 
       textEdit = new QTextEdit(widget);
@@ -133,44 +114,11 @@ namespace Ui {
       verticalLayout_2->addWidget(horizontalSlider);
 
       ComplexCalcClass->setCentralWidget(centralWidget);
-      menuBar = new QMenuBar(ComplexCalcClass);
-      menuBar->setObjectName("menuBar");
-      menuBar->setGeometry(QRect(0, 0, 1013, 22));
-      menuFile = new QMenu(menuBar);
-      menuFile->setObjectName("menuFile");
-      menuhelp = new QMenu(menuBar);
-      menuhelp->setObjectName("menuhelp");
-      ComplexCalcClass->setMenuBar(menuBar);
-      statusBar = new QStatusBar(ComplexCalcClass);
-      statusBar->setObjectName("statusBar");
-      ComplexCalcClass->setStatusBar(statusBar);
 
-      menuBar->addAction(menuFile->menuAction());
-      menuBar->addAction(menuhelp->menuAction());
-      menuFile->addAction(actionopen);
-      menuFile->addAction(actionsave_as);
-      menuFile->addAction(actionrecent);
-      menuFile->addAction(actionclose);
-      menuhelp->addAction(actionAbout);
-
-      retranslateUi(ComplexCalcClass);
+      pushButton->setText(QCoreApplication::translate("ComplexCalcClass", "neue Variable", nullptr));
 
       QMetaObject::connectSlotsByName(ComplexCalcClass);
     } // setupUi
-
-    void retranslateUi(QMainWindow* ComplexCalcClass)
-    {
-      ComplexCalcClass->setWindowTitle(QCoreApplication::translate("ComplexCalcClass", "ComplexCalc", nullptr));
-      actionopen->setText(QCoreApplication::translate("ComplexCalcClass", "open", nullptr));
-      actionsave_as->setText(QCoreApplication::translate("ComplexCalcClass", "save as", nullptr));
-      actionrecent->setText(QCoreApplication::translate("ComplexCalcClass", "recent", nullptr));
-      actionclose->setText(QCoreApplication::translate("ComplexCalcClass", "close", nullptr));
-      actionAbout->setText(QCoreApplication::translate("ComplexCalcClass", "About", nullptr));
-      pushButton->setText(QCoreApplication::translate("ComplexCalcClass", "neue Variable", nullptr));
-      menuFile->setTitle(QCoreApplication::translate("ComplexCalcClass", "File", nullptr));
-      menuhelp->setTitle(QCoreApplication::translate("ComplexCalcClass", "Help", nullptr));
-    } // retranslateUi
-
   };
 } // namespace Ui
 
