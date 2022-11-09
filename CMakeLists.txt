@@ -22,7 +22,6 @@ set(PROJECT_SOURCES
         main.cpp
         complexcalc.cpp
         complexcalc.h
-        complexcalc_ui.h
         openglwindow.cpp
         openglwindow.h
         customarrow.cpp

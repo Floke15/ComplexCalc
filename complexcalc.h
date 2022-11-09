@@ -1,7 +1,14 @@
 #ifndef COMPLEXCALC_H
 #define COMPLEXCALC_H
 
+#include "openglwindow.h"
+
 #include <QMainWindow>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QListWidget>
+#include <QtWidgets/QSlider>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ComplexCalcUI; }
@@ -18,7 +25,15 @@ public:
   ~ComplexCalc();
 
 private:
-  Ui::ComplexCalcUI* ui_;
   OpenGLWindow* mainGL_;
+  QWidget* centralWidget;
+  QVBoxLayout* verticalLayout_2;
+  QWidget* widget;
+  QGridLayout* gridLayout;
+  QPushButton* pushButton;
+  OpenGLWindow* openGL3DWindow;
+  QTextEdit* textEdit;
+  QListWidget* listWidget;
+  QSlider* horizontalSlider;
 };
 #endif // COMPLEXCALC_H
