@@ -21,8 +21,8 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   
   // define verticalLayout as Layout of centralWidget
   verticalLayout = new QVBoxLayout(centralWidget);
-  verticalLayout->setSpacing(6);
-  verticalLayout->setContentsMargins(11, 11, 11, 11);
+  verticalLayout->setContentsMargins(10, 10, 10, 10);
+  verticalLayout->setSpacing(5);
   verticalLayout->setObjectName("verticalLayout");
 
   //initialize timeSlider as part of centralWidget
@@ -39,8 +39,8 @@ ComplexCalc::ComplexCalc(QWidget* parent)
 
   // define gridLayout as Layout of subWidget
   gridLayout = new QGridLayout(subWidget);
-  gridLayout->setSpacing(6);
-  gridLayout->setContentsMargins(11, 11, 11, 11);
+  gridLayout->setContentsMargins(10, 10, 10, 10);
+  gridLayout->setSpacing(5);
   gridLayout->setObjectName("gridLayout");
 
   // initialize addVarButton as part of subWidget
@@ -64,8 +64,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   sizePolicy2.setVerticalStretch(0);
   sizePolicy2.setHeightForWidth(operationInput->sizePolicy().hasHeightForWidth());
   operationInput->setSizePolicy(sizePolicy2);
-  operationInput->setMinimumSize(QSize(0, 0));
-  operationInput->setMaximumSize(QSize(16777215, 20));
+  operationInput->setMaximumSize(QSize(INT_MAX, 20));
   operationInput->setInputMethodHints(Qt::ImhNone);
   operationInput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   operationInput->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
