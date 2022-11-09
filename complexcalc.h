@@ -27,13 +27,13 @@ public:
 private:
   OpenGLWindow* mainGL_;
   QWidget* centralWidget;
-  QVBoxLayout* verticalLayout_2;
-  QWidget* widget;
+  QVBoxLayout* verticalLayout;
+  QWidget* subWidget;
   QGridLayout* gridLayout;
-  QPushButton* pushButton;
+  QPushButton* addVarButton;
   OpenGLWindow* openGL3DWindow;
-  QTextEdit* textEdit;
+  QTextEdit* operationInput;
   QListWidget* listWidget;
-  QSlider* horizontalSlider;
+  QSlider* timeSlider;
 };
 #endif // COMPLEXCALC_H
