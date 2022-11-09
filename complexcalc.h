@@ -8,7 +8,7 @@ class QVBoxLayout;
 class QGridLayout;
 class QPushButton;
 class QTextEdit;
-class QListWidget;
+class QScrollArea;
 class QSlider;
 
 class ComplexCalc : public QMainWindow
@@ -28,7 +28,9 @@ private:
   QPushButton* addVarButton;
   OpenGLWindow* openGL3DWindow;
   QTextEdit* operationInput;
-  QListWidget* listWidget;
+  QWidget* scrollWidget;
+  QVBoxLayout* verticalScrollLayout;
+  QScrollArea* scrollArea;
   QSlider* timeSlider;
 };
 #endif // COMPLEXCALC_H

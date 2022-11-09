@@ -6,7 +6,7 @@
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
-#include <QtWidgets/QListWidget>
+#include <QtWidgets/QScrollArea>
 
 ComplexCalc::ComplexCalc(QWidget* parent)
   : QMainWindow(parent)
@@ -53,8 +53,9 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   addVarButton = new QPushButton(subWidget);
   addVarButton->setObjectName("addVarButton");
   addVarButton->setText(QCoreApplication::translate("ComplexCalc", "neue Variable", nullptr));
-  QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
-  sizePolicy1.setHorizontalStretch(0);
+  addVarButton->setMinimumSize(200, 0);
+  QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy1.setHorizontalStretch(1);
   sizePolicy1.setVerticalStretch(0);
   sizePolicy1.setHeightForWidth(addVarButton->sizePolicy().hasHeightForWidth());
   addVarButton->setSizePolicy(sizePolicy1);
@@ -65,8 +66,8 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   // initialize the operationInput as part of subWidget
   operationInput = new QTextEdit(subWidget);
   operationInput->setObjectName("operationInput");
-  QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Fixed);
-  sizePolicy2.setHorizontalStretch(0);
+  QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy2.setHorizontalStretch(3);
   sizePolicy2.setVerticalStretch(0);
   sizePolicy2.setHeightForWidth(operationInput->sizePolicy().hasHeightForWidth());
   operationInput->setSizePolicy(sizePolicy2);
@@ -76,20 +77,36 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   operationInput->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   operationInput->setLineWrapMode(QTextEdit::NoWrap);
   
-  // initialize the listWidget as part of subWidget
-  listWidget = new QListWidget(subWidget);
-  listWidget->setObjectName("listWidget");
-  QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
+  scrollWidget = new QWidget();
+  scrollWidget->setObjectName("scrollWidget");
+  QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   sizePolicy3.setHorizontalStretch(0);
   sizePolicy3.setVerticalStretch(0);
-  sizePolicy3.setHeightForWidth(listWidget->sizePolicy().hasHeightForWidth());
-  listWidget->setSizePolicy(sizePolicy3);
+  sizePolicy3.setHeightForWidth(scrollWidget->sizePolicy().hasHeightForWidth());
+
+  // define verticalScrollLayout as Layout of scrollWidget
+  verticalScrollLayout = new QVBoxLayout(scrollWidget);
+  verticalScrollLayout->setContentsMargins(0, 0, 0, 0);
+  verticalScrollLayout->setSpacing(0);
+  verticalScrollLayout->setObjectName("verticalScrollLayout");
+
+
+  // initialize the scrollArea as part of subWidget
+  scrollArea = new QScrollArea(subWidget);
+  scrollArea->setObjectName("scrollArea");
+  scrollArea->setMinimumSize(200, 0);
+  QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+  sizePolicy4.setHorizontalStretch(1);
+  sizePolicy4.setVerticalStretch(0);
+  sizePolicy4.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
+  scrollArea->setSizePolicy(sizePolicy4);
+  scrollArea->setWidget(scrollWidget);
 
   // add elements to gridLayout in subWidget
   gridLayout->addWidget(operationInput, 0, 0, 1, 1);
   gridLayout->addWidget(addVarButton, 0, 1, 1, 1);
   gridLayout->addWidget(QWidget::createWindowContainer(openGL3DWindow), 1, 0, 1, 1);
-  gridLayout->addWidget(listWidget, 1, 1, 1, 1);
+  gridLayout->addWidget(scrollArea, 1, 1, 1, 1);
 
   this->setCentralWidget(centralWidget);
 
