@@ -1,9 +1,10 @@
 #ifndef CUSTOMARROW_H
 #define CUSTOMARROW_H
 
-#include <Qt3DExtras/qcylindermesh.h>
-#include <Qt3DCore/qtransform.h>
-#include <qcolor.h>
+#include <Qt3DCore/QEntity>
+#include <Qt3DCore/QTransform>
+#include <Qt3DExtras/QCylinderMesh>
+#include <QColor>
 
 class CustomArrow
 {

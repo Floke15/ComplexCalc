@@ -1,9 +1,8 @@
 #include "customarrow.h"
 
-#include <Qt3DCore/qentity.h>
-#include <Qt3DExtras/qspheremesh.h>
-#include <Qt3DExtras/qconemesh.h>
-#include <Qt3DExtras/qphongmaterial.h>
+#include <Qt3DExtras/QSphereMesh>
+#include <Qt3DExtras/QConeMesh>
+#include <Qt3DExtras/QPhongmaterial.h>
 
 CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, QColor color) :
   rootEntity_(rootEntity),

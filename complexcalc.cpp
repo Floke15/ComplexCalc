@@ -1,6 +1,12 @@
 #include "complexcalc.h"
+#include "openglwindow.h"
 
-#include<Qt3DExtras>
+#include <Qt3DExtras>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QListWidget>
 
 ComplexCalc::ComplexCalc(QWidget* parent)
   : QMainWindow(parent)
@@ -64,7 +70,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   sizePolicy2.setVerticalStretch(0);
   sizePolicy2.setHeightForWidth(operationInput->sizePolicy().hasHeightForWidth());
   operationInput->setSizePolicy(sizePolicy2);
-  operationInput->setMaximumSize(QSize(INT_MAX, 20));
+  operationInput->setMaximumSize(QSize(16777215, 20));  // 16777215 is Max
   operationInput->setInputMethodHints(Qt::ImhNone);
   operationInput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   operationInput->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
