@@ -2,6 +2,7 @@
 
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QTextEdit>
 #include <QLabel>
 
@@ -27,6 +28,47 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   verticalLayout->setAlignment(Qt::AlignTop);
 
 
+  QWidget* horizontalWidget1 = new QWidget(this);
+  horizontalWidget1->setObjectName("horizontalWidget1");
+  horizontalWidget1->setFixedHeight(24);
+  QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy4.setHeightForWidth(horizontalWidget1->sizePolicy().hasHeightForWidth());
+  horizontalWidget1->setSizePolicy(sizePolicy4);
+
+  QWidget* horizontalWidget2 = new QWidget(this);
+  horizontalWidget2->setObjectName("horizontalWidget2");
+  horizontalWidget2->setFixedHeight(24);
+  horizontalWidget2->setSizePolicy(sizePolicy4);
+
+  QWidget* horizontalWidget3 = new QWidget(this);
+  horizontalWidget2->setObjectName("horizontalWidget2");
+  horizontalWidget2->setFixedHeight(24);
+  horizontalWidget2->setSizePolicy(sizePolicy4);
+
+  verticalLayout->addWidget(horizontalWidget1);
+  verticalLayout->addWidget(horizontalWidget2);
+  verticalLayout->addWidget(horizontalWidget3);
+
+
+  QHBoxLayout* horizontalLayout1 = new QHBoxLayout(horizontalWidget1);
+  horizontalLayout1->setContentsMargins(0, 0, 0, 0);
+  horizontalLayout1->setSpacing(0);
+  horizontalLayout1->setObjectName("horizontalLayout1");
+  horizontalLayout1->setAlignment(Qt::AlignLeft);
+
+  QHBoxLayout* horizontalLayout2 = new QHBoxLayout(horizontalWidget2);
+  horizontalLayout2->setContentsMargins(0, 0, 0, 0);
+  horizontalLayout2->setSpacing(0);
+  horizontalLayout2->setObjectName("horizontalLayout2");
+  horizontalLayout2->setAlignment(Qt::AlignLeft);
+
+  QHBoxLayout* horizontalLayout3 = new QHBoxLayout(horizontalWidget3);
+  horizontalLayout3->setContentsMargins(0, 0, 0, 0);
+  horizontalLayout3->setSpacing(0);
+  horizontalLayout3->setObjectName("horizontalLayout3");
+  horizontalLayout3->setAlignment(Qt::AlignLeft);
+
+
   QPushButton* expandButton = new QPushButton(this);
   expandButton->setObjectName("expandButton");
   expandButton->setText("Expand");
@@ -35,6 +77,8 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   sizePolicy1.setHorizontalStretch(1);
   sizePolicy1.setHeightForWidth(expandButton->sizePolicy().hasHeightForWidth());
   expandButton->setSizePolicy(sizePolicy1);
+
+  horizontalLayout1->addWidget(expandButton);
 
 
   QTextEdit* nameInput = new QTextEdit(this);
@@ -50,6 +94,8 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   sizePolicy2.setHeightForWidth(nameInput->sizePolicy().hasHeightForWidth());
   nameInput->setSizePolicy(sizePolicy2);
 
+  horizontalLayout2->addWidget(nameInput);
+
   
   QLabel* input1Label = new QLabel(this);
   input1Label->setObjectName("input1Label");
@@ -59,8 +105,5 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   sizePolicy3.setHeightForWidth(nameInput->sizePolicy().hasHeightForWidth());
   input1Label->setSizePolicy(sizePolicy3);
 
-
-  verticalLayout->addWidget(expandButton);
-  verticalLayout->addWidget(nameInput);
-  verticalLayout->addWidget(input1Label);
+  horizontalLayout3->addWidget(input1Label);
 }
