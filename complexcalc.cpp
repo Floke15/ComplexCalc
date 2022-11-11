@@ -68,6 +68,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   operationInput = new QTextEdit(subWidget);
   operationInput->setObjectName("operationInput");
   QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  operationInput->setFixedHeight(24);
   sizePolicy2.setHorizontalStretch(3);
   sizePolicy2.setVerticalStretch(0);
   sizePolicy2.setHeightForWidth(operationInput->sizePolicy().hasHeightForWidth());
@@ -76,6 +77,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   operationInput->setInputMethodHints(Qt::ImhNone);
   operationInput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   operationInput->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  operationInput->setPlaceholderText("Mathematical Operation");
   operationInput->setLineWrapMode(QTextEdit::NoWrap);
   
   scrollWidget = new QWidget();
