@@ -54,7 +54,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   addVarButton = new QPushButton(subWidget);
   addVarButton->setObjectName("addVarButton");
   addVarButton->setText(QCoreApplication::translate("ComplexCalc", "neue Variable", nullptr));
-  addVarButton->setMinimumSize(200, 0);
+  addVarButton->setMinimumSize(220, 0);
   QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy1.setHorizontalStretch(1);
   sizePolicy1.setVerticalStretch(0);
@@ -95,7 +95,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   // initialize the scrollArea as part of subWidget
   scrollArea = new QScrollArea(subWidget);
   scrollArea->setObjectName("scrollArea");
-  scrollArea->setMinimumSize(200, 0);
+  scrollArea->setMinimumSize(220, 0);
   QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   sizePolicy4.setHorizontalStretch(1);
   sizePolicy4.setVerticalStretch(0);
@@ -117,15 +117,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
 
 void ComplexCalc::on_addVarButton_clicked()
 {
-  addVarButton->setText("clicked");
+  ComplexVar* newVar = new ComplexVar(subWidget);
 
-  QPushButton* newButton = new QPushButton(subWidget);
-  newButton->setObjectName("newButton");
-  newButton->setText(QCoreApplication::translate("ComplexCalc", "neue Variable", nullptr));
-  newButton->setMinimumSize(0, 50);
-  QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-  sizePolicy1.setHeightForWidth(addVarButton->sizePolicy().hasHeightForWidth());
-  addVarButton->setSizePolicy(sizePolicy1);
-
-  verticalScrollLayout->addWidget(newButton);
+  verticalScrollLayout->addWidget(newVar);
 }
