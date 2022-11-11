@@ -2,6 +2,7 @@
 #define COMPLEXCALC_H
 
 #include <QMainWindow>
+#include <Vector>
 
 class OpenGLWindow;
 class QVBoxLayout;
@@ -17,7 +18,10 @@ class ComplexCalc : public QMainWindow
 
 public:
   ComplexCalc(QWidget* parent = nullptr);
-  ~ComplexCalc();
+  //~ComplexCalc();
+
+private slots:
+  void on_addVarButton_clicked();
 
 private:
   OpenGLWindow* mainGL_;
@@ -32,5 +36,6 @@ private:
   QVBoxLayout* verticalScrollLayout;
   QScrollArea* scrollArea;
   QSlider* timeSlider;
+  //std::vector<QPushButton*> dynamicButtons;
 };
 #endif // COMPLEXCALC_H

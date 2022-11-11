@@ -1,5 +1,6 @@
 #include "complexcalc.h"
 #include "openglwindow.h"
+#include "complexvar.h"
 
 #include <Qt3DExtras>
 #include <QtWidgets/QVBoxLayout>
@@ -89,7 +90,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   verticalScrollLayout->setContentsMargins(0, 0, 0, 0);
   verticalScrollLayout->setSpacing(0);
   verticalScrollLayout->setObjectName("verticalScrollLayout");
-
+  verticalScrollLayout->setAlignment(Qt::AlignTop);
 
   // initialize the scrollArea as part of subWidget
   scrollArea = new QScrollArea(subWidget);
@@ -100,6 +101,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   sizePolicy4.setVerticalStretch(0);
   sizePolicy4.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
   scrollArea->setSizePolicy(sizePolicy4);
+  scrollArea->setWidgetResizable(true);
   scrollArea->setWidget(scrollWidget);
 
   // add elements to gridLayout in subWidget
@@ -113,6 +115,17 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   QMetaObject::connectSlotsByName(this);
 }
 
-ComplexCalc::~ComplexCalc()
+void ComplexCalc::on_addVarButton_clicked()
 {
+  addVarButton->setText("clicked");
+
+  QPushButton* newButton = new QPushButton(subWidget);
+  newButton->setObjectName("newButton");
+  newButton->setText(QCoreApplication::translate("ComplexCalc", "neue Variable", nullptr));
+  newButton->setMinimumSize(0, 50);
+  QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy1.setHeightForWidth(addVarButton->sizePolicy().hasHeightForWidth());
+  addVarButton->setSizePolicy(sizePolicy1);
+
+  verticalScrollLayout->addWidget(newButton);
 }

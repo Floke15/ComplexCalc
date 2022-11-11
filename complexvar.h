@@ -7,6 +7,8 @@
 #include <complex>
 #include <string>
 
+class QSlider;
+
 class ComplexVar : public QWidget
 {
   Q_OBJECT
