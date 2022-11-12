@@ -1,9 +1,9 @@
-#include "complexvar.h"
+﻿#include "complexvar.h"
 
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QTextEdit>
+#include <QLineEdit>
 #include <QLabel>
 
 ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> value, double omega, QColor color) :
@@ -69,7 +69,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   horizontalLayout3->setAlignment(Qt::AlignLeft);
 
 
-  QPushButton* expandButton = new QPushButton(this);
+  QPushButton* expandButton = new QPushButton(horizontalWidget1);
   expandButton->setObjectName("expandButton");
   expandButton->setText("Expand");
   expandButton->setFixedHeight(24);
@@ -78,13 +78,13 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   sizePolicy1.setHeightForWidth(expandButton->sizePolicy().hasHeightForWidth());
   expandButton->setSizePolicy(sizePolicy1);
 
-  QPushButton* switchButton = new QPushButton(this);
+  QPushButton* switchButton = new QPushButton(horizontalWidget1);
   switchButton->setObjectName("switchButton");
   switchButton->setText("Euler");
   switchButton->setFixedHeight(24);
   switchButton->setSizePolicy(sizePolicy1);
 
-  QPushButton* deleteButton = new QPushButton(this);
+  QPushButton* deleteButton = new QPushButton(horizontalWidget1);
   deleteButton->setObjectName("deleteButton");
   deleteButton->setText("-");
   deleteButton->setFixedSize(20, 20);
@@ -99,29 +99,111 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   horizontalLayout1->addWidget(deleteButton);
 
 
-  QTextEdit* nameInput = new QTextEdit(this);
+  QLineEdit* nameInput = new QLineEdit(this);
   nameInput->setObjectName("nameInput");
   nameInput->setFixedHeight(24);
   nameInput->setPlaceholderText("Name");
-  nameInput->setLineWrapMode(QTextEdit::NoWrap);
-  nameInput->setInputMethodHints(Qt::ImhNone);
-  nameInput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  nameInput->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy2.setHorizontalStretch(1);
   sizePolicy2.setHeightForWidth(nameInput->sizePolicy().hasHeightForWidth());
   nameInput->setSizePolicy(sizePolicy2);
 
+  QWidget* omegaSubWidget = new QWidget();
+  omegaSubWidget->setObjectName("omegaSubWidget");
+  omegaSubWidget->setFixedHeight(24);
+  QSizePolicy sizePolicy6(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy6.setHorizontalStretch(1);
+  sizePolicy6.setHeightForWidth(omegaSubWidget->sizePolicy().hasHeightForWidth());
+  omegaSubWidget->setSizePolicy(sizePolicy6);
+
   horizontalLayout2->addWidget(nameInput);
+  horizontalLayout2->addWidget(omegaSubWidget);
+
+  QHBoxLayout* horizontalLayoutOmega = new QHBoxLayout(omegaSubWidget);
+  horizontalLayoutOmega->setContentsMargins(0, 0, 0, 0);
+  horizontalLayoutOmega->setSpacing(0);
+  horizontalLayoutOmega->setObjectName("omegaSubWidget");
+  horizontalLayoutOmega->setAlignment(Qt::AlignLeft);
+
+  QLabel* omegaLabel = new QLabel(omegaSubWidget);
+  omegaLabel->setObjectName("omegaLabel");
+  omegaLabel->setFixedSize(20, 24);
+  omegaLabel->setText("ω:");
+  omegaLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+  QSizePolicy sizePolicy7(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  sizePolicy7.setHeightForWidth(omegaLabel->sizePolicy().hasHeightForWidth());
+  omegaLabel->setSizePolicy(sizePolicy7);
+
+  QLineEdit* omegaInput = new QLineEdit(this);
+  omegaInput->setObjectName("nameInput");
+  omegaInput->setFixedHeight(24);
+  QSizePolicy sizePolicy8(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy8.setHeightForWidth(nameInput->sizePolicy().hasHeightForWidth());
+  omegaInput->setSizePolicy(sizePolicy8);
+
+  horizontalLayoutOmega->addWidget(omegaLabel);
+  horizontalLayoutOmega->addWidget(omegaInput);
 
   
+  QWidget* varSubWidget1 = new QWidget();
+  varSubWidget1->setObjectName("varSubWidget1");
+  varSubWidget1->setFixedHeight(24);
+  QSizePolicy sizePolicy10(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy10.setHorizontalStretch(1);
+  sizePolicy10.setHeightForWidth(varSubWidget1->sizePolicy().hasHeightForWidth());
+  varSubWidget1->setSizePolicy(sizePolicy10);
+
+  QWidget* varSubWidget2 = new QWidget();
+  varSubWidget2->setObjectName("varSubWidget2");
+  varSubWidget2->setFixedHeight(24);
+  varSubWidget2->setSizePolicy(sizePolicy10);
+
+  horizontalLayout3->addWidget(varSubWidget1);
+  horizontalLayout3->addWidget(varSubWidget2);
+
+  QHBoxLayout* horizontalLayoutInput1 = new QHBoxLayout(varSubWidget1);
+  horizontalLayoutInput1->setContentsMargins(0, 0, 0, 0);
+  horizontalLayoutInput1->setSpacing(0);
+  horizontalLayoutInput1->setObjectName("horizontalLayoutInput1");
+  horizontalLayoutInput1->setAlignment(Qt::AlignLeft);
+
   QLabel* input1Label = new QLabel(this);
   input1Label->setObjectName("input1Label");
-  input1Label->setFixedSize(30, 24);
-  input1Label->setText("Re");
+  input1Label->setFixedSize(20, 24);
+  input1Label->setText("Re:");
+  input1Label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
   QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
   sizePolicy3.setHeightForWidth(nameInput->sizePolicy().hasHeightForWidth());
   input1Label->setSizePolicy(sizePolicy3);
 
-  horizontalLayout3->addWidget(input1Label);
+  QLineEdit* input1Input = new QLineEdit(this);
+  input1Input->setObjectName("input1Input");
+  input1Input->setFixedHeight(24);
+  QSizePolicy sizePolicy11(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  sizePolicy11.setHeightForWidth(input1Input->sizePolicy().hasHeightForWidth());
+  input1Input->setSizePolicy(sizePolicy11);
+
+  horizontalLayoutInput1->addWidget(input1Label);
+  horizontalLayoutInput1->addWidget(input1Input);
+
+  QHBoxLayout* horizontalLayoutInput2 = new QHBoxLayout(varSubWidget2);
+  horizontalLayoutInput2->setContentsMargins(0, 0, 0, 0);
+  horizontalLayoutInput2->setSpacing(0);
+  horizontalLayoutInput2->setObjectName("horizontalLayoutInput2");
+  horizontalLayoutInput2->setAlignment(Qt::AlignLeft);
+
+  QLabel* input2Label = new QLabel(this);
+  input2Label->setObjectName("input2Label");
+  input2Label->setFixedSize(20, 24);
+  input2Label->setText("Im:");
+  input2Label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+  input1Label->setSizePolicy(sizePolicy3);
+
+  QLineEdit* input2Input = new QLineEdit(this);
+  input2Input->setObjectName("input2Input");
+  input2Input->setFixedHeight(24);
+  input1Input->setSizePolicy(sizePolicy11);
+
+  horizontalLayoutInput2->addWidget(input2Label);
+  horizontalLayoutInput2->addWidget(input2Input);
 }
