@@ -78,7 +78,25 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   sizePolicy1.setHeightForWidth(expandButton->sizePolicy().hasHeightForWidth());
   expandButton->setSizePolicy(sizePolicy1);
 
+  QPushButton* switchButton = new QPushButton(this);
+  switchButton->setObjectName("switchButton");
+  switchButton->setText("Euler");
+  switchButton->setFixedHeight(24);
+  switchButton->setSizePolicy(sizePolicy1);
+
+  QPushButton* deleteButton = new QPushButton(this);
+  deleteButton->setObjectName("deleteButton");
+  deleteButton->setText("-");
+  deleteButton->setFixedSize(20, 20);
+  deleteButton->setStyleSheet("border: 1px; background-color: rgb(196, 43, 28)");
+  QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  sizePolicy5.setHorizontalStretch(0);
+  sizePolicy5.setHeightForWidth(deleteButton->sizePolicy().hasHeightForWidth());
+  deleteButton->setSizePolicy(sizePolicy5);
+
   horizontalLayout1->addWidget(expandButton);
+  horizontalLayout1->addWidget(switchButton);
+  horizontalLayout1->addWidget(deleteButton);
 
 
   QTextEdit* nameInput = new QTextEdit(this);
