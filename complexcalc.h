@@ -8,7 +8,7 @@ class OpenGLWindow;
 class QVBoxLayout;
 class QGridLayout;
 class QPushButton;
-class QTextEdit;
+class QLineEdit;
 class QScrollArea;
 class QSlider;
 
@@ -31,7 +31,7 @@ private:
   QGridLayout* gridLayout;
   QPushButton* addVarButton;
   OpenGLWindow* openGL3DWindow;
-  QTextEdit* operationInput;
+  QLineEdit* operationInput;
   QWidget* scrollWidget;
   QVBoxLayout* verticalScrollLayout;
   QScrollArea* scrollArea;

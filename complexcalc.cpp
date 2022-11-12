@@ -3,11 +3,11 @@
 #include "complexvar.h"
 
 #include <Qt3DExtras>
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QSlider>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QTextEdit>
-#include <QtWidgets/QScrollArea>
+#include <QVBoxLayout>
+#include <QSlider>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QScrollArea>
 
 ComplexCalc::ComplexCalc(QWidget* parent)
   : QMainWindow(parent)
@@ -65,7 +65,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   openGL3DWindow = new OpenGLWindow();
 
   // initialize the operationInput as part of subWidget
-  operationInput = new QTextEdit(subWidget);
+  operationInput = new QLineEdit(subWidget);
   operationInput->setObjectName("operationInput");
   QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   operationInput->setFixedHeight(24);
@@ -74,11 +74,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   sizePolicy2.setHeightForWidth(operationInput->sizePolicy().hasHeightForWidth());
   operationInput->setSizePolicy(sizePolicy2);
   operationInput->setMaximumSize(QSize(16777215, 20));  // 16777215 is Max
-  operationInput->setInputMethodHints(Qt::ImhNone);
-  operationInput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  operationInput->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   operationInput->setPlaceholderText("Mathematical Operation");
-  operationInput->setLineWrapMode(QTextEdit::NoWrap);
   
   scrollWidget = new QWidget();
   scrollWidget->setObjectName("scrollWidget");
