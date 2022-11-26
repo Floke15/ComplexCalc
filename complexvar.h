@@ -19,12 +19,18 @@ public:
   ComplexVar(QWidget* parent = 0, std::string name = "", std::complex<double> value = 0, double omega = 0, QColor color = QColor(QRgb(0xFF0000)));
   //~ComplexVar();
 
+private slots:
+  void on_expandButton_clicked();
+  void on_switchButton_clicked();
+  // TODO: define slots for input changed in omegaInput, input1Input, input2Input
+
 private:
   QWidget* parent_;
   std::string name_;
   std::complex<double> value_;
   QColor color_;
   double omega_;
+  bool input_is_euler_;
 
   // Design elements
   QVBoxLayout* verticalLayout_;

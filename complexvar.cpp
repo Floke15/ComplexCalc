@@ -11,7 +11,8 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   name_(name),
   value_(value),
   omega_(omega),
-  color_(color)
+  color_(color),
+  input_is_euler_(false)
 {
   this->setObjectName("newVariable");
   this->setMinimumSize(200, 272); //72
@@ -78,7 +79,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
 
   expandButton_ = new QPushButton(horizontalWidget1_);
   expandButton_->setObjectName("expandButton");
-  expandButton_->setText("Expand");
+  expandButton_->setText("Retract");
   expandButton_->setFixedHeight(24);
   QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy1.setHorizontalStretch(1);
@@ -213,4 +214,44 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
 
   horizontalLayoutInput2_->addWidget(input2Label_);
   horizontalLayoutInput2_->addWidget(input2Input_);
+
+  QMetaObject::connectSlotsByName(this);
+}
+
+void ComplexVar::on_expandButton_clicked()
+{
+  if (glWidget_->isVisible())
+  {
+    expandButton_->setText("Expand");
+    glWidget_->setVisible(false);
+    this->setMinimumSize(200, 72);
+  }
+  else
+  {
+    expandButton_->setText("Retract");
+    glWidget_->setVisible(true);
+    this->setMinimumSize(200, 272);
+  }
+}
+
+void ComplexVar::on_switchButton_clicked()
+{
+  // TODO: recalculate the values
+
+  if (input_is_euler_)
+  {
+    input1Label_->setFixedSize(20, 24);
+    input1Label_->setText("Re:");
+    input2Label_->setText("Im:");
+
+  }
+  else
+  {
+    input1Label_->setFixedSize(26, 24);
+    input1Label_->setText("Mag:");
+    input2Label_->setText("φ:");
+
+  }
+
+  input_is_euler_ ^= true;
 }
