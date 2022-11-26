@@ -62,7 +62,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   addVarButton->setSizePolicy(sizePolicy1);
 
   // initialize openGL3DWindow
-  openGL3DWindow = new OpenGLWindow();
+  openGL3DWindow = new OpenGLWindow(true);
 
   // initialize the operationInput as part of subWidget
   operationInput = new QLineEdit(subWidget);
@@ -111,6 +111,19 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   this->setCentralWidget(centralWidget);
 
   QMetaObject::connectSlotsByName(this);
+
+  OpenGLWindow* openGL3DWindow = new OpenGLWindow(false);
+  QWidget* fixWidget = QWidget::createWindowContainer(openGL3DWindow);
+  QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  fixWidget->setMinimumSize(1, 1);
+  //fixWidget->setVisible(false);
+  fixWidget->setSizePolicy(sizePolicy5);
+  verticalScrollLayout->addWidget(fixWidget);
+
+  /*ComplexVar* newVar = new ComplexVar(subWidget);
+  verticalScrollLayout->addWidget(newVar);
+  verticalScrollLayout->removeWidget(newVar);
+  delete newVar;*/
 }
 
 void ComplexCalc::on_addVarButton_clicked()

@@ -12,6 +12,7 @@ class OpenGLWindow : public Qt3DExtras::Qt3DWindow
 
 public:
   OpenGLWindow(bool isMainWindow = false);
+  OpenGLWindow(const OpenGLWindow&) = delete;
   //~OpenGLWindow();
 
   void resizeEvent(QResizeEvent* event) override;
