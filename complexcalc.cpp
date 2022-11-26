@@ -126,9 +126,41 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   delete newVar;*/
 }
 
+/*void ComplexCalc::delete_Variable(QWidget* variable)
+{
+  bool found = false;
+  if (variables_to_delete_.empty())
+  {
+    variables_to_delete_.push_back(variable);
+    return;
+  }
+
+  for (auto position = variables_to_delete_.begin(); position != variables_to_delete_.end(); ++position)
+  {
+    if (*position == variable)
+    {
+      found = true;
+      break;
+    }
+  }
+
+  if (!found)
+  {
+    variables_to_delete_.push_back(variable);
+  }
+}
+
+void ComplexCalc::update()
+{
+  for (auto position = variables_to_delete_.begin(); position != variables_to_delete_.end(); ++position)
+  {
+    verticalScrollLayout->removeWidget(*position);
+    variables_to_delete_.erase(position);
+  }
+}*/
+
 void ComplexCalc::on_addVarButton_clicked()
 {
   ComplexVar* newVar = new ComplexVar(subWidget);
-
   verticalScrollLayout->addWidget(newVar);
 }

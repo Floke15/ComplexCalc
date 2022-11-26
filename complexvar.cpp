@@ -255,3 +255,9 @@ void ComplexVar::on_switchButton_clicked()
 
   input_is_euler_ ^= true;
 }
+
+void ComplexVar::on_deleteButton_clicked()
+{
+  //ComplexCalc* parent = static_cast<ComplexCalc*>(parent_);
+  //parent->delete_Variable(static_cast<QWidget*>(this));
+}

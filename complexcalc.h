@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <Vector>
+#include <QWidget>
 
 class OpenGLWindow;
 class QVBoxLayout;
@@ -19,12 +20,16 @@ class ComplexCalc : public QMainWindow
 public:
   ComplexCalc(QWidget* parent = nullptr);
   //~ComplexCalc();
+  void delete_Variable(QWidget* variable);
 
 private slots:
   void on_addVarButton_clicked();
+  //void update();
 
 private:
-  OpenGLWindow* mainGL_;
+  //std::vector<QWidget*> variables_to_delete_;
+
+  // Design elements
   QWidget* centralWidget;
   QVBoxLayout* verticalLayout;
   QWidget* subWidget;

@@ -22,6 +22,7 @@ public:
 private slots:
   void on_expandButton_clicked();
   void on_switchButton_clicked();
+  void on_deleteButton_clicked();
   // TODO: define slots for input changed in omegaInput, input1Input, input2Input
 
 private:
