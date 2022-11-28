@@ -23,7 +23,11 @@ private slots:
   void on_expandButton_clicked();
   void on_switchButton_clicked();
   void on_deleteButton_clicked();
-  // TODO: define slots for input changed in omegaInput, input1Input, input2Input
+
+  // TODO: handle name-input
+  void on_omegaInput_editingFinished();
+  void on_input1Input_editingFinished();
+  void on_input2Input_editingFinished();
 
 private:
   QWidget* parent_;

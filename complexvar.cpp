@@ -6,6 +6,8 @@
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QLabel>
+#include <QDoubleValidator>
+#include <math.h>
 
 ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> value, double omega, QColor color) :
   parent_(parent),
@@ -144,11 +146,14 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   omegaLabel_->setSizePolicy(sizePolicy7);
 
   omegaInput_ = new QLineEdit(this);
-  omegaInput_->setObjectName("nameInput");
+  omegaInput_->setObjectName("omegaInput");
   omegaInput_->setFixedHeight(24);
   QSizePolicy sizePolicy8(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy8.setHeightForWidth(nameInput_->sizePolicy().hasHeightForWidth());
   omegaInput_->setSizePolicy(sizePolicy8);
+  QDoubleValidator* validator = new QDoubleValidator();
+  validator->setNotation(QDoubleValidator::ScientificNotation);
+  omegaInput_->setValidator(validator);
 
   horizontalLayoutOmega_->addWidget(omegaLabel_);
   horizontalLayoutOmega_->addWidget(omegaInput_);
@@ -191,6 +196,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   QSizePolicy sizePolicy11(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy11.setHeightForWidth(input1Input_->sizePolicy().hasHeightForWidth());
   input1Input_->setSizePolicy(sizePolicy11);
+  input1Input_->setValidator(validator);
 
   horizontalLayoutInput1_->addWidget(input1Label_);
   horizontalLayoutInput1_->addWidget(input1Input_);
@@ -211,7 +217,8 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   input2Input_ = new QLineEdit(this);
   input2Input_->setObjectName("input2Input");
   input2Input_->setFixedHeight(24);
-  input1Input_->setSizePolicy(sizePolicy11);
+  input2Input_->setSizePolicy(sizePolicy11);
+  input2Input_->setValidator(validator);
 
   horizontalLayoutInput2_->addWidget(input2Label_);
   horizontalLayoutInput2_->addWidget(input2Input_);
@@ -237,20 +244,34 @@ void ComplexVar::on_expandButton_clicked()
 
 void ComplexVar::on_switchButton_clicked()
 {
-  // TODO: recalculate the values
-
   if (input_is_euler_)
   {
     input1Label_->setFixedSize(20, 24);
+    input2Label_->setFixedSize(20, 24);
     input1Label_->setText("Re:");
     input2Label_->setText("Im:");
+    switchButton_->setText("Euler");
+
+    if (value_.real() != 0 && value_.imag() != 0)
+    {
+      input1Input_->setText(QLocale::system().toString(value_.real()));
+      input2Input_->setText(QLocale::system().toString(value_.imag()));
+    }
 
   }
   else
   {
     input1Label_->setFixedSize(26, 24);
+    input2Label_->setFixedSize(26, 24);
     input1Label_->setText("Mag:");
-    input2Label_->setText("φ:");
+    input2Label_->setText("φ[°]:");
+    switchButton_->setText("Komponenten");
+
+    if (value_.real() != 0 && value_.imag() != 0)
+    {
+      input1Input_->setText(QLocale::system().toString(std::abs(value_)));
+      input2Input_->setText(QLocale::system().toString(std::arg(value_)*180/M_PI));
+    }
 
   }
 
@@ -261,4 +282,46 @@ void ComplexVar::on_deleteButton_clicked()
 {
   ScrollWidget* parent = dynamic_cast<ScrollWidget*>(parent_);
   parent->deleteVariable(this);
+}
+
+void ComplexVar::on_omegaInput_editingFinished()
+{
+  omega_ = QLocale::system().toDouble(omegaInput_->text());
+}
+
+void ComplexVar::on_input1Input_editingFinished()
+{
+  if (input_is_euler_)
+  {
+    double phi;
+    if (input2Input_->text().isEmpty())
+      phi = 0;
+    else
+      phi = QLocale::system().toDouble(input2Input_->text())*M_PI/180;
+
+    double magn = QLocale::system().toDouble(input1Input_->text());
+
+    value_.real(magn * std::cos(phi));
+    value_.imag(magn * std::sin(phi));
+  }
+  else
+    value_.real(QLocale::system().toDouble(input1Input_->text()));
+}
+
+void ComplexVar::on_input2Input_editingFinished()
+{
+  if (input_is_euler_)
+  {
+    if (input1Input_->text().isEmpty())
+      return;
+
+    double phi = QLocale::system().toDouble(input2Input_->text()) * M_PI / 180;
+
+    double magn = QLocale::system().toDouble(input1Input_->text());
+
+    value_.real(magn * std::cos(phi));
+    value_.imag(magn * std::sin(phi));
+  }
+  else
+    value_.imag(QLocale::system().toDouble(input2Input_->text()));
 }
