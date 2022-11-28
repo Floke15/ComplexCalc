@@ -10,7 +10,7 @@ class ScrollWidget : public QWidget
   Q_OBJECT
 
 public:
-  ScrollWidget(QWidget* parent = 0, int number_of_widgets = 0);
+  ScrollWidget(QWidget* parent = 0);
 
   void addVariable();
   void deleteVariable(ComplexVar* variable);

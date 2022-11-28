@@ -77,7 +77,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   operationInput_->setMaximumSize(QSize(16777215, 20));  // 16777215 is Max
   operationInput_->setPlaceholderText("Mathematical Operation");
   
-  scrollWidget_ = new ScrollWidget();
+  scrollWidget_ = new ScrollWidget(subWidget_);
   scrollWidget_->setObjectName("scrollWidget");
   QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   sizePolicy3.setHorizontalStretch(0);

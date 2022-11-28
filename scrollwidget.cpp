@@ -4,15 +4,9 @@
 #include <QLayout>
 #include <QTimer>
 
-ScrollWidget::ScrollWidget(QWidget* parent, int number_of_widgets) : 
+ScrollWidget::ScrollWidget(QWidget* parent) : 
   QWidget(parent)
 {
-  for (int iter = 0; iter < number_of_widgets; iter++)
-  {
-    ComplexVar* newVar = new ComplexVar(this);
-    this->layout()->addWidget(newVar);
-  }
-
   QTimer* timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
   timer->start(100);
