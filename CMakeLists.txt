@@ -26,8 +26,10 @@ set(PROJECT_SOURCES
         openglwindow.h
         customarrow.cpp
         customarrow.h
-		complexvar.cpp
-		complexvar.h
+        complexvar.cpp
+        complexvar.h
+        scrollwidget.cpp
+        scrollwidget.h
         ${TS_FILES}
 )
 

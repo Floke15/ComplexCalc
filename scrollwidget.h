@@ -1,0 +1,26 @@
+#ifndef SCROLLWIDGET_H
+#define SCROLLWIDGET_H
+
+#include <QWidget>
+
+class ComplexVar;
+
+class ScrollWidget : public QWidget
+{
+  Q_OBJECT
+
+public:
+  ScrollWidget(QWidget* parent = 0, int number_of_widgets = 0);
+
+  void addVariable();
+  void deleteVariable(ComplexVar* variable);
+
+private slots:
+  void update();
+
+private:
+  std::vector<ComplexVar*> variables_to_delete_;
+};
+
+
+#endif // SCROLLWIDGET_H

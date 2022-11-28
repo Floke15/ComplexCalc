@@ -12,6 +12,7 @@ class QPushButton;
 class QLineEdit;
 class QScrollArea;
 class QSlider;
+class ScrollWidget;
 
 class ComplexCalc : public QMainWindow
 {
@@ -20,27 +21,22 @@ class ComplexCalc : public QMainWindow
 public:
   ComplexCalc(QWidget* parent = nullptr);
   //~ComplexCalc();
-  void delete_Variable(QWidget* variable);
 
 private slots:
   void on_addVarButton_clicked();
-  //void update();
 
 private:
-  //std::vector<QWidget*> variables_to_delete_;
-
   // Design elements
-  QWidget* centralWidget;
-  QVBoxLayout* verticalLayout;
-  QWidget* subWidget;
-  QGridLayout* gridLayout;
-  QPushButton* addVarButton;
-  OpenGLWindow* openGL3DWindow;
-  QLineEdit* operationInput;
-  QWidget* scrollWidget;
-  QVBoxLayout* verticalScrollLayout;
-  QScrollArea* scrollArea;
-  QSlider* timeSlider;
-  //std::vector<QPushButton*> dynamicButtons;
+  QWidget* centralWidget_;
+  QVBoxLayout* verticalLayout_;
+  QWidget* subWidget_;
+  QGridLayout* gridLayout_;
+  QPushButton* addVarButton_;
+  OpenGLWindow* openGL3DWindow_;
+  QLineEdit* operationInput_;
+  ScrollWidget* scrollWidget_;
+  QVBoxLayout* verticalScrollLayout_;
+  QScrollArea* scrollArea_;
+  QSlider* timeSlider_;
 };
 #endif // COMPLEXCALC_H

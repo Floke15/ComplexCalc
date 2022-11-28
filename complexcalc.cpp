@@ -1,6 +1,7 @@
 #include "complexcalc.h"
 #include "openglwindow.h"
 #include "complexvar.h"
+#include "scrollwidget.h"
 
 #include <Qt3DExtras>
 #include <QVBoxLayout>
@@ -23,92 +24,92 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   this->setSizePolicy(sizePolicy);
 
   // initialize centralWidget
-  centralWidget = new QWidget(this);
-  centralWidget->setObjectName("centralWidget");
+  centralWidget_ = new QWidget(this);
+  centralWidget_->setObjectName("centralWidget");
   
   // define verticalLayout as Layout of centralWidget
-  verticalLayout = new QVBoxLayout(centralWidget);
-  verticalLayout->setContentsMargins(10, 10, 10, 10);
-  verticalLayout->setSpacing(5);
-  verticalLayout->setObjectName("verticalLayout");
+  verticalLayout_ = new QVBoxLayout(centralWidget_);
+  verticalLayout_->setContentsMargins(10, 10, 10, 10);
+  verticalLayout_->setSpacing(5);
+  verticalLayout_->setObjectName("verticalLayout");
 
   //initialize timeSlider as part of centralWidget
-  timeSlider = new QSlider(centralWidget);
-  timeSlider->setObjectName("timeSlider");
-  timeSlider->setOrientation(Qt::Horizontal);
+  timeSlider_ = new QSlider(centralWidget_);
+  timeSlider_->setObjectName("timeSlider");
+  timeSlider_->setOrientation(Qt::Horizontal);
   
   // initialize subWidget as part of centralWidget
-  subWidget = new QWidget(centralWidget);
-  subWidget->setObjectName("subWidget");
+  subWidget_ = new QWidget(centralWidget_);
+  subWidget_->setObjectName("subWidget");
 
-  verticalLayout->addWidget(subWidget);
-  verticalLayout->addWidget(timeSlider);
+  verticalLayout_->addWidget(subWidget_);
+  verticalLayout_->addWidget(timeSlider_);
 
   // define gridLayout as Layout of subWidget
-  gridLayout = new QGridLayout(subWidget);
-  gridLayout->setContentsMargins(10, 10, 10, 10);
-  gridLayout->setSpacing(5);
-  gridLayout->setObjectName("gridLayout");
+  gridLayout_ = new QGridLayout(subWidget_);
+  gridLayout_->setContentsMargins(10, 10, 10, 10);
+  gridLayout_->setSpacing(5);
+  gridLayout_->setObjectName("gridLayout");
 
   // initialize addVarButton as part of subWidget
-  addVarButton = new QPushButton(subWidget);
-  addVarButton->setObjectName("addVarButton");
-  addVarButton->setText(QCoreApplication::translate("ComplexCalc", "neue Variable", nullptr));
-  addVarButton->setMinimumSize(220, 0);
+  addVarButton_ = new QPushButton(subWidget_);
+  addVarButton_->setObjectName("addVarButton");
+  addVarButton_->setText(QCoreApplication::translate("ComplexCalc", "neue Variable", nullptr));
+  addVarButton_->setMinimumSize(220, 0);
   QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy1.setHorizontalStretch(1);
   sizePolicy1.setVerticalStretch(0);
-  sizePolicy1.setHeightForWidth(addVarButton->sizePolicy().hasHeightForWidth());
-  addVarButton->setSizePolicy(sizePolicy1);
+  sizePolicy1.setHeightForWidth(addVarButton_->sizePolicy().hasHeightForWidth());
+  addVarButton_->setSizePolicy(sizePolicy1);
 
   // initialize openGL3DWindow
-  openGL3DWindow = new OpenGLWindow(true);
+  openGL3DWindow_ = new OpenGLWindow(true);
 
   // initialize the operationInput as part of subWidget
-  operationInput = new QLineEdit(subWidget);
-  operationInput->setObjectName("operationInput");
+  operationInput_ = new QLineEdit(subWidget_);
+  operationInput_->setObjectName("operationInput");
   QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-  operationInput->setFixedHeight(24);
+  operationInput_->setFixedHeight(24);
   sizePolicy2.setHorizontalStretch(3);
   sizePolicy2.setVerticalStretch(0);
-  sizePolicy2.setHeightForWidth(operationInput->sizePolicy().hasHeightForWidth());
-  operationInput->setSizePolicy(sizePolicy2);
-  operationInput->setMaximumSize(QSize(16777215, 20));  // 16777215 is Max
-  operationInput->setPlaceholderText("Mathematical Operation");
+  sizePolicy2.setHeightForWidth(operationInput_->sizePolicy().hasHeightForWidth());
+  operationInput_->setSizePolicy(sizePolicy2);
+  operationInput_->setMaximumSize(QSize(16777215, 20));  // 16777215 is Max
+  operationInput_->setPlaceholderText("Mathematical Operation");
   
-  scrollWidget = new QWidget();
-  scrollWidget->setObjectName("scrollWidget");
+  scrollWidget_ = new ScrollWidget();
+  scrollWidget_->setObjectName("scrollWidget");
   QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   sizePolicy3.setHorizontalStretch(0);
   sizePolicy3.setVerticalStretch(0);
-  sizePolicy3.setHeightForWidth(scrollWidget->sizePolicy().hasHeightForWidth());
+  sizePolicy3.setHeightForWidth(scrollWidget_->sizePolicy().hasHeightForWidth());
 
   // define verticalScrollLayout as Layout of scrollWidget
-  verticalScrollLayout = new QVBoxLayout(scrollWidget);
-  verticalScrollLayout->setContentsMargins(0, 0, 0, 0);
-  verticalScrollLayout->setSpacing(0);
-  verticalScrollLayout->setObjectName("verticalScrollLayout");
-  verticalScrollLayout->setAlignment(Qt::AlignTop);
+  verticalScrollLayout_ = new QVBoxLayout(scrollWidget_);
+  verticalScrollLayout_->setContentsMargins(0, 0, 0, 0);
+  verticalScrollLayout_->setSpacing(0);
+  verticalScrollLayout_->setObjectName("verticalScrollLayout");
+  verticalScrollLayout_->setAlignment(Qt::AlignTop);
 
   // initialize the scrollArea as part of subWidget
-  scrollArea = new QScrollArea(subWidget);
-  scrollArea->setObjectName("scrollArea");
-  scrollArea->setMinimumSize(220, 0);
+  scrollArea_ = new QScrollArea(subWidget_);
+  scrollArea_->setObjectName("scrollArea");
+  scrollArea_->setMinimumSize(220, 0);
   QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   sizePolicy4.setHorizontalStretch(1);
   sizePolicy4.setVerticalStretch(0);
-  sizePolicy4.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
-  scrollArea->setSizePolicy(sizePolicy4);
-  scrollArea->setWidgetResizable(true);
-  scrollArea->setWidget(scrollWidget);
+  sizePolicy4.setHeightForWidth(scrollArea_->sizePolicy().hasHeightForWidth());
+  scrollArea_->setSizePolicy(sizePolicy4);
+  scrollArea_->setWidgetResizable(true);
+  scrollArea_->setWidget(scrollWidget_);
 
   // add elements to gridLayout in subWidget
-  gridLayout->addWidget(operationInput, 0, 0, 1, 1);
-  gridLayout->addWidget(addVarButton, 0, 1, 1, 1);
-  gridLayout->addWidget(QWidget::createWindowContainer(openGL3DWindow), 1, 0, 1, 1);
-  gridLayout->addWidget(scrollArea, 1, 1, 1, 1);
+  gridLayout_->addWidget(operationInput_, 0, 0, 1, 1);
+  gridLayout_->addWidget(addVarButton_, 0, 1, 1, 1);
+  gridLayout_->addWidget(QWidget::createWindowContainer(openGL3DWindow_), 1, 0, 1, 1);
+  gridLayout_->addWidget(scrollArea_, 1, 1, 1, 1);
 
-  this->setCentralWidget(centralWidget);
+  this->setCentralWidget(centralWidget_);
 
   QMetaObject::connectSlotsByName(this);
 
@@ -118,7 +119,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   fixWidget->setMinimumSize(1, 1);
   //fixWidget->setVisible(false);
   fixWidget->setSizePolicy(sizePolicy5);
-  verticalScrollLayout->addWidget(fixWidget);
+  verticalScrollLayout_->addWidget(fixWidget);
 
   /*ComplexVar* newVar = new ComplexVar(subWidget);
   verticalScrollLayout->addWidget(newVar);
@@ -126,41 +127,7 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   delete newVar;*/
 }
 
-/*void ComplexCalc::delete_Variable(QWidget* variable)
-{
-  bool found = false;
-  if (variables_to_delete_.empty())
-  {
-    variables_to_delete_.push_back(variable);
-    return;
-  }
-
-  for (auto position = variables_to_delete_.begin(); position != variables_to_delete_.end(); ++position)
-  {
-    if (*position == variable)
-    {
-      found = true;
-      break;
-    }
-  }
-
-  if (!found)
-  {
-    variables_to_delete_.push_back(variable);
-  }
-}
-
-void ComplexCalc::update()
-{
-  for (auto position = variables_to_delete_.begin(); position != variables_to_delete_.end(); ++position)
-  {
-    verticalScrollLayout->removeWidget(*position);
-    variables_to_delete_.erase(position);
-  }
-}*/
-
 void ComplexCalc::on_addVarButton_clicked()
 {
-  ComplexVar* newVar = new ComplexVar(subWidget);
-  verticalScrollLayout->addWidget(newVar);
+  scrollWidget_->addVariable();
 }
