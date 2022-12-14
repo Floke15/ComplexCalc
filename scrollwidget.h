@@ -12,7 +12,7 @@ class ScrollWidget : public QWidget
 public:
   ScrollWidget(QWidget* parent = 0);
 
-  void addVariable();
+  void refreshVariable();
   void deleteVariable(ComplexVar* variable);
 
 private slots:

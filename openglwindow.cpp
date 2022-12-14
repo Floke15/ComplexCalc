@@ -1,18 +1,19 @@
 #include "openglwindow.h"
 #include "customarrow.h"
+#include "complexvar.h"
 
 #include <Qt3DExtras/qforwardrenderer.h>
 #include <Qt3DCore/qentity.h>
 #include <Qt3DRender/qcamera.h>
 #include <Qt3DRender/qpointlight.h>
 
-OpenGLWindow::OpenGLWindow(bool isMainWindow) : Qt3DExtras::Qt3DWindow()
-  , isMainWindow_(isMainWindow)
+OpenGLWindow::OpenGLWindow(bool isMainWindow) :
+  isMainWindow_(isMainWindow),
+  rootEntity_(new Qt3DCore::QEntity()),
+  scale_(0),
+  Qt3DExtras::Qt3DWindow()
 {
   defaultFrameGraph()->setClearColor(QColor(QRgb(0x4d4d4f)));
-
-  // Root entity
-  Qt3DCore::QEntity* rootEntity = new Qt3DCore::QEntity();
 
   // Camera
   Qt3DRender::QCamera* cameraEntity = camera();
@@ -23,7 +24,7 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) : Qt3DExtras::Qt3DWindow()
   cameraEntity->setUpVector(QVector3D(0, 1, 0));
   cameraEntity->setViewCenter(QVector3D(0, 0, 0));
 
-  Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(rootEntity);
+  Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(rootEntity_);
   Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
   light->setColor("white");
   light->setIntensity(1);
@@ -32,15 +33,12 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) : Qt3DExtras::Qt3DWindow()
   lightTransform->setTranslation(cameraEntity->position());
   lightEntity->addComponent(lightTransform);
 
-  CustomArrow* realPositiveAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 0);
-  CustomArrow* realNegativeAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 180.0f);
-  CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 90.0f);
-  CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity, QVector2D(0, 0), 100, 270.0f);
+  CustomArrow* realPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 0);
+  CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 180.0f);
+  CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 90.0f);
+  CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 270.0f);
 
-  //TODO: Draw given variables
-
-  setRootEntity(rootEntity);
-
+  setRootEntity(rootEntity_);
 }
 
 void OpenGLWindow::resizeEvent(QResizeEvent* event)
@@ -66,5 +64,21 @@ void OpenGLWindow::resizeEvent(QResizeEvent* event)
     }
 
     camera()->lens()->setOrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, 0.1f, 1000.0f);
+  }
+}
+
+void OpenGLWindow::refreshVariable(ComplexVar* variable)
+{
+  auto pos = variables_.find(variable);
+
+  if (variables_.end() == pos)
+  {
+    CustomArrow* variable_arrow = new CustomArrow(rootEntity_, QVector2D(0, 0), variable, QColor(255, 0, 0, 255));
+
+    variables_.insert(std::pair<ComplexVar*, CustomArrow*>(variable, variable_arrow));
+  }
+  else
+  {
+    pos->second->update();
   }
 }

@@ -19,12 +19,14 @@ public:
   ComplexVar(QWidget* parent = 0, std::string name = "", std::complex<double> value = 0, double omega = 0, QColor color = QColor(QRgb(0xFF0000)));
   //~ComplexVar();
 
+  std::complex<double> getValue();
+
 private slots:
   void on_expandButton_clicked();
   void on_switchButton_clicked();
   void on_deleteButton_clicked();
 
-  // TODO: handle name-input
+  void on_nameInput_editingFinished();
   void on_omegaInput_editingFinished();
   void on_input1Input_editingFinished();
   void on_input2Input_editingFinished();

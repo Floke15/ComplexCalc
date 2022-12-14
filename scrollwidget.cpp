@@ -12,7 +12,7 @@ ScrollWidget::ScrollWidget(QWidget* parent) :
   timer->start(100);
 }
 
-void ScrollWidget::addVariable()
+void ScrollWidget::refreshVariable()
 {
   ComplexVar* newVar = new ComplexVar(this);
   this->layout()->addWidget(newVar);

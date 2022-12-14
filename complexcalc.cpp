@@ -10,8 +10,8 @@
 #include <QLineEdit>
 #include <QScrollArea>
 
-ComplexCalc::ComplexCalc(QWidget* parent)
-  : QMainWindow(parent)
+ComplexCalc::ComplexCalc(QWidget* parent) :
+  QMainWindow(parent)
 {
 
   // initialize Application window
@@ -120,14 +120,9 @@ ComplexCalc::ComplexCalc(QWidget* parent)
   //fixWidget->setVisible(false);
   fixWidget->setSizePolicy(sizePolicy5);
   verticalScrollLayout_->addWidget(fixWidget);
-
-  /*ComplexVar* newVar = new ComplexVar(subWidget);
-  verticalScrollLayout->addWidget(newVar);
-  verticalScrollLayout->removeWidget(newVar);
-  delete newVar;*/
 }
 
 void ComplexCalc::on_addVarButton_clicked()
 {
-  scrollWidget_->addVariable();
+  scrollWidget_->refreshVariable();
 }

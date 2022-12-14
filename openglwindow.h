@@ -6,6 +6,9 @@
 
 #include "complexcalc.h"
 
+class ComplexVar;
+class CustomArrow;
+
 class OpenGLWindow : public Qt3DExtras::Qt3DWindow
 {
   Q_OBJECT
@@ -16,8 +19,12 @@ public:
   //~OpenGLWindow();
 
   void resizeEvent(QResizeEvent* event) override;
+  void refreshVariable(ComplexVar* variable);
 
 private:
   bool isMainWindow_;
+  Qt3DCore::QEntity* rootEntity_;
+  double scale_;
+  std::map<ComplexVar*, CustomArrow*> variables_;
 };
 #endif // OPENGLWINDOW_H

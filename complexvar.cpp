@@ -109,6 +109,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   horizontalLayout1_->addWidget(switchButton_);
   horizontalLayout1_->addWidget(deleteButton_);
 
+  QRegularExpressionValidator* var_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9]*"));
 
   nameInput_ = new QLineEdit(this);
   nameInput_->setObjectName("nameInput");
@@ -118,6 +119,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   sizePolicy2.setHorizontalStretch(1);
   sizePolicy2.setHeightForWidth(nameInput_->sizePolicy().hasHeightForWidth());
   nameInput_->setSizePolicy(sizePolicy2);
+  nameInput_->setValidator(var_validator);
 
   omegaSubWidget_ = new QWidget();
   omegaSubWidget_->setObjectName("omegaSubWidget");
@@ -151,9 +153,9 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   QSizePolicy sizePolicy8(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy8.setHeightForWidth(nameInput_->sizePolicy().hasHeightForWidth());
   omegaInput_->setSizePolicy(sizePolicy8);
-  QDoubleValidator* validator = new QDoubleValidator();
-  validator->setNotation(QDoubleValidator::ScientificNotation);
-  omegaInput_->setValidator(validator);
+  QDoubleValidator* double_validator = new QDoubleValidator();
+  double_validator->setNotation(QDoubleValidator::ScientificNotation);
+  omegaInput_->setValidator(double_validator);
 
   horizontalLayoutOmega_->addWidget(omegaLabel_);
   horizontalLayoutOmega_->addWidget(omegaInput_);
@@ -187,7 +189,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   input1Label_->setText("Re:");
   input1Label_->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
   QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  sizePolicy3.setHeightForWidth(nameInput_->sizePolicy().hasHeightForWidth());
+  sizePolicy3.setHeightForWidth(input1Label_->sizePolicy().hasHeightForWidth());
   input1Label_->setSizePolicy(sizePolicy3);
 
   input1Input_ = new QLineEdit(this);
@@ -196,7 +198,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   QSizePolicy sizePolicy11(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy11.setHeightForWidth(input1Input_->sizePolicy().hasHeightForWidth());
   input1Input_->setSizePolicy(sizePolicy11);
-  input1Input_->setValidator(validator);
+  input1Input_->setValidator(double_validator);
 
   horizontalLayoutInput1_->addWidget(input1Label_);
   horizontalLayoutInput1_->addWidget(input1Input_);
@@ -218,12 +220,17 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   input2Input_->setObjectName("input2Input");
   input2Input_->setFixedHeight(24);
   input2Input_->setSizePolicy(sizePolicy11);
-  input2Input_->setValidator(validator);
+  input2Input_->setValidator(double_validator);
 
   horizontalLayoutInput2_->addWidget(input2Label_);
   horizontalLayoutInput2_->addWidget(input2Input_);
 
   QMetaObject::connectSlotsByName(this);
+}
+
+std::complex<double> ComplexVar::getValue()
+{
+  return value_;
 }
 
 void ComplexVar::on_expandButton_clicked()
@@ -284,6 +291,15 @@ void ComplexVar::on_deleteButton_clicked()
   parent->deleteVariable(this);
 }
 
+void ComplexVar::on_nameInput_editingFinished()
+{
+  name_ = nameInput_->text().toStdString();
+
+  std::transform(name_.begin(), name_.end(), name_.begin(), ::toupper);
+
+  nameInput_->setText(QString::fromStdString(name_));
+}
+
 void ComplexVar::on_omegaInput_editingFinished()
 {
   omega_ = QLocale::system().toDouble(omegaInput_->text());
@@ -306,6 +322,8 @@ void ComplexVar::on_input1Input_editingFinished()
   }
   else
     value_.real(QLocale::system().toDouble(input1Input_->text()));
+
+  openGL3DWindow_->refreshVariable(this);
 }
 
 void ComplexVar::on_input2Input_editingFinished()
@@ -324,4 +342,6 @@ void ComplexVar::on_input2Input_editingFinished()
   }
   else
     value_.imag(QLocale::system().toDouble(input2Input_->text()));
+
+  openGL3DWindow_->refreshVariable(this);
 }
