@@ -6,22 +6,23 @@
 #include <Qt3DExtras/QPhongmaterial.h>
 
 CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation) :
-  CustomArrow(rootEntity, translation, length, rotation, nullptr, QColor(QRgb(0x000000)))
+  CustomArrow(rootEntity, translation, length, rotation, nullptr, QColor(QRgb(0x000000)), false)
 {
 }
 
 CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, ComplexVar* variable, QColor color) :
-  CustomArrow(rootEntity, translation, abs(variable->getValue()), (180 * arg(variable->getValue())) / M_PI, variable, color)
+  CustomArrow(rootEntity, translation, abs(variable->getValue()), (180 * arg(variable->getValue())) / M_PI, variable, color, true)
 {
 }
 
-CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color) :
+CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable) :
   rootEntity_(rootEntity),
   sphereTransform_(new Qt3DCore::QTransform()),
   cylinder_(new Qt3DExtras::QCylinderMesh()),
   cylinderTransform_(new Qt3DCore::QTransform()),
   variable_(variable),
-  color_(color)
+  color_(color),
+  isVariable_(isVariable)
 {
   assert(rootEntity && "rootEntity cannot be null");
 
@@ -42,7 +43,10 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   sphereEntity->addComponent(sphereTransform_);
 
   // Cylinder shape data
-  cylinder_->setRadius(1);
+  if(isVariable_)
+    cylinder_->setRadius(1);
+  else
+    cylinder_->setRadius(0.75f);
   cylinder_->setLength(length - CONE_LENGTH);
   cylinder_->setRings(100);
   cylinder_->setSlices(20);
@@ -62,7 +66,10 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   // Cone shape data
   cone_ = new Qt3DExtras::QConeMesh();
   cone_->setTopRadius(0);
-  cone_->setBottomRadius(3);
+  if(isVariable_)
+    cone_->setBottomRadius(3);
+  else
+    cone_->setBottomRadius(3 * 0.75f);
   cone_->setLength(CONE_LENGTH);
   cone_->setRings(50);
   cone_->setSlices(20);

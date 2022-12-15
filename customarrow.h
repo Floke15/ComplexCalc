@@ -21,7 +21,7 @@ public:
   void update();
 
 private:
-  CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color);
+  CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable);
 
   Qt3DCore::QEntity* rootEntity_;
   Qt3DCore::QTransform* sphereTransform_;
@@ -31,6 +31,7 @@ private:
   Qt3DCore::QTransform* coneTransform_;
   ComplexVar* variable_;
   QColor color_;
+  bool isVariable_;
 };
 
 

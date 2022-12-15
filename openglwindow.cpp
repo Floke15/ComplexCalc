@@ -18,7 +18,10 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   // Camera
   Qt3DRender::QCamera* cameraEntity = camera();
 
-  cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+  if(isMainWindow_)
+    cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+  else
+    cameraEntity->lens()->setOrthographicProjection(-120, 120, -120, 120, -10, 500);
 
   cameraEntity->setPosition(QVector3D(0, 0, 300));
   cameraEntity->setUpVector(QVector3D(0, 1, 0));
