@@ -18,7 +18,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   input_is_euler_(false)
 {
   this->setObjectName("newVariable");
-  this->setMinimumSize(200, 272); //72
+  this->setMinimumSize(200, 72);
   this->setFrameShape(QFrame::StyledPanel);
   //this->setMidLineWidth(1);
   QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -48,17 +48,9 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
   horizontalWidget3_->setFixedHeight(24);
   horizontalWidget3_->setSizePolicy(sizePolicy4);
 
-  openGL3DWindow_ = new OpenGLWindow(false);
-  glWidget_ = QWidget::createWindowContainer(openGL3DWindow_);
-  QSizePolicy sizePolicy12(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-  glWidget_->setFixedHeight(200);
-  glWidget_->setObjectName("glWidget_");
-  glWidget_->setSizePolicy(sizePolicy12);
-
   verticalLayout_->addWidget(horizontalWidget1_);
   verticalLayout_->addWidget(horizontalWidget2_);
   verticalLayout_->addWidget(horizontalWidget3_);
-  verticalLayout_->addWidget(glWidget_);
 
 
   horizontalLayout1_ = new QHBoxLayout(horizontalWidget1_);
@@ -82,7 +74,7 @@ ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> v
 
   expandButton_ = new QPushButton(horizontalWidget1_);
   expandButton_->setObjectName("expandButton");
-  expandButton_->setText("Retract");
+  expandButton_->setText("Expand");
   expandButton_->setFixedHeight(24);
   QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy1.setHorizontalStretch(1);
@@ -235,16 +227,25 @@ std::complex<double> ComplexVar::getValue()
 
 void ComplexVar::on_expandButton_clicked()
 {
-  if (glWidget_->isVisible())
+  if (this->findChild<QWidget*>("glWidget_"))
   {
     expandButton_->setText("Expand");
-    glWidget_->setVisible(false);
+    delete openGL3DWindow_;
+    delete glWidget_;
     this->setMinimumSize(200, 72);
   }
   else
   {
     expandButton_->setText("Retract");
-    glWidget_->setVisible(true);
+    openGL3DWindow_ = new OpenGLWindow(false);
+    glWidget_ = QWidget::createWindowContainer(openGL3DWindow_);
+    QSizePolicy sizePolicy12(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    glWidget_->setFixedHeight(200);
+    glWidget_->setObjectName("glWidget_");
+    glWidget_->setSizePolicy(sizePolicy12);
+    if(abs(value_) > 0)
+      openGL3DWindow_->refreshVariable(this);
+    verticalLayout_->addWidget(glWidget_);
     this->setMinimumSize(200, 272);
   }
 }
