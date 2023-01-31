@@ -4,8 +4,6 @@
 #include <Qt3DExtras/qt3dwindow.h>
 #include <complex>
 
-#include "complexcalc.h"
-
 class ComplexVar;
 class CustomArrow;
 
@@ -19,12 +17,16 @@ public:
   //~OpenGLWindow();
 
   void resizeEvent(QResizeEvent* event) override;
-  void refreshVariable(ComplexVar* variable);
+  void insertVariable(ComplexVar* variable);
+  void refreshVariables();
+  void removeAllVariables();
+  void findScale();
+  bool hasArrow();
 
 private:
   bool isMainWindow_;
   Qt3DCore::QEntity* rootEntity_;
-  double scale_;
-  std::map<ComplexVar*, CustomArrow*> variables_;
+  unsigned long scale_;
+  std::vector<CustomArrow*> arrows_;
 };
 #endif // OPENGLWINDOW_H

@@ -95,12 +95,20 @@ CustomArrow::~CustomArrow()
   delete cylinderTransform_;
 }
 
-void CustomArrow::update()
+void CustomArrow::update(double scale)
 {
   sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), (180*arg(variable_->getValue()))/M_PI - 90.0f));
-  cylinder_->setLength(abs(variable_->getValue()) - CONE_LENGTH);
+
+  cylinder_->setLength(abs(variable_->getValue())*100/scale - CONE_LENGTH);
+  
   cylinderTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2, 0));
+  
   coneTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2 + cone_->length() / 2, 0));
+}
+
+ComplexVar* CustomArrow::getVariable()
+{
+  return variable_;
 }
 
 

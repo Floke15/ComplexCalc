@@ -1,6 +1,7 @@
 #include "openglwindow.h"
 #include "customarrow.h"
 #include "complexvar.h"
+#include "complexcalc.h"
 
 #include <Qt3DExtras/qforwardrenderer.h>
 #include <Qt3DCore/qentity.h>
@@ -36,10 +37,10 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   lightTransform->setTranslation(cameraEntity->position());
   lightEntity->addComponent(lightTransform);
 
-  CustomArrow* realPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 0);
-  CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 180.0f);
-  CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 90.0f);
-  CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 100, 270.0f);
+  CustomArrow* realPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 0);
+  CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 180.0f);
+  CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 90.0f);
+  CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 270.0f);
 
   setRootEntity(rootEntity_);
 }
@@ -70,18 +71,56 @@ void OpenGLWindow::resizeEvent(QResizeEvent* event)
   }
 }
 
-void OpenGLWindow::refreshVariable(ComplexVar* variable)
+void OpenGLWindow::insertVariable(ComplexVar* variable)
 {
-  auto pos = variables_.find(variable);
+  //TODO: other function that adds at other pos that origin
+  //TODO: check if arrow of variable with the same origin already exists
 
-  if (variables_.end() == pos)
-  {
-    CustomArrow* variable_arrow = new CustomArrow(rootEntity_, QVector2D(0, 0), variable, QColor(255, 0, 0, 255));
+  CustomArrow* variable_arrow = new CustomArrow(rootEntity_, QVector2D(0, 0), variable, QColor(255, 0, 0, 255));
 
-    variables_.insert(std::pair<ComplexVar*, CustomArrow*>(variable, variable_arrow));
-  }
-  else
+  arrows_.push_back(variable_arrow);
+
+  refreshVariables();
+}
+
+void OpenGLWindow::removeAllVariables()
+{
+   //TODO: removes all variables
+   //TODO?: for removing specific Arrows -> implement some kind of ID
+}
+
+void OpenGLWindow::refreshVariables()
+{
+  findScale();
+
+  for (auto iter : arrows_)
   {
-    pos->second->update();
+    if(iter->getVariable() != nullptr)
+      iter->update(scale_);
   }
 }
+
+void OpenGLWindow::findScale()
+{
+  double biggest_value = 0;
+
+  for (auto iter : arrows_)
+  {
+    std::complex<double> value = iter->getVariable()->getValue();
+    
+    biggest_value = value.real() > biggest_value ? value.real() : biggest_value;
+    biggest_value = value.imag() > biggest_value ? value.imag() : biggest_value;
+  }
+
+  double log_value = log10(biggest_value);
+  scale_ = pow(10.0, ceil(log_value));
+
+  if (log_value < (floor(log_value) + 0.69897))   // log(5) = 0,69897
+    scale_ /= 2;
+}
+
+bool OpenGLWindow::hasArrow()
+{
+  return !arrows_.empty();
+}
+

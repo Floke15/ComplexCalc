@@ -18,7 +18,8 @@ public:
   CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, ComplexVar* variable, QColor color);
   ~CustomArrow();
 
-  void update();
+  void update(double scale);
+  ComplexVar* getVariable();
 
 private:
   CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable);

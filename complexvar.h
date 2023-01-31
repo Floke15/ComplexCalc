@@ -10,6 +10,12 @@
 class QSlider;
 class QHBoxLayout;
 class QLabel;
+class QVBoxLayout;
+class QWidget;
+class OpenGLWindow;
+class QHBoxLayout;
+class QPushButton;
+class QLineEdit;
 
 class ComplexVar : public QFrame
 {
