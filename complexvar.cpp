@@ -231,8 +231,10 @@ void ComplexVar::on_expandButton_clicked()
   {
     expandButton_->setText("Expand");
     this->setMinimumSize(200, 72);
+    this->setUpdatesEnabled(false);
     delete openGL3DWindow_;
     delete glWidget_;
+    this->setUpdatesEnabled(true);
   }
   else
   {
@@ -324,7 +326,8 @@ void ComplexVar::on_input1Input_editingFinished()
   else
     value_.real(QLocale::system().toDouble(input1Input_->text()));
 
-  if(this->findChild<QWidget*>("glWidget_") && openGL3DWindow_->hasArrow())
+  if(!this->findChild<QWidget*>("glWidget_"));
+  else if(openGL3DWindow_->hasArrow())
     openGL3DWindow_->refreshVariables();
   else if(abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
@@ -347,7 +350,8 @@ void ComplexVar::on_input2Input_editingFinished()
   else
     value_.imag(QLocale::system().toDouble(input2Input_->text()));
 
-  if(this->findChild<QWidget*>("glWidget_") && openGL3DWindow_->hasArrow())
+  if(!this->findChild<QWidget*>("glWidget_"));
+  else if(openGL3DWindow_->hasArrow())
     openGL3DWindow_->refreshVariables();
   else if (abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
