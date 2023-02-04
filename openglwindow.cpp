@@ -108,8 +108,8 @@ void OpenGLWindow::findScale()
   {
     std::complex<double> value = iter->getVariable()->getValue();
     
-    biggest_value = value.real() > biggest_value ? value.real() : biggest_value;
-    biggest_value = value.imag() > biggest_value ? value.imag() : biggest_value;
+    biggest_value = abs(value.real()) > biggest_value ? abs(value.real()) : biggest_value;
+    biggest_value = abs(value.imag()) > biggest_value ? abs(value.imag()) : biggest_value;
   }
 
   double log_value = log10(biggest_value);
