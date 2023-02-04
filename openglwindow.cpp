@@ -80,6 +80,8 @@ void OpenGLWindow::insertVariable(ComplexVar* variable)
 
   arrows_.push_back(variable_arrow);
 
+  connect(variable, &ComplexVar::variable_changed, this, &OpenGLWindow::refreshVariables);
+
   refreshVariables();
 }
 

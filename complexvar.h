@@ -28,6 +28,9 @@ public:
   std::complex<double> getValue();
   QString getName();
 
+signals:
+  void variable_changed();
+
 private slots:
   void on_expandButton_clicked();
   void on_switchButton_clicked();

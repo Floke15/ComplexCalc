@@ -18,10 +18,12 @@ public:
 
   void resizeEvent(QResizeEvent* event) override;
   void insertVariable(ComplexVar* variable);
-  void refreshVariables();
   void removeAllVariables();
   void findScale();
   bool hasArrow();
+
+public slots:
+  void refreshVariables();
 
 private:
   bool isMainWindow_;

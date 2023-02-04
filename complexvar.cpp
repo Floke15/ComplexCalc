@@ -304,11 +304,15 @@ void ComplexVar::on_nameInput_textEdited(const QString& text)
   name_ = nameInput_->text();
 
   nameInput_->setText(nameInput_->text().toUpper());
+
+  emit variable_changed();
 }
 
 void ComplexVar::on_omegaInput_editingFinished()
 {
   omega_ = QLocale::system().toDouble(omegaInput_->text());
+
+  emit variable_changed();
 }
 
 void ComplexVar::on_input1Input_editingFinished()
@@ -330,10 +334,13 @@ void ComplexVar::on_input1Input_editingFinished()
     value_.real(QLocale::system().toDouble(input1Input_->text()));
 
   if(!this->findChild<QWidget*>("glWidget_"));
-  else if(openGL3DWindow_->hasArrow())
+  else if (openGL3DWindow_->hasArrow())
     openGL3DWindow_->refreshVariables();
-  else if(abs(value_) > 0)
+  else if (abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
+
+
+  emit variable_changed();
 }
 
 void ComplexVar::on_input2Input_editingFinished()
@@ -354,8 +361,10 @@ void ComplexVar::on_input2Input_editingFinished()
     value_.imag(QLocale::system().toDouble(input2Input_->text()));
 
   if(!this->findChild<QWidget*>("glWidget_"));
-  else if(openGL3DWindow_->hasArrow())
+  else if (openGL3DWindow_->hasArrow())
     openGL3DWindow_->refreshVariables();
   else if (abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
+
+  emit variable_changed();
 }
