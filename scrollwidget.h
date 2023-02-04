@@ -12,13 +12,15 @@ class ScrollWidget : public QWidget
 public:
   ScrollWidget(QWidget* parent = 0);
 
-  void refreshVariable();
+  void addVariable();
   void deleteVariable(ComplexVar* variable);
+  ComplexVar* getVariable(QString name);
 
 private slots:
   void update();
 
 private:
+  std::vector<ComplexVar*> variables_;
   std::vector<ComplexVar*> variables_to_delete_;
 };
 

@@ -9,7 +9,7 @@
 #include <QDoubleValidator>
 #include <math.h>
 
-ComplexVar::ComplexVar(QWidget* parent, std::string name, std::complex<double> value, double omega, QColor color) :
+ComplexVar::ComplexVar(QWidget* parent, QString name, std::complex<double> value, double omega, QColor color) :
   parent_(parent),
   name_(name),
   value_(value),
@@ -225,6 +225,11 @@ std::complex<double> ComplexVar::getValue()
   return value_;
 }
 
+QString ComplexVar::getName()
+{
+  return name_;
+}
+
 void ComplexVar::on_expandButton_clicked()
 {
   if (this->findChild<QWidget*>("glWidget_"))
@@ -294,13 +299,11 @@ void ComplexVar::on_deleteButton_clicked()
   parent->deleteVariable(this);
 }
 
-void ComplexVar::on_nameInput_editingFinished()
+void ComplexVar::on_nameInput_textEdited(const QString& text)
 {
-  name_ = nameInput_->text().toStdString();
+  name_ = nameInput_->text();
 
-  std::transform(name_.begin(), name_.end(), name_.begin(), ::toupper);
-
-  nameInput_->setText(QString::fromStdString(name_));
+  nameInput_->setText(nameInput_->text().toUpper());
 }
 
 void ComplexVar::on_omegaInput_editingFinished()

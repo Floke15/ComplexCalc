@@ -12,14 +12,19 @@ ScrollWidget::ScrollWidget(QWidget* parent) :
   timer->start(100);
 }
 
-void ScrollWidget::refreshVariable()
+void ScrollWidget::addVariable()
 {
   ComplexVar* newVar = new ComplexVar(this);
   this->layout()->addWidget(newVar);
+  variables_.push_back(newVar);
 }
 
 void ScrollWidget::deleteVariable(ComplexVar* variable)
 {
+  auto iter = std::find(variables_.begin(), variables_.end(), variable);
+  assert(iter != variables_.end());
+  variables_.erase(iter);
+
   if (variables_to_delete_.empty())
   {
     variables_to_delete_.push_back(variable);
@@ -32,6 +37,22 @@ void ScrollWidget::deleteVariable(ComplexVar* variable)
   {
     variables_to_delete_.push_back(variable);
   }
+}
+
+ComplexVar* ScrollWidget::getVariable(QString name)
+{
+  ComplexVar* pos = nullptr;
+
+  for (auto iter : variables_)
+  {
+    if (iter->getName() == name)
+    {
+      pos = iter;
+      break;
+    }
+  }
+
+  return pos;
 }
 
 void ScrollWidget::update()

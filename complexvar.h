@@ -22,24 +22,25 @@ class ComplexVar : public QFrame
   Q_OBJECT
 
 public:
-  ComplexVar(QWidget* parent = 0, std::string name = "", std::complex<double> value = 0, double omega = 0, QColor color = QColor(QRgb(0xFF0000)));
+  ComplexVar(QWidget* parent = 0, QString name = "", std::complex<double> value = 0, double omega = 0, QColor color = QColor(QRgb(0xFF0000)));
   //~ComplexVar();
 
   std::complex<double> getValue();
+  QString getName();
 
 private slots:
   void on_expandButton_clicked();
   void on_switchButton_clicked();
   void on_deleteButton_clicked();
 
-  void on_nameInput_editingFinished();
+  void on_nameInput_textEdited(const QString& text);
   void on_omegaInput_editingFinished();
   void on_input1Input_editingFinished();
   void on_input2Input_editingFinished();
 
 private:
   QWidget* parent_;
-  std::string name_;
+  QString name_;
   std::complex<double> value_;
   QColor color_;
   double omega_;
