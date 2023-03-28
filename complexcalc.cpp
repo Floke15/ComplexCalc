@@ -85,6 +85,8 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   sizePolicy3.setHorizontalStretch(0);
   sizePolicy3.setVerticalStretch(0);
   sizePolicy3.setHeightForWidth(scrollWidget_->sizePolicy().hasHeightForWidth());
+  connect(scrollWidget_, &ScrollWidget::about_to_delete, openGL3DWindow_, &OpenGLWindow::removeAllVariables);
+  connect(scrollWidget_, &ScrollWidget::variable_deleted, this, &ComplexCalc::reparseText);
 
   // define verticalScrollLayout as Layout of scrollWidget
   verticalScrollLayout_ = new QVBoxLayout(scrollWidget_);
@@ -128,10 +130,30 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
 {
   operationInput_->setText(operationInput_->text().toUpper());
 
+  if (operationInput_->text().isEmpty())
+  {
+    openGL3DWindow_->removeAllVariables();
+    return;
+  }
+
+  //TODO: implement input parsing
+
   ComplexVar* variable = scrollWidget_->getVariable(operationInput_->text());
+
+  openGL3DWindow_->removeAllVariables();
 
   if(variable)
     openGL3DWindow_->insertVariable(variable);
+}
+
+void ComplexCalc::reparseText()
+{
+  on_operationInput_textEdited(operationInput_->text());
+}
+
+void ComplexCalc::clearMainWindow()
+{
+  openGL3DWindow_->removeAllVariables();
 }
 
 void ComplexCalc::on_addVarButton_clicked()

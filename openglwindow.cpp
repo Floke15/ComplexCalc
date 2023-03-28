@@ -78,20 +78,28 @@ void OpenGLWindow::insertVariable(ComplexVar* variable)
 
   CustomArrow* variable_arrow = new CustomArrow(rootEntity_, QVector2D(0, 0), variable, QColor(255, 0, 0, 255));
 
+  connect(variable, &ComplexVar::variable_changed, this, &OpenGLWindow::rescaleAxes);
+
   arrows_.push_back(variable_arrow);
 
-  connect(variable, &ComplexVar::variable_changed, this, &OpenGLWindow::refreshVariables);
-
-  refreshVariables();
+  rescaleAxes();
 }
 
 void OpenGLWindow::removeAllVariables()
 {
-   //TODO: removes all variables
-   //TODO?: for removing specific Arrows -> implement some kind of ID
+  for (auto iter : arrows_)
+  {
+    disconnect(iter->getVariable(), SIGNAL(ComplexVar::variable_changed()), this, SLOT(&OpenGLWindow::rescaleAxes()));
+
+    delete iter;
+  }
+
+  arrows_.clear();
 }
 
-void OpenGLWindow::refreshVariables()
+
+
+void OpenGLWindow::rescaleAxes()
 {
   findScale();
 

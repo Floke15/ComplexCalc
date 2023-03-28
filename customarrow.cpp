@@ -17,6 +17,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, C
 
 CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable) :
   rootEntity_(rootEntity),
+  sphereEntity_ (new Qt3DCore::QEntity(rootEntity_)),
   sphereTransform_(new Qt3DCore::QTransform()),
   cylinder_(new Qt3DExtras::QCylinderMesh()),
   cylinderTransform_(new Qt3DCore::QTransform()),
@@ -38,9 +39,8 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), rotation - 90.0f));
 
   // Sphere
-  Qt3DCore::QEntity* sphereEntity = new Qt3DCore::QEntity(rootEntity_);
-  sphereEntity->addComponent(sphere);
-  sphereEntity->addComponent(sphereTransform_);
+  sphereEntity_->addComponent(sphere);
+  sphereEntity_->addComponent(sphereTransform_);
 
   // Cylinder shape data
   if(isVariable_)
@@ -58,7 +58,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   cylinderMaterial->setDiffuse(color_);
 
   // Cylinder
-  Qt3DCore::QEntity* cylinderEntity = new Qt3DCore::QEntity(sphereEntity);
+  Qt3DCore::QEntity* cylinderEntity = new Qt3DCore::QEntity(sphereEntity_);
   cylinderEntity->addComponent(cylinder_);
   cylinderEntity->addComponent(cylinderMaterial);
   cylinderEntity->addComponent(cylinderTransform_);
@@ -90,9 +90,12 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
 
 CustomArrow::~CustomArrow()
 {
+  // theoretically not needed
   delete sphereTransform_;
   delete cylinder_;
   delete cylinderTransform_;
+
+  delete sphereEntity_;
 }
 
 void CustomArrow::update(double scale)

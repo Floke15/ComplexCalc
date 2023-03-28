@@ -19,6 +19,10 @@ public:
 private slots:
   void update();
 
+signals:
+  void about_to_delete();
+  void variable_deleted();
+
 private:
   std::vector<ComplexVar*> variables_;
   std::vector<ComplexVar*> variables_to_delete_;

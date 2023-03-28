@@ -301,9 +301,8 @@ void ComplexVar::on_deleteButton_clicked()
 
 void ComplexVar::on_nameInput_textEdited(const QString& text)
 {
-  name_ = nameInput_->text();
-
   nameInput_->setText(nameInput_->text().toUpper());
+  name_ = nameInput_->text();
 
   emit variable_changed();
 }
@@ -335,7 +334,7 @@ void ComplexVar::on_input1Input_editingFinished()
 
   if(!this->findChild<QWidget*>("glWidget_"));
   else if (openGL3DWindow_->hasArrow())
-    openGL3DWindow_->refreshVariables();
+    openGL3DWindow_->rescaleAxes();
   else if (abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
 
@@ -362,7 +361,7 @@ void ComplexVar::on_input2Input_editingFinished()
 
   if(!this->findChild<QWidget*>("glWidget_"));
   else if (openGL3DWindow_->hasArrow())
-    openGL3DWindow_->refreshVariables();
+    openGL3DWindow_->rescaleAxes();
   else if (abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
 

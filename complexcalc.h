@@ -25,6 +25,8 @@ public:
 private slots:
   void on_addVarButton_clicked();
   void on_operationInput_textEdited(const QString& text);
+  void reparseText();
+  void clearMainWindow();
 
 private:
   // Design elements

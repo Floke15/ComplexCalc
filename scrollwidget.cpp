@@ -57,12 +57,18 @@ ComplexVar* ScrollWidget::getVariable(QString name)
 
 void ScrollWidget::update()
 {
+  if(variables_to_delete_.size())
+    emit about_to_delete();
+
   for (auto position = variables_to_delete_.begin(); position != variables_to_delete_.end(); ++position)
   {
     this->layout()->removeWidget(*position);
     delete *position;
   }
 
-  if(variables_to_delete_.size())
+  if (variables_to_delete_.size())
+  {
     variables_to_delete_.clear();
+    emit variable_deleted();
+  }
 }
