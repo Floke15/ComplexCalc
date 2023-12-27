@@ -1,2 +1,4 @@
 build/
+.vs/
 *.user*
+*Presets.json
