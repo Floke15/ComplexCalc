@@ -58,32 +58,19 @@ Windows:
 
 Generate Visual Studio Project:
 
-1. Install cmake (GUI)
-2. Open cmake and set <Project-Path> as Source and <Project-Path>/build as Build.
-3. Click "Environment..."
-4. Click "Add Entry"
-5. Insert:
+1. Start Visual Studio and "Continue without code".
+2. Go to "Extensions>Manage Extensions" and install the "Qt Visual Studio Tools" if they are not installed already.
+3. After the installation is finished go to "Extensions>Qt VS Tools>Qt Versions", click on "+" in the table and select the path
+4. Select "C:\\Qt\\6.\<version\>\\msvc2019_64\\bin\\qmake.exe"
+5. Install cmake (GUI)
+6. Open cmake and set <Project-Path> as Source and <Project-Path>/build as Build.
+7. Click "Environment..."
+8. Click "Add Entry"
+9. Insert:
     * Name: QTDIR
-    * Value C:\Qt\6.4.0\msvc2019_64\lib\cmake
-6. Click Ok twice
-3. In the main window click "Configure" and Select the VS Version and select "x64"
-4. Click "Generate"
-5. Click "Open Project"
-6. In VS right-click "ComplexCalc" and select "Set as Startup Project"
-7. Copy the following files from <Install-Dir>/Qt/<Version>/msvc2019_64/bin to <Project-Path>/build/Debug :
-
-platforms/qwindowsd.dll
-styles/qwindowsvistastyled.dll
-renderers/openglrendererd.dll
-Qt6Cored.dll
-Qt6Guid.dll
-Qt6OpenGLd.dll
-Qt6OpenGLWidgetsd.dll
-Qt6Widgetsd.dll
-Qt63DExtrasd.dll
-Qt63Logicd.dll
-Qt63DInputd.dll
-Qt63DRenderd.dll
-Qt63DCored.dll
-Qt6Concurrentd.dll
-Qt6Networkd.dll
+    * Value C:\Qt\6.\<version\>\msvc2019_64\lib\cmake
+10. Click Ok twice
+11. In the main window click "Configure" and Select the VS Version and select "x64"
+12. Click "Generate"
+13. Click "Open Project"
+14. In VS right-click "ComplexCalc" and select "Set as Startup Project"
