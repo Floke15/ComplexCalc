@@ -122,7 +122,7 @@ void OpenGLWindow::findScale()
     biggest_value = abs(value.imag()) > biggest_value ? abs(value.imag()) : biggest_value;
   }
 
-  double log_value = log10(biggest_value);
+  double log_value = log10(biggest_value+1);
   scale_ = pow(10.0, ceil(log_value));
 
   if (log_value < (floor(log_value) + 0.69897))   // log(5) = 0,69897

@@ -76,7 +76,7 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   operationInput_->setSizePolicy(sizePolicy2);
   operationInput_->setMaximumSize(QSize(16777215, 20));  // 16777215 is Max
   operationInput_->setPlaceholderText("Mathematical Operation");
-  QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9]*"));   //match one word (aka one potential variable)
+  QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9 ]*"));   //match one word (aka one potential variable)
   operationInput_->setValidator(regex_validator);
   
   scrollWidget_ = new ScrollWidget(subWidget_);
@@ -171,7 +171,7 @@ void ComplexCalc::clearMainWindow()
 
 void ComplexCalc::on_addVarButton_clicked()
 {
-  ComplexVar* newVar = new ComplexVar(this);
+  ComplexVar* newVar = new ComplexVar(scrollWidget_);
   scrollWidget_->layout()->addWidget(newVar);
   scrollWidget_->variables_.push_back(newVar);
 }
