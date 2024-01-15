@@ -136,14 +136,27 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
     return;
   }
 
-  //TODO: implement input parsing
+  //TODO: implement parsing and calculation of calculations
 
-  ComplexVar* variable = scrollWidget_->getVariable(operationInput_->text());
+  std::vector<ComplexVar*> variables;
+  QString input = operationInput_->text();
+
+  for (auto var_iter : scrollWidget_->variables_)
+  {
+      QString regex_str = "(^" + var_iter->getName() + "$)|(^" + var_iter->getName() + " .*$)|(^.*\ " + var_iter->getName() + "\ .*$)|(^.* " + var_iter->getName() + "$)";
+      QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression(regex_str));
+    int pos = 0;
+
+    if (int t = regex_validator->validate(input, pos) == 2)
+     variables.push_back(var_iter);
+
+    delete regex_validator;
+  }
 
   openGL3DWindow_->removeAllVariables();
 
-  if(variable)
-    openGL3DWindow_->insertVariable(variable);
+  for (auto var_iter : variables)
+    openGL3DWindow_->insertVariable(var_iter);
 }
 
 void ComplexCalc::reparseText()
@@ -158,5 +171,7 @@ void ComplexCalc::clearMainWindow()
 
 void ComplexCalc::on_addVarButton_clicked()
 {
-  scrollWidget_->addVariable();
+  ComplexVar* newVar = new ComplexVar(this);
+  scrollWidget_->layout()->addWidget(newVar);
+  scrollWidget_->variables_.push_back(newVar);
 }
