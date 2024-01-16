@@ -28,7 +28,7 @@ public slots:
 private:
   bool isMainWindow_;
   Qt3DCore::QEntity* rootEntity_;
-  unsigned long scale_;
+  double scale_;
   std::vector<CustomArrow*> arrows_;
 };
 #endif // OPENGLWINDOW_H

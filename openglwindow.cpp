@@ -117,16 +117,18 @@ void OpenGLWindow::findScale()
   for (auto iter : arrows_)
   {
     std::complex<double> value = iter->getVariable()->getValue();
-    
-    biggest_value = abs(value.real()) > biggest_value ? abs(value.real()) : biggest_value;
-    biggest_value = abs(value.imag()) > biggest_value ? abs(value.imag()) : biggest_value;
+    biggest_value = abs(value) > biggest_value ? abs(value) : biggest_value;
   }
 
-  double log_value = log10(biggest_value+1);
-  scale_ = pow(10.0, ceil(log_value));
+  double log_value = log10(biggest_value);
+  int ceil_value = ceil(log_value);
+  if (((double)pow(10, ceil_value) - biggest_value) == 0)
+      ceil_value++;
 
-  if (log_value < (floor(log_value) + 0.69897))   // log(5) = 0,69897
-    scale_ /= 2;
+  scale_ = pow(10.0, (double) ceil_value);
+
+  if ((double) ceil_value - 1 + 0.69897 > log_value)     // log(5) = 0,69897
+      scale_ /= 2;
 }
 
 bool OpenGLWindow::hasArrow()

@@ -143,7 +143,7 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
 
   for (auto var_iter : scrollWidget_->variables_)
   {
-      QString regex_str = "(^" + var_iter->getName() + "$)|(^" + var_iter->getName() + " .*$)|(^.*\ " + var_iter->getName() + "\ .*$)|(^.* " + var_iter->getName() + "$)";
+      QString regex_str = "(^" + var_iter->getName() + "$)|(^" + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + "$)";
       QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression(regex_str));
     int pos = 0;
 
