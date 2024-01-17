@@ -29,7 +29,8 @@ public:
   QString getName();
 
 signals:
-  void variable_changed();
+  void variable_value_changed();
+  void variable_name_changed();
 
 private slots:
   void on_expandButton_clicked();

@@ -1,5 +1,6 @@
 #include "scrollwidget.h"
 #include "complexvar.h"
+#include "complexcalc.h"
 
 #include <QLayout>
 #include <QTimer>
@@ -17,6 +18,8 @@ void ScrollWidget::deleteVariable(ComplexVar* variable)
   auto iter = std::find(variables_.begin(), variables_.end(), variable);
   assert(iter != variables_.end());
   variables_.erase(iter);
+
+  variable->disconnect();
 
   if (variables_to_delete_.empty())
   {

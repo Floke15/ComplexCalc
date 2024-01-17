@@ -174,4 +174,6 @@ void ComplexCalc::on_addVarButton_clicked()
   ComplexVar* newVar = new ComplexVar(scrollWidget_);
   scrollWidget_->layout()->addWidget(newVar);
   scrollWidget_->variables_.push_back(newVar);
+
+  connect(newVar, &ComplexVar::variable_name_changed, this, &ComplexCalc::reparseText);
 }
