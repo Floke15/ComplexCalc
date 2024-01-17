@@ -37,6 +37,8 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   timeSlider_ = new QSlider(centralWidget_);
   timeSlider_->setObjectName("timeSlider");
   timeSlider_->setOrientation(Qt::Horizontal);
+  timeSlider_->setMinimum(0);
+  timeSlider_->setMaximum(1000);
   
   // initialize subWidget as part of centralWidget
   subWidget_ = new QWidget(centralWidget_);
@@ -113,6 +115,7 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   gridLayout_->addWidget(QWidget::createWindowContainer(openGL3DWindow_), 1, 0, 1, 1);
   gridLayout_->addWidget(scrollArea_, 1, 1, 1, 1);
 
+  connect(timeSlider_, &QSlider::valueChanged, openGL3DWindow_, &OpenGLWindow::setTime);
   this->setCentralWidget(centralWidget_);
 
   QMetaObject::connectSlotsByName(this);
@@ -171,7 +174,7 @@ void ComplexCalc::clearMainWindow()
 
 void ComplexCalc::on_addVarButton_clicked()
 {
-  ComplexVar* newVar = new ComplexVar(scrollWidget_);
+  ComplexVar* newVar = new ComplexVar(scrollWidget_, timeSlider_);
   scrollWidget_->layout()->addWidget(newVar);
   scrollWidget_->variables_.push_back(newVar);
 

@@ -98,9 +98,9 @@ CustomArrow::~CustomArrow()
   delete sphereEntity_;
 }
 
-void CustomArrow::update(double scale)
+void CustomArrow::update(double scale, double rotationAngle)
 {
-  sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), (180*arg(variable_->getValue()))/M_PI - 90.0f));
+  sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), ((180*arg(variable_->getValue()))/M_PI - 90.0f) + rotationAngle));
 
   cylinder_->setLength(abs(variable_->getValue())*100/scale - CONE_LENGTH);
   

@@ -22,7 +22,7 @@ class ComplexVar : public QFrame
   Q_OBJECT
 
 public:
-  ComplexVar(QWidget* parent = 0, QString name = "", std::complex<double> value = 0, double omega = 0, QColor color = QColor(QRgb(0xFF0000)));
+  ComplexVar(QWidget* parent = 0, QSlider* timeSlider = nullptr, QString name = "", std::complex<double> value = 0, double omega = 1, QColor color = QColor(QRgb(0xFF0000)));
   //~ComplexVar();
 
   std::complex<double> getValue();
@@ -45,6 +45,7 @@ private slots:
 private:
   QWidget* parent_;
   QString name_;
+  QSlider* timeSlider_;
   std::complex<double> value_;
   QColor color_;
   double omega_;

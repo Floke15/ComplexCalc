@@ -23,12 +23,14 @@ public:
 
 public slots:
   void removeAllVariables();
+  void setTime(int time);
   void rescaleAxes();
 
 private:
   bool isMainWindow_;
   Qt3DCore::QEntity* rootEntity_;
   double scale_;
+  double time_;
   std::vector<CustomArrow*> arrows_;
 };
 #endif // OPENGLWINDOW_H

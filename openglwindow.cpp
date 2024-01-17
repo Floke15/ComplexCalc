@@ -12,6 +12,7 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   isMainWindow_(isMainWindow),
   rootEntity_(new Qt3DCore::QEntity()),
   scale_(0),
+  time_(0),
   Qt3DExtras::Qt3DWindow()
 {
   defaultFrameGraph()->setClearColor(QColor(QRgb(0x4d4d4f)));
@@ -97,7 +98,16 @@ void OpenGLWindow::removeAllVariables()
   arrows_.clear();
 }
 
-
+void OpenGLWindow::setTime(int time)
+{
+  time_ = time;
+    
+  for (auto iter : arrows_)
+  {
+    if (iter->getVariable() != nullptr)
+      iter->update(scale_, time_ * 0.36);
+  }
+}
 
 void OpenGLWindow::rescaleAxes()
 {
@@ -106,7 +116,7 @@ void OpenGLWindow::rescaleAxes()
   for (auto iter : arrows_)
   {
     if(iter->getVariable() != nullptr)
-      iter->update(scale_);
+      iter->update(scale_, time_ * 3.6);
   }
 }
 

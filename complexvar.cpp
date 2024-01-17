@@ -7,11 +7,13 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QDoubleValidator>
+#include <QSlider>
 #include <math.h>
 
-ComplexVar::ComplexVar(QWidget* parent, QString name, std::complex<double> value, double omega, QColor color) :
+ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::complex<double> value, double omega, QColor color) :
   parent_(parent),
   name_(name),
+  timeSlider_(timeSlider),
   value_(value),
   omega_(omega),
   color_(color),
@@ -148,6 +150,7 @@ ComplexVar::ComplexVar(QWidget* parent, QString name, std::complex<double> value
   QDoubleValidator* double_validator = new QDoubleValidator();
   double_validator->setNotation(QDoubleValidator::ScientificNotation);
   omegaInput_->setValidator(double_validator);
+  omegaInput_->setText(QString::number(omega_));
 
   horizontalLayoutOmega_->addWidget(omegaLabel_);
   horizontalLayoutOmega_->addWidget(omegaInput_);
@@ -237,6 +240,7 @@ void ComplexVar::on_expandButton_clicked()
     expandButton_->setText("Expand");
     this->setMinimumSize(200, 72);
     this->setUpdatesEnabled(false);
+    disconnect(openGL3DWindow_);
     delete openGL3DWindow_;
     delete glWidget_;
     this->setUpdatesEnabled(true);
@@ -252,6 +256,8 @@ void ComplexVar::on_expandButton_clicked()
     glWidget_->setSizePolicy(sizePolicy12);
     if(abs(value_) > 0)
       openGL3DWindow_->insertVariable(this);
+    if(timeSlider_ != nullptr)
+      connect(timeSlider_, &QSlider::valueChanged, openGL3DWindow_, &OpenGLWindow::setTime);
     verticalLayout_->addWidget(glWidget_);
     this->setMinimumSize(200, 272);
   }
