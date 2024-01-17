@@ -256,8 +256,11 @@ void ComplexVar::on_expandButton_clicked()
     glWidget_->setSizePolicy(sizePolicy12);
     if(abs(value_) > 0)
       openGL3DWindow_->insertVariable(this);
-    if(timeSlider_ != nullptr)
+    if (timeSlider_ != nullptr)
+    {
+      openGL3DWindow_->setTime(timeSlider_->value());
       connect(timeSlider_, &QSlider::valueChanged, openGL3DWindow_, &OpenGLWindow::setTime);
+    }
     verticalLayout_->addWidget(glWidget_);
     this->setMinimumSize(200, 272);
   }
