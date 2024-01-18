@@ -116,7 +116,7 @@ void OpenGLWindow::rescaleAxes()
   for (auto iter : arrows_)
   {
     if(iter->getVariable() != nullptr)
-      iter->update(scale_, time_ * 3.6);
+      iter->update(scale_, time_ * 0.36);
   }
 }
 
