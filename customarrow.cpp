@@ -70,7 +70,10 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
     cone_->setBottomRadius(3);
   else
     cone_->setBottomRadius(3 * 0.75f);
-  cone_->setLength(CONE_LENGTH);
+  if (!isVariable_ || abs(variable_->getValue()) != 0)
+    cone_->setLength(CONE_LENGTH);
+  else
+    cone_->setLength(0);
   cone_->setRings(50);
   cone_->setSlices(20);
 
@@ -107,6 +110,11 @@ void CustomArrow::update(double scale, double rotationAngle)
   cylinderTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2, 0));
   
   coneTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2 + cone_->length() / 2, 0));
+
+  if (!isVariable_ || abs(variable_->getValue()) != 0)
+    cone_->setLength(CONE_LENGTH);
+  else
+    cone_->setLength(0);
 }
 
 ComplexVar* CustomArrow::getVariable()
