@@ -7,12 +7,16 @@
 #include <Qt3DCore/qentity.h>
 #include <Qt3DRender/qcamera.h>
 #include <Qt3DRender/qpointlight.h>
+#include <qmouseevent.h>
 
 OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   isMainWindow_(isMainWindow),
   rootEntity_(new Qt3DCore::QEntity()),
   scale_(0),
   time_(0),
+  isDragging_(false),
+  currentAngleX_(0),
+  currentAngleZ_(0),
   Qt3DExtras::Qt3DWindow()
 {
   defaultFrameGraph()->setClearColor(QColor(QRgb(0x4d4d4f)));
@@ -69,6 +73,37 @@ void OpenGLWindow::resizeEvent(QResizeEvent* event)
     }
 
     camera()->lens()->setOrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, 0.1f, 1000.0f);
+  }
+}
+
+void OpenGLWindow::mousePressEvent(QMouseEvent* mouseEvent)
+{
+  lastPos_ = mouseEvent->localPos();
+}
+
+void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
+{
+  if (mouseEvent->buttons() == Qt::LeftButton && isMainWindow_)
+  {
+    float angle_change_x = -(mouseEvent->localPos() - lastPos_).x();
+    float angle_change_z = (mouseEvent->localPos() - lastPos_).y();
+    lastPos_ = mouseEvent->localPos();
+
+    if (currentAngleX_ + angle_change_x < 0)
+      angle_change_x = -currentAngleX_;
+    else if (currentAngleX_ + angle_change_x > 90)
+      angle_change_x = 90 - currentAngleX_;
+
+    if (currentAngleZ_ + angle_change_z < 0)
+      angle_change_z = -currentAngleZ_;
+    else if (currentAngleZ_ + angle_change_z > 90)
+      angle_change_z = 90 - currentAngleZ_;
+
+    camera()->panAboutViewCenter(angle_change_x);
+    camera()->panAboutViewCenter(angle_change_z, QVector3D(0, 0, 1));
+
+    currentAngleX_ += angle_change_x;
+    currentAngleZ_ += angle_change_z;
   }
 }
 

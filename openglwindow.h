@@ -17,6 +17,8 @@ public:
   //~OpenGLWindow();
 
   void resizeEvent(QResizeEvent* event) override;
+  void mousePressEvent(QMouseEvent* mouseEvent) override;
+  void mouseMoveEvent(QMouseEvent* mouseEvent) override;
   void insertVariable(ComplexVar* variable);
   void findScale();
   bool hasArrow();
@@ -31,6 +33,10 @@ private:
   Qt3DCore::QEntity* rootEntity_;
   double scale_;
   double time_;
+  bool isDragging_;
+  QPointF lastPos_;
+  float currentAngleX_;
+  float currentAngleZ_;
   std::vector<CustomArrow*> arrows_;
 };
 #endif // OPENGLWINDOW_H
