@@ -40,5 +40,6 @@ private:
   float currentAngleX_;
   float currentAngleZ_;
   std::vector<CustomArrow*> arrows_;
+  CustomArrow* timeAxis_;
 };
 #endif // OPENGLWINDOW_H

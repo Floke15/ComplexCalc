@@ -29,6 +29,11 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
 
   //TODO: if length < CONE_LENGTH find new representation
 
+  bool is_time_axis = !isVariable && length < 0;
+
+  if (is_time_axis)
+    length = abs(length);
+
   // Sphere shape data
   Qt3DExtras::QSphereMesh* sphere = new Qt3DExtras::QSphereMesh();
   sphere->setRadius(0);
@@ -36,7 +41,10 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   sphere->setSlices(1);
 
   // SphereMesh Transform
-  sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), rotation - 90.0f));
+  if (is_time_axis)
+    sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1.0f, 0.0f, 0.0f), -90.0f));
+  else
+    sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), rotation - 90.0f));
 
   // Sphere
   sphereEntity_->addComponent(sphere);
@@ -115,6 +123,12 @@ void CustomArrow::update(double scale, double rotationAngle)
     cone_->setLength(CONE_LENGTH);
   else
     cone_->setLength(0);
+}
+
+void CustomArrow::setVisible(bool visibility)
+{
+  cylinder_->setEnabled(visibility);
+  cone_->setEnabled(visibility);
 }
 
 ComplexVar* CustomArrow::getVariable()

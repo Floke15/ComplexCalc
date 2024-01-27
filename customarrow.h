@@ -19,6 +19,7 @@ public:
   ~CustomArrow();
 
   void update(double scale, double rotationAngle);
+  void setVisible(bool visibility);
   ComplexVar* getVariable();
 
 private:

@@ -28,7 +28,7 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
 
   cameraEntity->setPosition(QVector3D(0, 0, 300));
   cameraEntity->setUpVector(QVector3D(0, 1, 0));
-  cameraEntity->setViewCenter(QVector3D(0, 0, 0));
+  cameraEntity->setViewCenter(QVector3D(0, 0, -110));
 
   Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(rootEntity_);
   Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
@@ -43,6 +43,9 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 180.0f);
   CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 90.0f);
   CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 270.0f);
+  timeAxis_ = new CustomArrow(rootEntity_, QVector2D(0, 0), -220, 0);
+
+  timeAxis_->setVisible(false);
 
   setRootEntity(rootEntity_);
 }
@@ -89,17 +92,24 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 {
   if (mouseEvent->buttons() == Qt::LeftButton && isMainWindow_)
   {
-    float angle_change_x = -(mouseEvent->localPos() - lastPos_).x();
-    float angle_change_z = (mouseEvent->localPos() - lastPos_).y();
+    float angle_change_x = -(mouseEvent->localPos() - lastPos_).x() / 2;
+    float angle_change_z = (mouseEvent->localPos() - lastPos_).y() / 2;
     lastPos_ = mouseEvent->localPos();
 
     bool was_at_limit_x = currentAngleX_ < 1 || currentAngleX_ > 89;
     bool is_at_limit_x = (currentAngleX_ + angle_change_x) < 1 || (currentAngleX_ + angle_change_x) > 89;
 
     if (is_at_limit_x && !was_at_limit_x)
+    {
       setOrthographicProjection();
+      if((currentAngleX_ + angle_change_x) < 1)
+        timeAxis_->setVisible(false);
+    }
     else if (!is_at_limit_x && was_at_limit_x)
+    {
       camera()->lens()->setPerspectiveProjection(45, static_cast<float>(this->width()) / static_cast<float>(this->height()), 0.1, 1000);
+      timeAxis_->setVisible(true);
+    }
 
     if (currentAngleX_ + angle_change_x < 0)
       angle_change_x = -currentAngleX_;
