@@ -24,10 +24,7 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   // Camera
   Qt3DRender::QCamera* cameraEntity = camera();
 
-  if(isMainWindow_)
-    cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-  else
-    cameraEntity->lens()->setOrthographicProjection(-120, 120, -120, 120, -10, 500);
+  setOrthographicProjection();
 
   cameraEntity->setPosition(QVector3D(0, 0, 300));
   cameraEntity->setUpVector(QVector3D(0, 1, 0));
@@ -54,26 +51,33 @@ void OpenGLWindow::resizeEvent(QResizeEvent* event)
 {
   Qt3DExtras::Qt3DWindow::resizeEvent(event);
 
-  if (!isMainWindow_)
+  if (!isMainWindow_ || currentAngleX_ < 1 || currentAngleX_ > 89)
+    setOrthographicProjection();
+}
+
+void OpenGLWindow::setOrthographicProjection()
+{
+  int width = this->width();
+  int height = this->height();
+  int ref_size = 220;
+
+  float ratio = static_cast<float>(width) / static_cast<float>(height);
+
+  if (isMainWindow_)
+    ref_size = 240;
+
+  if (ratio >= 1.0)
   {
-    int width = this->width();
-    int height = this->height();
-
-    float ratio = static_cast<float>(width) / static_cast<float>(height);
-
-    if (ratio >= 1.0)
-    {
-      height = 220;
-      width = ratio * height;
-    }
-    else
-    {
-      width = 220;
-      height = width / ratio;
-    }
-
-    camera()->lens()->setOrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, 0.1f, 1000.0f);
+    height = ref_size;
+    width = ratio * height;
   }
+  else
+  {
+    width = ref_size;
+    height = width / ratio;
+  }
+
+  camera()->lens()->setOrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, 0.1, 1000);
 }
 
 void OpenGLWindow::mousePressEvent(QMouseEvent* mouseEvent)
@@ -88,6 +92,14 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
     float angle_change_x = -(mouseEvent->localPos() - lastPos_).x();
     float angle_change_z = (mouseEvent->localPos() - lastPos_).y();
     lastPos_ = mouseEvent->localPos();
+
+    bool was_at_limit_x = currentAngleX_ < 1 || currentAngleX_ > 89;
+    bool is_at_limit_x = (currentAngleX_ + angle_change_x) < 1 || (currentAngleX_ + angle_change_x) > 89;
+
+    if (is_at_limit_x && !was_at_limit_x)
+      setOrthographicProjection();
+    else if (!is_at_limit_x && was_at_limit_x)
+      camera()->lens()->setPerspectiveProjection(45, static_cast<float>(this->width()) / static_cast<float>(this->height()), 0.1, 1000);
 
     if (currentAngleX_ + angle_change_x < 0)
       angle_change_x = -currentAngleX_;

@@ -20,7 +20,6 @@ public:
   void mousePressEvent(QMouseEvent* mouseEvent) override;
   void mouseMoveEvent(QMouseEvent* mouseEvent) override;
   void insertVariable(ComplexVar* variable);
-  void findScale();
   bool hasArrow();
 
 public slots:
@@ -29,6 +28,9 @@ public slots:
   void rescaleAxes();
 
 private:
+  void findScale();
+  void setOrthographicProjection();
+
   bool isMainWindow_;
   Qt3DCore::QEntity* rootEntity_;
   double scale_;
