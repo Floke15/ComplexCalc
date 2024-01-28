@@ -116,10 +116,10 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
     else if (currentAngleX_ + angle_change_x > 90)
       angle_change_x = 90 - currentAngleX_;
 
-    if (currentAngleZ_ + angle_change_z < 0)
+    if (currentAngleZ_ + angle_change_z < -90)
+      angle_change_z = -90 - currentAngleZ_;
+    else if (currentAngleZ_ + angle_change_z > 0)
       angle_change_z = -currentAngleZ_;
-    else if (currentAngleZ_ + angle_change_z > 90)
-      angle_change_z = 90 - currentAngleZ_;
 
     camera()->panAboutViewCenter(angle_change_x);
     camera()->panAboutViewCenter(angle_change_z, QVector3D(0, 0, 1));
