@@ -141,7 +141,7 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
 
   //TODO: implement parsing and calculation of calculations
 
-  std::vector<ComplexVar*> variables;
+  QVector<ComplexVar*> variables;
   QString input = operationInput_->text();
 
   for (auto var_iter : scrollWidget_->variables_)

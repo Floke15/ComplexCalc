@@ -2,7 +2,6 @@
 #define COMPLEXCALC_H
 
 #include <QMainWindow>
-#include <Vector>
 #include <QWidget>
 
 class OpenGLWindow;

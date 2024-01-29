@@ -2,6 +2,7 @@
 #define OPENGLWINDOW_H
 
 #include <Qt3DExtras/qt3dwindow.h>
+#include <Qt3DCore/QTransform>
 #include <complex>
 
 class ComplexVar;
@@ -39,7 +40,8 @@ private:
   QPointF lastPos_;
   float currentAngleX_;
   float currentAngleZ_;
-  std::vector<CustomArrow*> arrows_;
+  QVector<CustomArrow*> arrows_;
   CustomArrow* timeAxis_;
+  Qt3DCore::QTransform* lightTransform_;
 };
 #endif // OPENGLWINDOW_H

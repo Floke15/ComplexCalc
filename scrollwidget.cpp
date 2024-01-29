@@ -26,10 +26,10 @@ void ScrollWidget::deleteVariable(ComplexVar* variable)
     variables_to_delete_.push_back(variable);
     return;
   }
+  
+  qsizetype position = variables_to_delete_.indexOf(variable);
 
-  auto position = std::find(begin(variables_to_delete_), end(variables_to_delete_), variable);
-
-  if (position == variables_to_delete_.end())
+  if (position == -1)
   {
     variables_to_delete_.push_back(variable);
   }

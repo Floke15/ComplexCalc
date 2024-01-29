@@ -35,9 +35,9 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   light->setColor("white");
   light->setIntensity(1);
   lightEntity->addComponent(light);
-  Qt3DCore::QTransform* lightTransform = new Qt3DCore::QTransform(lightEntity);
-  lightTransform->setTranslation(cameraEntity->position());
-  lightEntity->addComponent(lightTransform);
+  lightTransform_ = new Qt3DCore::QTransform(lightEntity);
+  lightTransform_->setTranslation(cameraEntity->position());
+  lightEntity->addComponent(lightTransform_);
 
   CustomArrow* realPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 0);
   CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 180.0f);
@@ -123,6 +123,7 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 
     camera()->panAboutViewCenter(angle_change_x);
     camera()->panAboutViewCenter(angle_change_z, QVector3D(0, 0, 1));
+    lightTransform_->setTranslation(camera()->position());
 
     currentAngleX_ += angle_change_x;
     currentAngleZ_ += angle_change_z;

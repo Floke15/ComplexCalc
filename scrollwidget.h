@@ -14,11 +14,11 @@ public:
 
   void deleteVariable(ComplexVar* variable);
   ComplexVar* getVariable(QString name);
-
-  std::vector<ComplexVar*> variables_;
+  
+  QVector<ComplexVar*> variables_;
 
 private:
-    std::vector<ComplexVar*> variables_to_delete_;
+    QVector<ComplexVar*> variables_to_delete_;
 
 private slots:
   void update();
