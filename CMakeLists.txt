@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_PREFIX_PATH $ENV{QTDIR})
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets LinguistTools OpenGL OpenGLWidgets 3DCore 3DRender 3DInput 3DExtras)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Widgets LinguistTools OpenGL OpenGLWidgets 3DCore 3DRender 3DInput 3DExtras)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets LinguistTools OpenGL OpenGLWidgets 3DCore 3DRender 3DInput 3DExtras)
 
 set(TS_FILES ComplexCalc_en_150.ts)

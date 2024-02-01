@@ -17,7 +17,7 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   isDragging_(false),
   currentAngleX_(0),
   currentAngleZ_(0),
-  Qt3DExtras::Qt3DWindow()
+  Qt3DExtras::Qt3DWindow(nullptr, Qt3DRender::API::OpenGL)
 {
   defaultFrameGraph()->setClearColor(QColor(QRgb(0x4d4d4f)));
 
