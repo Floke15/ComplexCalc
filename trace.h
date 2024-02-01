@@ -26,23 +26,4 @@ private:
   QVector<QVector3D>* points_;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif // TRACE_H
-
-Qt3DCore::QAttribute* createIndexBuffer(const QVector<quint32>& indices, Qt3DCore::QGeometry* parent);

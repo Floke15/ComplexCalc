@@ -2,12 +2,15 @@
 #include "customarrow.h"
 #include "complexvar.h"
 #include "complexcalc.h"
+#include "trace.h"
 
 #include <Qt3DExtras/qforwardrenderer.h>
 #include <Qt3DCore/qentity.h>
 #include <Qt3DRender/qcamera.h>
 #include <Qt3DRender/qpointlight.h>
 #include <qmouseevent.h>
+
+#include <Qt3DExtras/QPhongMaterial>
 
 OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   isMainWindow_(isMainWindow),
@@ -46,6 +49,22 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   timeAxis_ = new CustomArrow(rootEntity_, QVector2D(0, 0), -220, 0);
 
   timeAxis_->setVisible(false);
+
+  Trace* trace = new Trace(rootEntity_, new QVector<QVector3D>{ QVector3D(0, 0, 0), QVector3D(10, 10, 10), QVector3D(20, -20, -20)});
+
+  Qt3DRender::QGeometryRenderer* traceMesh = new Qt3DRender::QGeometryRenderer();
+  traceMesh->setGeometry(trace);
+
+  Qt3DCore::QTransform* traceTransform_ = new Qt3DCore::QTransform();
+  traceTransform_->setTranslation(QVector3D(0, 0, 0));
+
+  Qt3DExtras::QPhongMaterial* traceMaterial = new Qt3DExtras::QPhongMaterial();
+  traceMaterial->setDiffuse(QColor(0, 0, 255));
+
+  Qt3DCore::QEntity* traceEntity = new Qt3DCore::QEntity(rootEntity_);
+  traceEntity->addComponent(traceMesh);
+  traceEntity->addComponent(traceMaterial);
+  traceEntity->addComponent(traceTransform_);
 
   setRootEntity(rootEntity_);
 }

@@ -183,5 +183,68 @@ void Trace::updateGeometry(const QVector<QVector3D>& vertices,
   const QVector<QVector3D>& normals,
   const QVector<quint32>& indices)
 {
-  //TODO: create Buffers for Rendering
+  for (auto attr : attributes()) {
+    removeAttribute(attr);
+    attr->deleteLater();
+  }
+
+  auto positionAttr = Trace::create3DBuffer(vertices, Qt3DCore::QAttribute::defaultPositionAttributeName(), this);
+  addAttribute(positionAttr);
+  setBoundingVolumePositionAttribute(positionAttr);
+
+  auto normalAttr = Trace::create3DBuffer(normals, Qt3DCore::QAttribute::defaultNormalAttributeName(), this);
+  addAttribute(normalAttr);
+
+  auto indexAttr = Trace::createIndexBuffer(indices, this);
+  addAttribute(indexAttr);
+}
+
+Qt3DCore::QAttribute* Trace::createIndexBuffer(const QVector<quint32>& indices, Qt3DCore::QGeometry* parent)
+{
+  auto attribute = new Qt3DCore::QAttribute(parent);
+
+  Qt3DCore::QBuffer* dataBuffer = new Qt3DCore::QBuffer(attribute);
+  const int rawSize = indices.size() * static_cast<int>(sizeof(uint));
+  auto rawData = QByteArray::fromRawData(reinterpret_cast<const char*>(indices.constData()), rawSize);
+  rawData.detach();
+  dataBuffer->setData(rawData);
+
+  attribute->setAttributeType(Qt3DCore::QAttribute::IndexAttribute);
+  attribute->setBuffer(dataBuffer);
+  attribute->setVertexBaseType(Qt3DCore::QAttribute::UnsignedInt);
+  attribute->setVertexSize(1);
+  attribute->setByteOffset(0);
+  attribute->setByteStride(sizeof(uint));
+  attribute->setCount(static_cast<uint>(indices.size()));
+
+  return attribute;
+}
+
+Qt3DCore::QAttribute* Trace::create3DBuffer(const QVector<QVector3D>& vertices, const QString& name, Qt3DCore::QGeometry* parent)
+{
+  auto attribute = new Qt3DCore::QAttribute(parent);
+
+  QVector<float> values;
+  values.reserve(vertices.size() * 3);
+
+  for (const QVector3D& v : vertices) {
+    values << v.x() << v.y() << v.z();
+  }
+
+  Qt3DCore::QBuffer* dataBuffer = new Qt3DCore::QBuffer(attribute);
+  const int rawSize = values.size() * static_cast<int>(sizeof(float));
+  auto rawData = QByteArray::fromRawData(reinterpret_cast<const char*>(values.constData()), rawSize);
+  rawData.detach();
+  dataBuffer->setData(rawData);
+
+  attribute->setAttributeType(Qt3DCore::QAttribute::VertexAttribute);
+  attribute->setBuffer(dataBuffer);
+  attribute->setVertexBaseType(Qt3DCore::QAttribute::Float);
+  attribute->setVertexSize(3);
+  attribute->setByteOffset(0);
+  attribute->setByteStride(3 * sizeof(float));
+  attribute->setName(name);
+  attribute->setCount(static_cast<uint>(vertices.size()));
+
+  return attribute;
 }
