@@ -30,6 +30,10 @@ set(PROJECT_SOURCES
         complexvar.h
         scrollwidget.cpp
         scrollwidget.h
+        trace.cpp
+        trace.h
+        spline.cpp
+        spline.h
         ${TS_FILES}
 )
 
