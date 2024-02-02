@@ -20,7 +20,7 @@ public:
   void resizeEvent(QResizeEvent* event) override;
   void mousePressEvent(QMouseEvent* mouseEvent) override;
   void mouseMoveEvent(QMouseEvent* mouseEvent) override;
-  void insertVariable(ComplexVar* variable);
+  void insertVariable(ComplexVar* variable, bool with_trace = false);
   bool hasArrow();
 
 public slots:

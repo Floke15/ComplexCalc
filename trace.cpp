@@ -4,24 +4,57 @@
 
 #include "trace.h"
 #include "spline.h"
+#include "complexvar.h"
 
 #include <QVector3D>
 #include <QMatrix4x4>
+#include <Qt3DExtras/QForwardRenderer>
+#include <Qt3DRender/QGeometryRenderer>
+#include <Qt3DExtras/QPhongMaterial>
+#include <Qt3DCore/QTransform>
 
 Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
   Qt3DCore::QGeometry(rootEntity),
-  variable_(variable),
-  points_(new QVector<QVector3D>())
+  rootEntity_(rootEntity),
+  variable_(variable)
 {
-  update();
+  points_ = new QVector<QVector3D>();
+
+  for (int i = 0; i < 50; ++i)
+  {
+    QVector3D value(variable_->getValue().real(), variable_->getValue().imag(), -static_cast<float>(i) / 4 * 20);
+    QMatrix4x4 rotation;
+    rotation.rotate(static_cast<float>(i) / 50 * 360, 0, 0, 1);
+    points_->push_back(rotation * value);
+  }
+
+  init3DElements(rootEntity);
 }
 
 Trace::Trace(Qt3DCore::QEntity* rootEntity, QVector<QVector3D>* points) :
   Qt3DCore::QGeometry(rootEntity),
+  rootEntity_(rootEntity),
   variable_(nullptr),
   points_(points)
 {
-  update();
+  init3DElements(rootEntity);
+}
+
+void Trace::init3DElements(Qt3DCore::QEntity* rootEntity)
+{
+  Qt3DRender::QGeometryRenderer* traceMesh = new Qt3DRender::QGeometryRenderer();
+  traceMesh->setGeometry(this);
+
+  Qt3DCore::QTransform* traceTransform_ = new Qt3DCore::QTransform();
+  traceTransform_->setTranslation(QVector3D(0, 0, 0));
+
+  Qt3DExtras::QPhongMaterial* traceMaterial = new Qt3DExtras::QPhongMaterial();
+  traceMaterial->setDiffuse(QColor(0, 0, 255));
+
+  Qt3DCore::QEntity* traceEntity = new Qt3DCore::QEntity(rootEntity);
+  traceEntity->addComponent(traceMesh);
+  traceEntity->addComponent(traceMaterial);
+  traceEntity->addComponent(traceTransform_);
 }
 
 void Trace::update()
@@ -147,9 +180,9 @@ QVector<QVector3D> Trace::interpolatePath(const QVector<QVector3D>& path)
 
   QVector<QVector3D> interpolated;
   for (int i = 0; i < numSplines; ++i) {
-    const int split = static_cast<int>(Length(splines[i])) * 2;
-    for (int k = 0; k < split; ++k) {
-      const double u = (double)k / split;
+    const double split = Length(splines[i]) * 2;
+    for (int k = 0; static_cast<double>(k)/10 < split; ++k) {
+      const double u = (double)k / 5 / split;
       const auto v3 = Position(splines[i], u);
       interpolated << QVector3D(v3.x, v3.y, v3.z);
     }

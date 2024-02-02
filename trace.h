@@ -15,6 +15,7 @@ public:
   void update();
 
 private:
+  void init3DElements(Qt3DCore::QEntity* rootEntity);
   QVector3D getOrthogonalVector(const QVector3D& vec);
   QVector<QVector3D> interpolatePath(const QVector<QVector3D>& path);
   QVector<QVector3D> buildCircleNormals(const QVector3D& dir);
@@ -22,6 +23,7 @@ private:
   Qt3DCore::QAttribute* createIndexBuffer(const QVector<quint32>& indices, Qt3DCore::QGeometry* parent);
   Qt3DCore::QAttribute* create3DBuffer(const QVector<QVector3D>& vertices, const QString& name, Qt3DCore::QGeometry* parent);
 
+  Qt3DCore::QEntity* rootEntity_;
   ComplexVar* variable_;
   QVector<QVector3D>* points_;
 };

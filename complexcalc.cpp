@@ -159,7 +159,7 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
   openGL3DWindow_->removeAllVariables();
 
   for (auto var_iter : variables)
-    openGL3DWindow_->insertVariable(var_iter);
+    openGL3DWindow_->insertVariable(var_iter, true);
 }
 
 void ComplexCalc::reparseText()
