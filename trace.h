@@ -17,7 +17,6 @@ public:
 private:
   void init3DElements(Qt3DCore::QEntity* rootEntity);
   QVector3D getOrthogonalVector(const QVector3D& vec);
-  QVector<QVector3D> interpolatePath(const QVector<QVector3D>& path);
   QVector<QVector3D> buildCircleNormals(const QVector3D& dir);
   void updateGeometry(const QVector<QVector3D>& vertices, const QVector<QVector3D>& normals, const QVector<quint32>& indices);
   Qt3DCore::QAttribute* createIndexBuffer(const QVector<quint32>& indices, Qt3DCore::QGeometry* parent);

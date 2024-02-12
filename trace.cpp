@@ -3,7 +3,7 @@
 // Edited to fit this usecase
 
 #include "trace.h"
-#include "spline.h"
+//#include "spline.h"
 #include "complexvar.h"
 
 #include <QVector3D>
@@ -69,17 +69,15 @@ void Trace::update()
     assert("");
   //TODO: calculate Points from Variable (same amount as in slider)
 
-  const QVector<QVector3D> interpolated = interpolatePath(*points_);
-
   QVector<QVector3D> prevNormals;
-  for (int ii = 0; ii < interpolated.size(); ++ii) {
-    const auto current = interpolated[ii];
+  for (int ii = 0; ii < points_->size(); ++ii) {
+    const auto current = (*points_)[ii];
     QVector3D direction;
-    if (ii == interpolated.size() - 1) {
-      direction = (current - interpolated[ii - 1]).normalized();
+    if (ii == points_->size() - 1) {
+      direction = (current - (*points_)[ii - 1]).normalized();
     }
     else {
-      direction = (interpolated[ii + 1] - current).normalized();
+      direction = ((*points_)[ii + 1] - current).normalized();
     }
     if (direction.isNull()) {
       continue;
@@ -117,14 +115,14 @@ void Trace::update()
 
   const QVector3D zeroNormal(0, 0, 0);
   for (int i = 0; i < tube_segments; ++i) {
-    vertices.prepend(interpolated.first());
+    vertices.prepend(points_->first());
     normals.prepend(zeroNormal);
-    vertices.append(interpolated.last());
+    vertices.append(points_->last());
     normals.append(zeroNormal);
   }
 
   const quint32 maxVertexIndex = vertices.size() - 1;
-  for (int ci = 0; ci <= interpolated.size(); ++ci) {
+  for (int ci = 0; ci <= points_->size(); ++ci) {
     for (int si = 0; si < tube_segments; ++si) {
       int p0Index = ci * tube_segments + si;
       int p1Index = p0Index + 1;
@@ -165,31 +163,6 @@ QVector3D Trace::getOrthogonalVector(const QVector3D& vec)
   bool b2 = (vec[2] <= vec[0]) && (vec[2] <= vec[1]);
 
   return QVector3D::crossProduct(vec, QVector3D(int(b0), int(b1), int(b2)));
-}
-
-QVector<QVector3D> Trace::interpolatePath(const QVector<QVector3D>& path)
-{
-  QVector<SplineLib::Vec3f> points;
-  for (auto pp : path) {
-    points << SplineLib::Vec3f(pp.x(), pp.y(), pp.z());
-  }
-
-  int numSplines = points.size() + 1;
-  SplineLib::cSpline3* splines = new SplineLib::cSpline3[numSplines];
-  numSplines = SplinesFromPoints(points.size(), points.constData(), numSplines, splines);
-
-  QVector<QVector3D> interpolated;
-  for (int i = 0; i < numSplines; ++i) {
-    const double split = Length(splines[i]) * 2;
-    for (int k = 0; static_cast<double>(k)/10 < split; ++k) {
-      const double u = (double)k / 5 / split;
-      const auto v3 = Position(splines[i], u);
-      interpolated << QVector3D(v3.x, v3.y, v3.z);
-    }
-  }
-
-  delete[]splines;
-  return interpolated;
 }
 
 QVector<QVector3D> Trace::buildCircleNormals(const QVector3D& dir)
