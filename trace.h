@@ -10,11 +10,11 @@ class Trace : public Qt3DCore::QGeometry
 {
 public:
   Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable);
-  Trace(Qt3DCore::QEntity* rootEntity, QVector<QVector3D>* points);
 
-  void update();
+  void update(double scale);
 
 private:
+  void calculatePoints(double scale);
   void init3DElements(Qt3DCore::QEntity* rootEntity);
   QVector3D getOrthogonalVector(const QVector3D& vec);
   QVector<QVector3D> buildCircleNormals(const QVector3D& dir);

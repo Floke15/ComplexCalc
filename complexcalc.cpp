@@ -133,12 +133,6 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
 {
   operationInput_->setText(operationInput_->text().toUpper());
 
-  if (operationInput_->text().isEmpty())
-  {
-    openGL3DWindow_->removeAllVariables();
-    return;
-  }
-
   //TODO: implement parsing and calculation of calculations
 
   QVector<ComplexVar*> variables;

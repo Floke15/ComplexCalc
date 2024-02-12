@@ -7,6 +7,7 @@
 
 class ComplexVar;
 class CustomArrow;
+class Trace;
 
 class OpenGLWindow : public Qt3DExtras::Qt3DWindow
 {
@@ -41,6 +42,7 @@ private:
   float currentAngleX_;
   float currentAngleZ_;
   QVector<CustomArrow*> arrows_;
+  QVector<Trace*> traces_;
   CustomArrow* timeAxis_;
   Qt3DCore::QTransform* lightTransform_;
 };

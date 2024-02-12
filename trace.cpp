@@ -18,25 +18,8 @@ Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
   variable_(variable)
 {
   points_ = new QVector<QVector3D>();
-  int trace_points = 1000;
 
-  for (int i = 0; i <= trace_points; ++i)
-  {
-    QVector3D value(variable_->getValue().real(), variable_->getValue().imag(), -static_cast<float>(i) * 200 / trace_points);
-    QMatrix4x4 rotation;
-    rotation.rotate(static_cast<float>(i) / trace_points * 360, 0, 0, 1);
-    points_->push_back(rotation * value);
-  }
-
-  init3DElements(rootEntity);
-}
-
-Trace::Trace(Qt3DCore::QEntity* rootEntity, QVector<QVector3D>* points) :
-  Qt3DCore::QGeometry(rootEntity),
-  rootEntity_(rootEntity),
-  variable_(nullptr),
-  points_(points)
-{
+  calculatePoints(1);
   init3DElements(rootEntity);
 }
 
@@ -57,16 +40,32 @@ void Trace::init3DElements(Qt3DCore::QEntity* rootEntity)
   traceEntity->addComponent(traceTransform_);
 }
 
-void Trace::update()
+void Trace::calculatePoints(double scale)
 {
+  int trace_points = 1000;
+  std::complex<double> scaled_value = variable_->getValue() * (100 / scale);
+  double temp1 = abs(scaled_value);
+
+  points_->clear();
+
+  for (int i = 0; i <= trace_points; ++i)
+  {
+    QVector3D value(scaled_value.real(), scaled_value.imag(), -static_cast<float>(i) * 200 / trace_points);
+    QMatrix4x4 rotation;
+    rotation.rotate(static_cast<float>(i) / trace_points * 360, 0, 0, 1);
+    points_->push_back(rotation * value);
+  }
+}
+
+void Trace::update(double scale)
+{
+  calculatePoints(scale);
+
   int tube_radius = 1, tube_segments = 16;
 
   QVector<QVector3D> vertices;
   QVector<QVector3D> normals;
   QVector<quint32> indices;
-
-  if (variable_)
-    assert("");
 
   QVector<QVector3D> prevNormals;
   for (int ii = 0; ii < points_->size(); ++ii) {
