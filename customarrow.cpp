@@ -123,6 +123,8 @@ void CustomArrow::update(double scale, double rotationAngle)
     cone_->setLength(CONE_LENGTH);
   else
     cone_->setLength(0);
+
+  sphereTransform_->setTranslation(QVector3D(0, 0, -rotationAngle / 360 * 200));
 }
 
 void CustomArrow::setVisible(bool visibility)
