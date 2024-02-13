@@ -15,7 +15,8 @@
 Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
   Qt3DCore::QGeometry(rootEntity),
   rootEntity_(rootEntity),
-  variable_(variable)
+  variable_(variable),
+  scale_(0)
 {
   points_ = new QVector<QVector3D>();
 
@@ -57,10 +58,15 @@ void Trace::calculatePoints(double scale)
   }
 }
 
-void Trace::update(double scale)
+void Trace::update(double scale, double rotationAngle)
 {
-  calculatePoints(scale);
+  if (scale != scale_)
+  {
+    calculatePoints(scale);
+    scale_ = scale;
+  }
 
+  int length = rotationAngle / 360 * 1000;
   int tube_radius = 1, tube_segments = 16;
 
   QVector<QVector3D> vertices;
@@ -68,10 +74,10 @@ void Trace::update(double scale)
   QVector<quint32> indices;
 
   QVector<QVector3D> prevNormals;
-  for (int ii = 0; ii < points_->size(); ++ii) {
+  for (int ii = 0; ii < length; ++ii) {
     const auto current = (*points_)[ii];
     QVector3D direction;
-    if (ii == points_->size() - 1) {
+    if (ii == length - 1) {
       direction = (current - (*points_)[ii - 1]).normalized();
     }
     else {
@@ -115,12 +121,12 @@ void Trace::update(double scale)
   for (int i = 0; i < tube_segments; ++i) {
     vertices.prepend(points_->first());
     normals.prepend(zeroNormal);
-    vertices.append(points_->last());
+    vertices.append(points_->at(length));
     normals.append(zeroNormal);
   }
 
   const quint32 maxVertexIndex = vertices.size() - 1;
-  for (int ci = 0; ci <= points_->size(); ++ci) {
+  for (int ci = 0; ci <= length; ++ci) {
     for (int si = 0; si < tube_segments; ++si) {
       int p0Index = ci * tube_segments + si;
       int p1Index = p0Index + 1;

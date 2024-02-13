@@ -177,6 +177,11 @@ void OpenGLWindow::setTime(int time)
     if (iter->getVariable() != nullptr)
       iter->update(scale_, time_ * 0.36);
   }
+
+  for (auto iter : traces_)
+  {
+    iter->update(scale_, time_ * 0.36);
+  }
 }
 
 void OpenGLWindow::rescaleAxes()
@@ -191,7 +196,7 @@ void OpenGLWindow::rescaleAxes()
 
   for (auto iter : traces_)
   {
-    iter->update(scale_);
+    iter->update(scale_, time_ * 0.36);
   }
 }
 

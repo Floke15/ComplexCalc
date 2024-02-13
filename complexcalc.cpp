@@ -56,7 +56,7 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   // initialize addVarButton as part of subWidget
   addVarButton_ = new QPushButton(subWidget_);
   addVarButton_->setObjectName("addVarButton");
-  addVarButton_->setText(QCoreApplication::translate("ComplexCalc", "neue Variable", nullptr));
+  addVarButton_->setText(QCoreApplication::translate("ComplexCalc", "new Variable", nullptr));
   addVarButton_->setMinimumSize(220, 0);
   QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy1.setHorizontalStretch(1);
@@ -140,8 +140,11 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
 
   for (auto var_iter : scrollWidget_->variables_)
   {
-      QString regex_str = "(^" + var_iter->getName() + "$)|(^" + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + "$)";
-      QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression(regex_str));
+    if (var_iter->getName() == "")
+      continue;
+
+    QString regex_str = "(^" + var_iter->getName() + "$)|(^" + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + "$)";
+    QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression(regex_str));
     int pos = 0;
 
     if (int t = regex_validator->validate(input, pos) == 2)

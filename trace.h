@@ -11,7 +11,7 @@ class Trace : public Qt3DCore::QGeometry
 public:
   Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable);
 
-  void update(double scale);
+  void update(double scale, double rotationAngle = 360);
 
 private:
   void calculatePoints(double scale);
@@ -25,6 +25,7 @@ private:
   Qt3DCore::QEntity* rootEntity_;
   ComplexVar* variable_;
   QVector<QVector3D>* points_;
+  double scale_;
 };
 
 #endif // TRACE_H
