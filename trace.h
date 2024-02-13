@@ -24,8 +24,10 @@ private:
 
   Qt3DCore::QEntity* rootEntity_;
   ComplexVar* variable_;
-  QVector<QVector3D>* points_;
   double scale_;
+  QVector<QVector3D>* vertices_;
+  QVector<QVector3D>* normals_;
+  QVector<QVector<quint32>*>* indices_;
 };
 
 #endif // TRACE_H

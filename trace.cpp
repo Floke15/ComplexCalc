@@ -16,10 +16,11 @@ Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
   Qt3DCore::QGeometry(rootEntity),
   rootEntity_(rootEntity),
   variable_(variable),
-  scale_(0)
+  scale_(0),
+  vertices_(new QVector<QVector3D>()),
+  normals_(new QVector<QVector3D>()),
+  indices_(new QVector<QVector<quint32>*>())
 {
-  points_ = new QVector<QVector3D>();
-
   calculatePoints(1);
   init3DElements(rootEntity);
 }
@@ -47,15 +48,89 @@ void Trace::calculatePoints(double scale)
   std::complex<double> scaled_value = variable_->getValue() * (100 / scale);
   double temp1 = abs(scaled_value);
 
-  points_->clear();
+  QVector<QVector3D> points;
+
+  vertices_->clear();
+  normals_->clear();
+  indices_->clear();
 
   for (int i = 0; i <= trace_points; ++i)
   {
     QVector3D value(scaled_value.real(), scaled_value.imag(), -static_cast<float>(i) * 200 / trace_points);
     QMatrix4x4 rotation;
     rotation.rotate(static_cast<float>(i) / trace_points * 360, 0, 0, 1);
-    points_->push_back(rotation * value);
+    points.push_back(rotation * value);
   }
+
+  int length = 1000;
+  int tube_radius = 1, tube_segments = 16;
+
+  for (int ii = 0; ii < length; ++ii) {
+    const auto current = points[ii];
+    QVector3D direction;
+    if (ii == length - 1 && ii > 0) {
+      direction = (current - points[ii - 1]).normalized();
+    }
+    else {
+      direction = (points[ii + 1] - current).normalized();
+    }
+    if (direction.isNull()) {
+      continue;
+    }
+
+    for (auto n : buildCircleNormals(direction)) {
+      const auto v = current + n * tube_radius;
+      *vertices_ << v;
+      *normals_ << n;
+    }
+  }
+
+  const quint32 maxVertexIndex = vertices_->size() - 1;
+  for (int ci = 0; ci < length; ++ci) {
+    for (int si = 0; si < tube_segments; ++si) {
+      int p0Index = ci * tube_segments + si;
+      int p1Index = p0Index + 1;
+      int p2Index = p0Index + tube_segments;
+      int p3Index = p2Index + 1;
+      if (si == tube_segments - 1) {
+        p1Index -= tube_segments;
+        p3Index -= tube_segments;
+      }
+
+      QVector<quint32>* indices = new QVector<quint32>();
+
+      quint32 vertexIndex1 = p0Index;
+      quint32 vertexIndex2 = p1Index;
+      quint32 vertexIndex3 = p2Index;
+      if (vertexIndex1 <= maxVertexIndex &&
+        vertexIndex2 <= maxVertexIndex &&
+        vertexIndex3 <= maxVertexIndex) {
+        *indices << vertexIndex1 << vertexIndex2 << vertexIndex3;
+      }
+
+      vertexIndex1 = p1Index;
+      vertexIndex2 = p3Index;
+      vertexIndex3 = p2Index;
+      if (vertexIndex1 <= maxVertexIndex &&
+        vertexIndex2 <= maxVertexIndex &&
+        vertexIndex3 <= maxVertexIndex) {
+        *indices << vertexIndex1 << vertexIndex2 << vertexIndex3;
+      }
+
+      indices_->push_back(indices);
+    }
+  }
+
+  const QVector3D zeroNormal(0, 0, 0);
+  for (int i = 0; i < tube_segments; ++i) {
+    vertices_->prepend(points.first());
+    normals_->prepend(zeroNormal);
+    //vertices_->append(points_->at(length));
+    //normals_->append(zeroNormal);
+  }
+
+  QVector<quint32> indices;
+  updateGeometry(*vertices_, *normals_, indices);
 }
 
 void Trace::update(double scale, double rotationAngle)
@@ -69,95 +144,20 @@ void Trace::update(double scale, double rotationAngle)
   int length = rotationAngle / 360 * 1000;
   int tube_radius = 1, tube_segments = 16;
 
-  QVector<QVector3D> vertices;
-  QVector<QVector3D> normals;
   QVector<quint32> indices;
 
-  QVector<QVector3D> prevNormals;
-  for (int ii = 0; ii < length; ++ii) {
-    const auto current = (*points_)[ii];
-    QVector3D direction;
-    if (ii == length - 1) {
-      direction = (current - (*points_)[ii - 1]).normalized();
-    }
-    else {
-      direction = ((*points_)[ii + 1] - current).normalized();
-    }
-    if (direction.isNull()) {
-      continue;
-    }
-
-    QVector<QVector3D> circleNormals = buildCircleNormals(direction);
-    int startIndex = 0;
-    if (ii > 0) {
-      float minDist = 0.0f;
-      int index = -1;
-      for (int in = 0; in < circleNormals.size(); ++in) {
-        float dist = circleNormals[in].distanceToPoint(prevNormals[0]);
-        if (index < 0) {
-          index = 0;
-          minDist = dist;
-        }
-        else if (dist < minDist) {
-          minDist = dist;
-          index = in;
-        }
-      }
-      startIndex = index;
-    }
-
-    const auto fixedNormals = startIndex == 0 ? circleNormals : (circleNormals.mid(startIndex) + circleNormals.mid(0, startIndex));
-
-    for (auto n : fixedNormals) {
-      const auto v = current + n * tube_radius;
-      vertices << v;
-      normals << n;
-    }
-
-    prevNormals = fixedNormals;
+  for (int ci = 0; ci < length * tube_segments; ++ci) {
+    for (auto i : *(indices_->at(ci)))
+      if (i < length * tube_segments)
+        indices << i;
   }
 
-  const QVector3D zeroNormal(0, 0, 0);
-  for (int i = 0; i < tube_segments; ++i) {
-    vertices.prepend(points_->first());
-    normals.prepend(zeroNormal);
-    vertices.append(points_->at(length));
-    normals.append(zeroNormal);
-  }
+  auto attr = attributes().back();
+  removeAttribute(attr);
+  attr->deleteLater();
 
-  const quint32 maxVertexIndex = vertices.size() - 1;
-  for (int ci = 0; ci <= length; ++ci) {
-    for (int si = 0; si < tube_segments; ++si) {
-      int p0Index = ci * tube_segments + si;
-      int p1Index = p0Index + 1;
-      int p2Index = p0Index + tube_segments;
-      int p3Index = p2Index + 1;
-      if (si == tube_segments - 1) {
-        p1Index -= tube_segments;
-        p3Index -= tube_segments;
-      }
-
-      quint32 vertexIndex1 = p0Index;
-      quint32 vertexIndex2 = p1Index;
-      quint32 vertexIndex3 = p2Index;
-      if (vertexIndex1 <= maxVertexIndex &&
-        vertexIndex2 <= maxVertexIndex &&
-        vertexIndex3 <= maxVertexIndex) {
-        indices << vertexIndex1 << vertexIndex2 << vertexIndex3;
-      }
-
-      vertexIndex1 = p1Index;
-      vertexIndex2 = p3Index;
-      vertexIndex3 = p2Index;
-      if (vertexIndex1 <= maxVertexIndex &&
-        vertexIndex2 <= maxVertexIndex &&
-        vertexIndex3 <= maxVertexIndex) {
-        indices << vertexIndex1 << vertexIndex2 << vertexIndex3;
-      }
-    }
-  }
-
-  updateGeometry(vertices, normals, indices);
+  auto indexAttr = Trace::createIndexBuffer(indices, this);
+  addAttribute(indexAttr);
 }
 
 QVector3D Trace::getOrthogonalVector(const QVector3D& vec)
