@@ -16,6 +16,7 @@ Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
   Qt3DCore::QGeometry(rootEntity),
   rootEntity_(rootEntity),
   variable_(variable),
+  lastVal_(0),
   scale_(0),
   vertices_(new QVector<QVector3D>()),
   normals_(new QVector<QVector3D>()),
@@ -135,10 +136,11 @@ void Trace::calculatePoints(double scale)
 
 void Trace::update(double scale, double rotationAngle)
 {
-  if (scale != scale_)
+  if (scale != scale_ || lastVal_ != variable_->getValue())
   {
     calculatePoints(scale);
     scale_ = scale;
+    lastVal_ = variable_->getValue();
   }
 
   int length = rotationAngle / 360 * 1000;

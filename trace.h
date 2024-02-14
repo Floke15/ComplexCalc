@@ -3,6 +3,7 @@
 
 #include <Qt3DCore/QEntity>
 #include <Qt3DCore/QGeometry>
+#include <complex>
 
 class ComplexVar;
 
@@ -25,6 +26,7 @@ private:
   Qt3DCore::QEntity* rootEntity_;
   ComplexVar* variable_;
   double scale_;
+  std::complex<double> lastVal_;
   QVector<QVector3D>* vertices_;
   QVector<QVector3D>* normals_;
   QVector<QVector<quint32>*>* indices_;

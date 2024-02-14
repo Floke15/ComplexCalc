@@ -27,7 +27,7 @@ public:
 public slots:
   void removeAllVariables();
   void setTime(int time);
-  void rescaleAxes();
+  void update();
 
 private:
   void findScale();

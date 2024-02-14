@@ -145,18 +145,18 @@ void OpenGLWindow::insertVariable(ComplexVar* variable, bool with_trace)
     traces_.push_back(new Trace(rootEntity_, variable));
   }
 
-  connect(variable, &ComplexVar::variable_value_changed, this, &OpenGLWindow::rescaleAxes);
+  connect(variable, &ComplexVar::variable_value_changed, this, &OpenGLWindow::update);
 
   arrows_.push_back(variable_arrow);
 
-  rescaleAxes();
+  update();
 }
 
 void OpenGLWindow::removeAllVariables()
 {
   for (auto iter : arrows_)
   {
-    disconnect(iter->getVariable(), &ComplexVar::variable_value_changed, this, &OpenGLWindow::rescaleAxes);
+    disconnect(iter->getVariable(), &ComplexVar::variable_value_changed, this, &OpenGLWindow::update);
 
     delete iter;
   }
@@ -184,7 +184,7 @@ void OpenGLWindow::setTime(int time)
   }
 }
 
-void OpenGLWindow::rescaleAxes()
+void OpenGLWindow::update()
 {
   findScale();
 

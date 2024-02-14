@@ -289,7 +289,7 @@ void ComplexVar::on_switchButton_clicked()
     input2Label_->setFixedSize(26, 24);
     input1Label_->setText("Mag:");
     input2Label_->setText("φ[°]:");
-    switchButton_->setText("Component:");
+    switchButton_->setText("Component");
 
     if (value_.real() != 0 && value_.imag() != 0)
     {
