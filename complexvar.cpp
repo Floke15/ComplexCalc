@@ -310,7 +310,17 @@ void ComplexVar::on_deleteButton_clicked()
 
 void ComplexVar::on_nameInput_textEdited(const QString& text)
 {
-  nameInput_->setText(nameInput_->text().toUpper());
+  QString new_name = nameInput_->text().toUpper();
+  ScrollWidget* parent = dynamic_cast<ScrollWidget*>(parent_);
+
+  for (auto iter : parent->variables_)
+    if (iter->getName() == new_name)
+    {
+      nameInput_->setText(new_name.removeLast());
+      return;
+    }
+
+  nameInput_->setText(new_name);
   name_ = nameInput_->text();
 
   emit variable_name_changed();
