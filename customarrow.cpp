@@ -109,7 +109,7 @@ CustomArrow::~CustomArrow()
   delete sphereEntity_;
 }
 
-void CustomArrow::update(double scale, double rotationAngle)
+void CustomArrow::update(double scale, double rotationAngle, bool moveOnTimeAxis)
 {
   sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), ((180*arg(variable_->getValue()))/M_PI - 90.0f) + rotationAngle));
 
@@ -124,7 +124,10 @@ void CustomArrow::update(double scale, double rotationAngle)
   else
     cone_->setLength(0);
 
-  sphereTransform_->setTranslation(QVector3D(0, 0, -rotationAngle / 360 * 200));
+  if (moveOnTimeAxis)
+    sphereTransform_->setTranslation(QVector3D(0, 0, -rotationAngle / 360 * 200));
+  else
+    sphereTransform_->setTranslation(QVector3D(0, 0, 0));
 }
 
 void CustomArrow::setVisible(bool visibility)

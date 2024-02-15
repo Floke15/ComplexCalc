@@ -88,16 +88,16 @@ void OpenGLWindow::setOrthographicProjection()
 
 void OpenGLWindow::mousePressEvent(QMouseEvent* mouseEvent)
 {
-  lastPos_ = mouseEvent->localPos();
+  lastPos_ = mouseEvent->position();
 }
 
 void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 {
   if (mouseEvent->buttons() == Qt::LeftButton && isMainWindow_)
   {
-    float angle_change_x = -(mouseEvent->localPos() - lastPos_).x() / 2;
-    float angle_change_z = (mouseEvent->localPos() - lastPos_).y() / 2;
-    lastPos_ = mouseEvent->localPos();
+    float angle_change_x = -(mouseEvent->position() - lastPos_).x() / 2;
+    float angle_change_z = (mouseEvent->position() - lastPos_).y() / 2;
+    lastPos_ = mouseEvent->position();
 
     bool was_at_limit_x = currentAngleX_ < 1 || currentAngleX_ > 89;
     bool is_at_limit_x = (currentAngleX_ + angle_change_x) < 1 || (currentAngleX_ + angle_change_x) > 89;
@@ -175,7 +175,7 @@ void OpenGLWindow::setTime(int time)
   for (auto iter : arrows_)
   {
     if (iter->getVariable() != nullptr)
-      iter->update(scale_, time_ * 0.36);
+      iter->update(scale_, time_ * 0.36, isMainWindow_);
   }
 
   for (auto iter : traces_)
@@ -191,7 +191,7 @@ void OpenGLWindow::update()
   for (auto iter : arrows_)
   {
     if(iter->getVariable() != nullptr)
-      iter->update(scale_, time_ * 0.36);
+      iter->update(scale_, time_ * 0.36, isMainWindow_);
   }
 
   for (auto iter : traces_)
