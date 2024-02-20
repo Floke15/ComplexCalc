@@ -32,6 +32,8 @@ set(PROJECT_SOURCES
         scrollwidget.h
         trace.cpp
         trace.h
+        label.cpp
+        label.h
         ${TS_FILES}
 )
 

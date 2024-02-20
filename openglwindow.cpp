@@ -3,6 +3,7 @@
 #include "complexvar.h"
 #include "complexcalc.h"
 #include "trace.h"
+#include "label.h"
 
 #include <Qt3DExtras/qforwardrenderer.h>
 #include <Qt3DCore/qentity.h>
@@ -47,8 +48,12 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 90.0f);
   CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 270.0f);
   timeAxis_ = new CustomArrow(rootEntity_, QVector2D(0, 0), -220, 0);
-
   timeAxis_->setVisible(false);
+
+  realAxisLabel_ = new Label(rootEntity_, QVector3D(110 - (CONE_LENGTH / 2), -9, -9), "Re", Qt::black);
+  imagAxisLabel_ = new Label(rootEntity_, QVector3D(9, 110 - (CONE_LENGTH / 2), -9), "Im", Qt::black);
+  timeAxisLabel_ = new Label(rootEntity_, QVector3D(9, -9, -(220 - (CONE_LENGTH / 2))), "t", Qt::black);
+  timeAxisLabel_->setVisible(false);
 
   setRootEntity(rootEntity_);
 }
@@ -130,6 +135,23 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 
     currentAngleX_ += angle_change_x;
     currentAngleZ_ += angle_change_z;
+
+    realAxisLabel_->update(camera()->position(), camera()->upVector());
+    imagAxisLabel_->update(camera()->position(), camera()->upVector());
+    timeAxisLabel_->update(camera()->position(), camera()->upVector());
+
+    realAxisLabel_->setVisible(true);
+    imagAxisLabel_->setVisible(true);
+    timeAxisLabel_->setVisible(true);
+    if (currentAngleX_ > 89)
+    {
+      if (currentAngleZ_ > -1)
+        realAxisLabel_->setVisible(false);
+      else if (currentAngleZ_ < -89)
+        imagAxisLabel_->setVisible(false);
+    }
+    else if (currentAngleX_ < 1)
+      timeAxisLabel_->setVisible(false);
   }
 }
 

@@ -8,6 +8,7 @@
 class ComplexVar;
 class CustomArrow;
 class Trace;
+class Label;
 
 class OpenGLWindow : public Qt3DExtras::Qt3DWindow
 {
@@ -45,5 +46,8 @@ private:
   QVector<Trace*> traces_;
   CustomArrow* timeAxis_;
   Qt3DCore::QTransform* lightTransform_;
+  Label* realAxisLabel_;
+  Label* imagAxisLabel_;
+  Label* timeAxisLabel_;
 };
 #endif // OPENGLWINDOW_H
