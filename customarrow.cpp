@@ -3,7 +3,7 @@
 
 #include <Qt3DExtras/QSphereMesh>
 #include <Qt3DExtras/QConeMesh>
-#include <Qt3DExtras/QPhongmaterial.h>
+#include <Qt3DExtras/QDiffuseSpecularMaterial>
 
 CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation) :
   CustomArrow(rootEntity, translation, length, rotation, nullptr, QColor(QRgb(0x000000)), false)
@@ -62,7 +62,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   // CylinderMesh Transform
   cylinderTransform_->setTranslation(QVector3D(translation.x(), translation.y() + cylinder_->length() / 2, 0));
 
-  Qt3DExtras::QPhongMaterial* cylinderMaterial = new Qt3DExtras::QPhongMaterial();
+  Qt3DExtras::QDiffuseSpecularMaterial* cylinderMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
   cylinderMaterial->setDiffuse(color_);
 
   // Cylinder
@@ -89,7 +89,7 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   coneTransform_ = new Qt3DCore::QTransform();
   coneTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2 + cone_->length() / 2, 0));
 
-  Qt3DExtras::QPhongMaterial* coneMaterial = new Qt3DExtras::QPhongMaterial();
+  Qt3DExtras::QDiffuseSpecularMaterial* coneMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
   coneMaterial->setDiffuse(color_);
 
   // Cone

@@ -9,7 +9,7 @@
 #include <QMatrix4x4>
 #include <Qt3DExtras/QForwardRenderer>
 #include <Qt3DRender/QGeometryRenderer>
-#include <Qt3DExtras/QPhongMaterial>
+#include <Qt3DExtras/QDiffuseSpecularMaterial>
 #include <Qt3DCore/QTransform>
 
 Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
@@ -34,8 +34,9 @@ void Trace::init3DElements(Qt3DCore::QEntity* rootEntity)
   Qt3DCore::QTransform* traceTransform_ = new Qt3DCore::QTransform();
   traceTransform_->setTranslation(QVector3D(0, 0, 0));
 
-  Qt3DExtras::QPhongMaterial* traceMaterial = new Qt3DExtras::QPhongMaterial();
-  traceMaterial->setDiffuse(QColor(0, 0, 255));
+  Qt3DExtras::QDiffuseSpecularMaterial* traceMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
+  traceMaterial->setAlphaBlendingEnabled(true);
+  traceMaterial->setDiffuse(QColor(0, 0, 255, 150));
 
   Qt3DCore::QEntity* traceEntity = new Qt3DCore::QEntity(rootEntity);
   traceEntity->addComponent(traceMesh);
