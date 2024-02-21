@@ -12,6 +12,10 @@
 #include <qmouseevent.h>
 
 #include <Qt3DExtras/QPhongMaterial>
+#include <Qt3DExtras/QCylinderMesh>
+#include <Qt3DCore/QTransform>
+#include <Qt3DCore/QEntity>
+#include <Qt3DExtras/QDiffuseSpecularMaterial>
 
 OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   isMainWindow_(isMainWindow),
@@ -54,6 +58,50 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   imagAxisLabel_ = new Label(rootEntity_, QVector3D(9, 110 - (CONE_LENGTH / 2), -9), "Im", Qt::black);
   timeAxisLabel_ = new Label(rootEntity_, QVector3D(9, -9, -(220 - (CONE_LENGTH / 2))), "t", Qt::black);
   timeAxisLabel_->setVisible(false);
+
+  Qt3DExtras::QCylinderMesh* tick = new Qt3DExtras::QCylinderMesh();
+  tick->setRadius(3);
+  tick->setLength(0.5);
+  tick->setRings(3);
+  tick->setSlices(20);
+
+  Qt3DExtras::QDiffuseSpecularMaterial* tickMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
+  tickMaterial->setDiffuse(QColor(0, 0, 0));
+
+  Qt3DCore::QTransform* tickRealTransform = new Qt3DCore::QTransform();
+  tickRealTransform->setTranslation(QVector3D(100 - 0.25, 0, 0));
+  tickRealTransform->setRotationZ(90);
+
+  tickRealEntity_ = new Qt3DCore::QEntity(rootEntity_);
+  tickRealEntity_->addComponent(tick);
+  tickRealEntity_->addComponent(tickMaterial);
+  tickRealEntity_->addComponent(tickRealTransform);
+
+  tickRealLabel_ = new Label(rootEntity_, QVector3D(100, 7, 1), QString::number(scale_), Qt::black, 5, Qt::AlignRight);
+
+  Qt3DCore::QTransform* tickImagTransform = new Qt3DCore::QTransform();
+  tickImagTransform->setTranslation(QVector3D(0, 100 - 0.25, 0));
+
+  tickImagEntity_ = new Qt3DCore::QEntity(rootEntity_);
+  tickImagEntity_->addComponent(tick);
+  tickImagEntity_->addComponent(tickMaterial);
+  tickImagEntity_->addComponent(tickImagTransform);
+
+  tickImagLabel_ = new Label(rootEntity_, QVector3D(-7, 100, 1), QString::number(scale_), Qt::black, 5, Qt::AlignRight);
+
+  Qt3DCore::QTransform* tickTimeTransform = new Qt3DCore::QTransform();
+  tickTimeTransform->setTranslation(QVector3D(0, 0, -200 + 0.25));
+  tickTimeTransform->setRotationX(90);
+
+  tickTimeEntity_ = new Qt3DCore::QEntity(rootEntity_);
+  tickTimeEntity_->addComponent(tick);
+  tickTimeEntity_->addComponent(tickMaterial);
+  tickTimeEntity_->addComponent(tickTimeTransform);
+
+  tickTimeLabel_ = new Label(rootEntity_, QVector3D(-7, -7, -200), "2π/ω", Qt::black, 5);
+
+  tickTimeLabel_->setVisible(false);
+  tickTimeEntity_->setEnabled(false);
 
   setRootEntity(rootEntity_);
 }
@@ -140,18 +188,40 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
     imagAxisLabel_->update(camera()->position(), camera()->upVector());
     timeAxisLabel_->update(camera()->position(), camera()->upVector());
 
+    tickRealLabel_->update(camera()->position(), camera()->upVector());
+    tickImagLabel_->update(camera()->position(), camera()->upVector());
+    tickTimeLabel_->update(camera()->position(), camera()->upVector());
+
     realAxisLabel_->setVisible(true);
     imagAxisLabel_->setVisible(true);
     timeAxisLabel_->setVisible(true);
+    tickRealLabel_->setVisible(true);
+    tickImagLabel_->setVisible(true);
+    tickRealEntity_->setEnabled(true);
+    tickImagEntity_->setEnabled(true);
+    tickTimeLabel_->setVisible(true);
+    tickTimeEntity_->setEnabled(true);
     if (currentAngleX_ > 89)
     {
       if (currentAngleZ_ > -1)
+      {
         realAxisLabel_->setVisible(false);
+        tickRealLabel_->setVisible(false);
+        tickRealEntity_->setEnabled(false);
+      }
       else if (currentAngleZ_ < -89)
+      {
         imagAxisLabel_->setVisible(false);
+        tickImagLabel_->setVisible(false);
+        tickImagEntity_->setEnabled(false);
+      }
     }
     else if (currentAngleX_ < 1)
+    {
       timeAxisLabel_->setVisible(false);
+      tickTimeLabel_->setVisible(false);
+      tickTimeEntity_->setEnabled(false);
+    }
   }
 }
 
@@ -209,6 +279,9 @@ void OpenGLWindow::setTime(int time)
 void OpenGLWindow::update()
 {
   findScale();
+
+  tickRealLabel_->setText(QString::number(scale_));
+  tickImagLabel_->setText(QString::number(scale_));
 
   for (auto iter : arrows_)
   {

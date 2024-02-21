@@ -46,8 +46,14 @@ private:
   QVector<Trace*> traces_;
   CustomArrow* timeAxis_;
   Qt3DCore::QTransform* lightTransform_;
+  Qt3DCore::QEntity* tickRealEntity_;
+  Qt3DCore::QEntity* tickImagEntity_;
+  Qt3DCore::QEntity* tickTimeEntity_;
   Label* realAxisLabel_;
   Label* imagAxisLabel_;
   Label* timeAxisLabel_;
+  Label* tickRealLabel_;
+  Label* tickImagLabel_;
+  Label* tickTimeLabel_;
 };
 #endif // OPENGLWINDOW_H
