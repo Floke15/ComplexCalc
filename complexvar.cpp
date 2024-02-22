@@ -228,9 +228,31 @@ std::complex<double> ComplexVar::getValue()
   return value_;
 }
 
+void ComplexVar::setValue(std::complex<double> value)
+{
+  value_ = value;
+
+  if (!input_is_euler_)
+  {
+    input1Input_->setText(QLocale::system().toString(value_.real()));
+    input2Input_->setText(QLocale::system().toString(value_.imag()));
+  }
+  else
+  {
+    input1Input_->setText(QLocale::system().toString(std::abs(value_)));
+    input2Input_->setText(QLocale::system().toString(std::arg(value_) * 180 / M_PI));
+  }
+}
+
 QString ComplexVar::getName()
 {
   return name_;
+}
+
+void ComplexVar::setName(QString name)
+{
+  name_ = name;
+  nameInput_->setText(name_);
 }
 
 void ComplexVar::on_expandButton_clicked()

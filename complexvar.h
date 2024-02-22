@@ -26,7 +26,9 @@ public:
   //~ComplexVar();
 
   std::complex<double> getValue();
+  void setValue(std::complex<double> value);
   QString getName();
+  void setName(QString name);
 
 signals:
   void variable_value_changed();

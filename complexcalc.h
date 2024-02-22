@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QWidget>
+#include <deque>
 
 class OpenGLWindow;
 class QVBoxLayout;
@@ -12,6 +13,38 @@ class QLineEdit;
 class QScrollArea;
 class QSlider;
 class ScrollWidget;
+class ComplexVar;
+
+class Token {
+public:
+  enum class Type {
+    Unknown,
+    Variable,
+    Number,
+    Operator,
+    LeftParen,
+    RightParen,
+  };
+
+  Token(Type type,
+    const std::string& s,
+    int precedence = -1,
+    bool rightAssociative = false,
+    bool unary = false
+  )
+    : type{ type }
+    , str(s)
+    , precedence{ precedence }
+    , rightAssociative{ rightAssociative }
+    , unary{ unary }
+  {}
+
+  const Type type;
+  const std::string str;
+  const int precedence;
+  const bool rightAssociative;
+  const bool unary;
+};
 
 class ComplexCalc : public QMainWindow
 {
@@ -28,6 +61,11 @@ private slots:
   void clearMainWindow();
 
 private:
+  void compute(const std::string& expr);
+  std::deque<Token> exprToTokens(const std::string& expr);
+  ComplexVar* findFirstVariableInString(QString text);
+  std::deque<Token> shuntingYard(const std::deque<Token>& tokens);
+
   // Design elements
   QWidget* centralWidget_;
   QVBoxLayout* verticalLayout_;
