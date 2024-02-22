@@ -31,8 +31,7 @@ public:
   void setName(QString name);
 
 signals:
-  void variable_value_changed();
-  void variable_name_changed();
+  void variable_changed();
 
 private slots:
   void on_expandButton_clicked();
@@ -43,6 +42,7 @@ private slots:
   void on_omegaInput_editingFinished();
   void on_input1Input_editingFinished();
   void on_input2Input_editingFinished();
+  bool eventFilter(QObject* object, QEvent* event);
 
 private:
   QWidget* parent_;

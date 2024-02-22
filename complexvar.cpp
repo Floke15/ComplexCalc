@@ -194,6 +194,7 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   sizePolicy11.setHeightForWidth(input1Input_->sizePolicy().hasHeightForWidth());
   input1Input_->setSizePolicy(sizePolicy11);
   input1Input_->setValidator(double_validator);
+  input1Input_->installEventFilter(this);
 
   horizontalLayoutInput1_->addWidget(input1Label_);
   horizontalLayoutInput1_->addWidget(input1Input_);
@@ -216,6 +217,7 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   input2Input_->setFixedHeight(24);
   input2Input_->setSizePolicy(sizePolicy11);
   input2Input_->setValidator(double_validator);
+  input2Input_->installEventFilter(this);
 
   horizontalLayoutInput2_->addWidget(input2Label_);
   horizontalLayoutInput2_->addWidget(input2Input_);
@@ -345,18 +347,19 @@ void ComplexVar::on_nameInput_textEdited(const QString& text)
   nameInput_->setText(new_name);
   name_ = nameInput_->text();
 
-  emit variable_name_changed();
+  emit variable_changed();
 }
 
 void ComplexVar::on_omegaInput_editingFinished()
 {
   omega_ = QLocale::system().toDouble(omegaInput_->text());
 
-  emit variable_value_changed();
+  emit variable_changed();
 }
 
 void ComplexVar::on_input1Input_editingFinished()
 {
+
   if (input_is_euler_)
   {
     double phi;
@@ -375,8 +378,8 @@ void ComplexVar::on_input1Input_editingFinished()
 
   if (this->findChild<QWidget*>("glWidget_") && !openGL3DWindow_->hasArrow() && abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
-  
-    emit variable_value_changed();
+
+  emit variable_changed();
 }
 
 void ComplexVar::on_input2Input_editingFinished()
@@ -399,5 +402,22 @@ void ComplexVar::on_input2Input_editingFinished()
   if (this->findChild<QWidget*>("glWidget_") && !openGL3DWindow_->hasArrow() && abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
   
-  emit variable_value_changed();
+  emit variable_changed();
+}
+
+bool ComplexVar::eventFilter(QObject* object, QEvent* event)
+{
+  if (object == input1Input_ && event->type() == QEvent::FocusOut && input1Input_->text() == "")
+  {
+    input1Input_->setText("0");
+    on_input1Input_editingFinished();
+  }
+
+  if (object == input2Input_ && event->type() == QEvent::FocusOut && input2Input_->text() == "")
+  {
+    input2Input_->setText("0");
+    on_input2Input_editingFinished();
+  }
+
+  return false;
 }

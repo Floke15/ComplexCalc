@@ -229,13 +229,18 @@ void ComplexCalc::compute(const std::string& expr) {
           stack.push_back(lhs / rhs);
           break;*/
         case '+':
-          on_addVarButton_clicked();
-          ComplexVar* new_variable = scrollWidget_->variables_.back();
-          new_variable->setName(lhs->getName() + "+" + rhs->getName());
-          new_variable->setValue(lhs->getValue() + rhs->getValue());
+          ComplexVar* result = scrollWidget_->getVariable(lhs->getName() + "+" + rhs->getName());
 
-          stack.push_back(new_variable);
-          openGL3DWindow_->insertVariable(new_variable, true);
+          if (!result)
+          {
+            on_addVarButton_clicked();
+            result = scrollWidget_->variables_.back();
+            result->setName(lhs->getName() + "+" + rhs->getName());
+          }
+          result->setValue(lhs->getValue() + rhs->getValue());
+
+          stack.push_back(result);
+          openGL3DWindow_->insertVariable(result, true);
           break;
         /*case '-':
           stack.push_back(lhs - rhs);
@@ -472,5 +477,5 @@ void ComplexCalc::on_addVarButton_clicked()
   scrollWidget_->layout()->addWidget(newVar);
   scrollWidget_->variables_.push_back(newVar);
 
-  connect(newVar, &ComplexVar::variable_name_changed, this, &ComplexCalc::reparseText);
+  connect(newVar, &ComplexVar::variable_changed, this, &ComplexCalc::reparseText);
 }
