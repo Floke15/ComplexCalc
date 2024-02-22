@@ -78,7 +78,7 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   operationInput_->setSizePolicy(sizePolicy2);
   operationInput_->setMaximumSize(QSize(16777215, 20));  // 16777215 is Max
   operationInput_->setPlaceholderText("Mathematical Operation");
-  QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9 +]*"));   //match one word (aka one potential variable)
+  QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9 +-]*"));   //match one word (aka one potential variable)
   operationInput_->setValidator(regex_validator);
   
   scrollWidget_ = new ScrollWidget(subWidget_);
@@ -175,6 +175,7 @@ void ComplexCalc::compute(const std::string& expr) {
 
     const auto token = queue.front();
     queue.pop_front();
+    ComplexVar* result = nullptr;
     switch (token.type) {
     /*case Token::Type::Number:
       stack.push_back(std::stoi(token.str));
@@ -188,9 +189,7 @@ void ComplexCalc::compute(const std::string& expr) {
 
     case Token::Type::Operator:
     {
-      if (token.unary) {
-        assert(0 && "");
-        /*
+      if (token.unary && stack.size() != 0) {
         // unray operators
         const auto rhs = stack.back();
         stack.pop_back();
@@ -200,14 +199,25 @@ void ComplexCalc::compute(const std::string& expr) {
           assert(0 && "");
           break;
         case 'm':                   // Special operator name for unary '-'
-          stack.push_back(-rhs);
+          result = scrollWidget_->getVariable("-" + rhs->getName());
+
+          if (!result)
+          {
+            on_addVarButton_clicked();
+            result = scrollWidget_->variables_.back();
+            result->setName("-" + rhs->getName());
+          }
+          result->setValue(-rhs->getValue());
+
+          stack.push_back(result);
+
+          openGL3DWindow_->removeAllVariables();
+          openGL3DWindow_->insertVariable(result, true);
           break;
         }
-        op = "Push (unary) " + token.str + " " + std::to_string(rhs);*/
+        //op = "Push (unary) " + token.str + " " + std::to_string(rhs);
       }
-      else if (stack.size() < 2)
-        break;
-      else {
+      else if(stack.size() > 1) {
         // binary operators
         const auto rhs = stack.back();
         stack.pop_back();
@@ -229,7 +239,7 @@ void ComplexCalc::compute(const std::string& expr) {
           stack.push_back(lhs / rhs);
           break;*/
         case '+':
-          ComplexVar* result = scrollWidget_->getVariable(lhs->getName() + "+" + rhs->getName());
+          result = scrollWidget_->getVariable(lhs->getName() + "+" + rhs->getName());
 
           if (!result)
           {
@@ -242,9 +252,20 @@ void ComplexCalc::compute(const std::string& expr) {
           stack.push_back(result);
           openGL3DWindow_->insertVariable(result, true);
           break;
-        /*case '-':
-          stack.push_back(lhs - rhs);
-          break;*/
+        case '-':
+          result = scrollWidget_->getVariable(lhs->getName() + "-" + rhs->getName());
+
+          if (!result)
+          {
+            on_addVarButton_clicked();
+            result = scrollWidget_->variables_.back();
+            result->setName(lhs->getName() + "-" + rhs->getName());
+          }
+          result->setValue(lhs->getValue() - rhs->getValue());
+
+          stack.push_back(result);
+          openGL3DWindow_->insertVariable(result, true);
+          break;
         }
         //op = "Push " + std::to_string(lhs) + " " + token.str + " " + std::to_string(rhs);
       }
@@ -297,7 +318,7 @@ std::deque<Token> ComplexCalc::exprToTokens(const std::string& expr) {
       //case '*':   t = Token::Type::Operator;      precedence = 3; break;
       //case '/':   t = Token::Type::Operator;      precedence = 3; break;
       case '+':   t = Token::Type::Operator;      precedence = 2; break;
-      /*case '-':
+      case '-':
         // If current token is '-'
         // and if it is the first token, or preceded by another operator, or left-paren,
         if (tokens.empty()
@@ -317,7 +338,7 @@ std::deque<Token> ComplexCalc::exprToTokens(const std::string& expr) {
           t = Token::Type::Operator;
           precedence = 2;
         }
-        break;*/
+        break;
       }
       const auto s = std::string(1, c);
       tokens.push_back(Token{ t, s, precedence, rightAssociative, unary });
@@ -432,7 +453,6 @@ std::deque<Token> ComplexCalc::shuntingYard(const std::deque<Token>& tokens) {
     break;
 
     default:
-      assert(0 && "");
       //printf("error (%s)\n", token.str.c_str());
       return {};
     }
