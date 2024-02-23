@@ -234,7 +234,7 @@ void OpenGLWindow::insertVariable(ComplexVar* variable, bool with_trace)
 
   if (with_trace)
   {
-    traces_.push_back(new Trace(rootEntity_, variable));
+    traces_.push_back(new Trace(rootEntity_, variable, scale_));
   }
 
   arrows_.push_back(variable_arrow);

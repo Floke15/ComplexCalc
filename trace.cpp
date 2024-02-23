@@ -12,7 +12,7 @@
 #include <Qt3DExtras/QDiffuseSpecularMaterial>
 #include <Qt3DCore/QTransform>
 
-Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
+Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable, double scale) :
   Qt3DCore::QGeometry(rootEntity),
   rootEntity_(rootEntity),
   variable_(variable),
@@ -22,7 +22,7 @@ Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
   normals_(new QVector<QVector3D>()),
   indices_(new QVector<QVector<quint32>*>())
 {
-  calculatePoints(1);
+  calculatePoints(scale);
   init3DElements(rootEntity);
 }
 
@@ -126,12 +126,10 @@ void Trace::calculatePoints(double scale)
   for (int i = 0; i < tube_segments; ++i) {
     vertices_->prepend(points.first());
     normals_->prepend(zeroNormal);
-    //vertices_->append(points_->at(length));
-    //normals_->append(zeroNormal);
   }
 
   QVector<quint32> indices;
-  updateGeometry(*vertices_, *normals_, indices);
+  resetGeometry(*vertices_, *normals_, indices);
 }
 
 void Trace::update(double scale, double rotationAngle)
@@ -144,7 +142,7 @@ void Trace::update(double scale, double rotationAngle)
   }
 
   int length = rotationAngle / 360 * 1000;
-  int tube_radius = 1, tube_segments = 16;
+  int tube_segments = 16;
 
   QVector<quint32> indices;
 
@@ -191,7 +189,7 @@ QVector<QVector3D> Trace::buildCircleNormals(const QVector3D& dir)
 }
 
 
-void Trace::updateGeometry(const QVector<QVector3D>& vertices,
+void Trace::resetGeometry(const QVector<QVector3D>& vertices,
   const QVector<QVector3D>& normals,
   const QVector<quint32>& indices)
 {
