@@ -136,30 +136,6 @@ void ComplexCalc::on_operationInput_textEdited(const QString& text)
   openGL3DWindow_->removeAllVariables();
 
   compute(operationInput_->text().toStdString());
-  //TODO: implement parsing and calculation of calculations
-
-  /*QVector<ComplexVar*> variables;
-  QString input = operationInput_->text();
-
-  for (auto var_iter : scrollWidget_->variables_)
-  {
-    if (var_iter->getName() == "")
-      continue;
-
-    QString regex_str = "(^" + var_iter->getName() + "$)|(^" + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + " .*$)|(^.* " + var_iter->getName() + "$)";
-    QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression(regex_str));
-    int pos = 0;
-
-    if (int t = regex_validator->validate(input, pos) == 2)
-     variables.push_back(var_iter);
-
-    delete regex_validator;
-  }
-
-  openGL3DWindow_->removeAllVariables();
-
-  for (auto var_iter : variables)
-    openGL3DWindow_->insertVariable(var_iter, true);*/
 }
 
 void ComplexCalc::compute(const std::string& expr) {

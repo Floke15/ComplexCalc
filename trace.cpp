@@ -16,8 +16,8 @@ Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable) :
   Qt3DCore::QGeometry(rootEntity),
   rootEntity_(rootEntity),
   variable_(variable),
-  lastVal_(0),
   scale_(0),
+  lastVal_(0),
   vertices_(new QVector<QVector3D>()),
   normals_(new QVector<QVector3D>()),
   indices_(new QVector<QVector<quint32>*>())
@@ -48,7 +48,6 @@ void Trace::calculatePoints(double scale)
 {
   int trace_points = 1000;
   std::complex<double> scaled_value = variable_->getValue() * (100 / scale);
-  double temp1 = abs(scaled_value);
 
   QVector<QVector3D> points;
 
@@ -61,14 +60,14 @@ void Trace::calculatePoints(double scale)
     QVector3D value(scaled_value.real(), scaled_value.imag(), -static_cast<float>(i) * 200 / trace_points);
     QMatrix4x4 rotation;
     rotation.rotate(static_cast<float>(i) / trace_points * 360, 0, 0, 1);
-    points.push_back(rotation * value);
+    points.push_back(rotation.map(value));
   }
 
   int length = 1000;
   int tube_radius = 1, tube_segments = 16;
 
   for (int ii = 0; ii < length; ++ii) {
-    const auto current = points[ii];
+    QVector3D& current = points[ii];
     QVector3D direction;
     if (ii == length - 1 && ii > 0) {
       direction = (current - points[ii - 1]).normalized();
@@ -184,7 +183,7 @@ QVector<QVector3D> Trace::buildCircleNormals(const QVector3D& dir)
     double angle = cs * 360.0 / tube_segments;
     rot.setToIdentity();
     rot.rotate(angle, dir);
-    const auto normal = rot * cv;
+    const auto normal = rot.map(cv);
     normals.append(normal);
   }
 

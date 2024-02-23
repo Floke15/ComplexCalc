@@ -56,7 +56,7 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
 
   realAxisLabel_ = new Label(rootEntity_, QVector3D(110 - (CONE_LENGTH / 2), -9, -9), "Re", Qt::black);
   imagAxisLabel_ = new Label(rootEntity_, QVector3D(9, 110 - (CONE_LENGTH / 2), -9), "Im", Qt::black);
-  timeAxisLabel_ = new Label(rootEntity_, QVector3D(9, -9, -(220 - (CONE_LENGTH / 2))), "t", Qt::black);
+  timeAxisLabel_ = new Label(rootEntity_, QVector3D(9, 9, -(220 - (CONE_LENGTH / 2))), "t", Qt::black);
   timeAxisLabel_->setVisible(false);
 
   Qt3DExtras::QCylinderMesh* tick = new Qt3DExtras::QCylinderMesh();
@@ -114,7 +114,7 @@ void OpenGLWindow::resizeEvent(QResizeEvent* event)
     setOrthographicProjection();
 }
 
-void OpenGLWindow::setOrthographicProjection()
+void OpenGLWindow::setOrthographicProjection() const
 {
   int width = this->width();
   int height = this->height();
@@ -136,7 +136,7 @@ void OpenGLWindow::setOrthographicProjection()
     height = width / ratio;
   }
 
-  camera()->lens()->setOrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, 0.1, 1000);
+  camera()->lens()->setOrthographicProjection(-static_cast<float>(width) / 2, static_cast<float>(width) / 2, -static_cast<float>(height) / 2, static_cast<float>(height) / 2, 0.1, 1000);
 }
 
 void OpenGLWindow::mousePressEvent(QMouseEvent* mouseEvent)

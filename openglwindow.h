@@ -32,7 +32,7 @@ public slots:
 
 private:
   void findScale();
-  void setOrthographicProjection();
+  void setOrthographicProjection() const;
 
   bool isMainWindow_;
   Qt3DCore::QEntity* rootEntity_;

@@ -42,26 +42,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET ComplexCalc APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else()
-    if(ANDROID)
-        add_library(ComplexCalc SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(ComplexCalc
-            ${PROJECT_SOURCES}
-        )
-    endif()
-
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
 target_link_libraries(ComplexCalc PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::OpenGL Qt${QT_VERSION_MAJOR}::OpenGLWidgets Qt${QT_VERSION_MAJOR}::3DCore Qt${QT_VERSION_MAJOR}::3DRender Qt${QT_VERSION_MAJOR}::3DInput Qt${QT_VERSION_MAJOR}::3DExtras ${OPENGL_LIBRARIES})

@@ -17,7 +17,9 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   value_(value),
   omega_(omega),
   color_(color),
-  input_is_euler_(false)
+  input_is_euler_(false),
+  glWidget_(nullptr),
+  openGL3DWindow_(nullptr)
 {
   this->setObjectName("newVariable");
   this->setMinimumSize(200, 72);
@@ -225,7 +227,7 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   QMetaObject::connectSlotsByName(this);
 }
 
-std::complex<double> ComplexVar::getValue()
+std::complex<double> ComplexVar::getValue() const
 {
   return value_;
 }

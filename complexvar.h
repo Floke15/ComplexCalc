@@ -25,7 +25,7 @@ public:
   ComplexVar(QWidget* parent = 0, QSlider* timeSlider = nullptr, QString name = "", std::complex<double> value = 0, double omega = 1, QColor color = QColor(QRgb(0xFF0000)));
   //~ComplexVar();
 
-  std::complex<double> getValue();
+  std::complex<double> getValue() const;
   void setValue(std::complex<double> value);
   QString getName();
   void setName(QString name);
