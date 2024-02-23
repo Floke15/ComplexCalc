@@ -7,27 +7,13 @@
 Label::Label(Qt3DCore::QEntity* rootEntity, QVector3D position, QString text, QColor color, float fontsize, int flags) :
   rootEntity_(rootEntity),
   position_(position),
-  flags_(flags)
+  flags_(flags),
+  localTransform_(new Qt3DCore::QTransform()),
+  textTransform_(new Qt3DCore::QTransform()),
+  textDescriptor_(new Qt3DExtras::QText2DEntity(rootEntity_))
 {
-  // Sphere shape data
-  Qt3DExtras::QSphereMesh* sphere = new Qt3DExtras::QSphereMesh();
-  sphere->setRadius(0);
-  sphere->setRings(2);
-  sphere->setSlices(1);
-
-  sphereTransform_ = new Qt3DCore::QTransform();
-  sphereTransform_->setTranslation(position_);
-
-  // Sphere
-  Qt3DCore::QEntity* sphereEntity = new Qt3DCore::QEntity(rootEntity_);
-  sphereEntity->addComponent(sphere);
-  sphereEntity->addComponent(sphereTransform_);
-
-  textDescriptor_ = new Qt3DExtras::QText2DEntity(sphereEntity);
   textDescriptor_->setFont(QFont("monospace", fontsize));
   textDescriptor_->setColor(color);
-
-  textTransform_ = new Qt3DCore::QTransform();
   textDescriptor_->addComponent(textTransform_);
 
   setText(text);
@@ -35,7 +21,7 @@ Label::Label(Qt3DCore::QEntity* rootEntity, QVector3D position, QString text, QC
 
 void Label::update(QVector3D cameraPosition, QVector3D upVector)
 {
-  QVector3D look = cameraPosition - sphereTransform_->translation() - QVector3D(-6, -5.75, 0);
+  QVector3D look = cameraPosition - position_ - localTransform_->translation();
   look.normalize();
   QVector3D right = QVector3D::crossProduct(upVector, look);
   QVector3D up2 = QVector3D::crossProduct(look, right);
@@ -43,7 +29,7 @@ void Label::update(QVector3D cameraPosition, QVector3D upVector)
                            right.y(), up2.y(), look.y(), position_.y(),
                            right.z(), up2.z(), look.z(), position_.z(),
                            0, 0, 0, 1 };
-  sphereTransform_->setMatrix(transform);
+  textTransform_->setMatrix(transform * localTransform_->matrix());
 }
 
 void Label::setVisible(bool visibility)
@@ -67,7 +53,8 @@ void Label::setText(QString text)
   else if(flags_ & Qt::AlignRight)
     textTranslation.setX(-textDescriptor_->width());
 
-  textTransform_->setTranslation(textTranslation);
+  localTransform_->setTranslation(textTranslation);
+  textTransform_->setTranslation(textTranslation + position_);
 
   textDescriptor_->setText(text);
 }

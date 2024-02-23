@@ -18,9 +18,9 @@ private:
   Qt3DCore::QEntity* rootEntity_;
   QVector3D position_;
   int flags_;
-  Qt3DCore::QTransform* sphereTransform_;
-  Qt3DExtras::QText2DEntity* textDescriptor_;
+  Qt3DCore::QTransform* localTransform_;
   Qt3DCore::QTransform* textTransform_;
+  Qt3DExtras::QText2DEntity* textDescriptor_;
 };
 
 #endif // LABEL_H
