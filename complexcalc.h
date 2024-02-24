@@ -67,16 +67,9 @@ private:
   std::deque<Token> shuntingYard(const std::deque<Token>& tokens);
 
   // Design elements
-  QWidget* centralWidget_;
-  QVBoxLayout* verticalLayout_;
-  QWidget* subWidget_;
-  QGridLayout* gridLayout_;
-  QPushButton* addVarButton_;
   OpenGLWindow* openGL3DWindow_;
   QLineEdit* operationInput_;
   ScrollWidget* scrollWidget_;
-  QVBoxLayout* verticalScrollLayout_;
-  QScrollArea* scrollArea_;
   QSlider* timeSlider_;
 };
 #endif // COMPLEXCALC_H

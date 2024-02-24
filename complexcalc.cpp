@@ -11,6 +11,10 @@
 #include <QScrollArea>
 
 ComplexCalc::ComplexCalc(QWidget* parent) :
+  openGL3DWindow_(new OpenGLWindow(true)),
+  operationInput_(new QLineEdit()),
+  scrollWidget_(new ScrollWidget()),
+  timeSlider_(new QSlider()),
   QMainWindow(parent)
 {
 
@@ -24,51 +28,48 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   this->setSizePolicy(sizePolicy);
 
   // initialize centralWidget
-  centralWidget_ = new QWidget(this);
-  centralWidget_->setObjectName("centralWidget");
+  QWidget* centralWidget = new QWidget(this);
+  centralWidget->setObjectName("centralWidget");
   
   // define verticalLayout as Layout of centralWidget
-  verticalLayout_ = new QVBoxLayout(centralWidget_);
-  verticalLayout_->setContentsMargins(10, 10, 10, 10);
-  verticalLayout_->setSpacing(5);
-  verticalLayout_->setObjectName("verticalLayout");
+  QVBoxLayout* verticalLayout = new QVBoxLayout(centralWidget);
+  verticalLayout->setContentsMargins(10, 10, 10, 10);
+  verticalLayout->setSpacing(5);
+  verticalLayout->setObjectName("verticalLayout");
 
   //initialize timeSlider as part of centralWidget
-  timeSlider_ = new QSlider(centralWidget_);
+  timeSlider_->setParent(centralWidget);
   timeSlider_->setObjectName("timeSlider");
   timeSlider_->setOrientation(Qt::Horizontal);
   timeSlider_->setMinimum(0);
   timeSlider_->setMaximum(1000);
   
   // initialize subWidget as part of centralWidget
-  subWidget_ = new QWidget(centralWidget_);
-  subWidget_->setObjectName("subWidget");
+  QWidget* subWidget = new QWidget(centralWidget);
+  subWidget->setObjectName("subWidget");
 
-  verticalLayout_->addWidget(subWidget_);
-  verticalLayout_->addWidget(timeSlider_);
+  verticalLayout->addWidget(subWidget);
+  verticalLayout->addWidget(timeSlider_);
 
   // define gridLayout as Layout of subWidget
-  gridLayout_ = new QGridLayout(subWidget_);
-  gridLayout_->setContentsMargins(10, 10, 10, 10);
-  gridLayout_->setSpacing(5);
-  gridLayout_->setObjectName("gridLayout");
+  QGridLayout* gridLayout = new QGridLayout(subWidget);
+  gridLayout->setContentsMargins(10, 10, 10, 10);
+  gridLayout->setSpacing(5);
+  gridLayout->setObjectName("gridLayout");
 
   // initialize addVarButton as part of subWidget
-  addVarButton_ = new QPushButton(subWidget_);
-  addVarButton_->setObjectName("addVarButton");
-  addVarButton_->setText(QCoreApplication::translate("ComplexCalc", "new Variable", nullptr));
-  addVarButton_->setMinimumSize(220, 0);
+  QPushButton* addVarButton = new QPushButton(subWidget);
+  addVarButton->setObjectName("addVarButton");
+  addVarButton->setText(QCoreApplication::translate("ComplexCalc", "new Variable", nullptr));
+  addVarButton->setMinimumSize(220, 0);
   QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   sizePolicy1.setHorizontalStretch(1);
   sizePolicy1.setVerticalStretch(0);
-  sizePolicy1.setHeightForWidth(addVarButton_->sizePolicy().hasHeightForWidth());
-  addVarButton_->setSizePolicy(sizePolicy1);
-
-  // initialize openGL3DWindow
-  openGL3DWindow_ = new OpenGLWindow(true);
+  sizePolicy1.setHeightForWidth(addVarButton->sizePolicy().hasHeightForWidth());
+  addVarButton->setSizePolicy(sizePolicy1);
 
   // initialize the operationInput as part of subWidget
-  operationInput_ = new QLineEdit(subWidget_);
+  operationInput_->setParent(subWidget);
   operationInput_->setObjectName("operationInput");
   QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
   operationInput_->setFixedHeight(24);
@@ -81,7 +82,7 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9 +-]*"));   //match one word (aka one potential variable)
   operationInput_->setValidator(regex_validator);
   
-  scrollWidget_ = new ScrollWidget(subWidget_);
+  scrollWidget_->setParent(subWidget);
   scrollWidget_->setObjectName("scrollWidget");
   QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   sizePolicy3.setHorizontalStretch(0);
@@ -91,32 +92,32 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   connect(scrollWidget_, &ScrollWidget::variable_deleted, this, &ComplexCalc::reparseText);
 
   // define verticalScrollLayout as Layout of scrollWidget
-  verticalScrollLayout_ = new QVBoxLayout(scrollWidget_);
-  verticalScrollLayout_->setContentsMargins(0, 0, 0, 0);
-  verticalScrollLayout_->setSpacing(0);
-  verticalScrollLayout_->setObjectName("verticalScrollLayout");
-  verticalScrollLayout_->setAlignment(Qt::AlignTop);
+  QVBoxLayout* verticalScrollLayout = new QVBoxLayout(scrollWidget_);
+  verticalScrollLayout->setContentsMargins(0, 0, 0, 0);
+  verticalScrollLayout->setSpacing(0);
+  verticalScrollLayout->setObjectName("verticalScrollLayout");
+  verticalScrollLayout->setAlignment(Qt::AlignTop);
 
   // initialize the scrollArea as part of subWidget
-  scrollArea_ = new QScrollArea(subWidget_);
-  scrollArea_->setObjectName("scrollArea");
-  scrollArea_->setMinimumSize(220, 0);
+  QScrollArea* scrollArea = new QScrollArea(subWidget);
+  scrollArea->setObjectName("scrollArea");
+  scrollArea->setMinimumSize(220, 0);
   QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   sizePolicy4.setHorizontalStretch(1);
   sizePolicy4.setVerticalStretch(0);
-  sizePolicy4.setHeightForWidth(scrollArea_->sizePolicy().hasHeightForWidth());
-  scrollArea_->setSizePolicy(sizePolicy4);
-  scrollArea_->setWidgetResizable(true);
-  scrollArea_->setWidget(scrollWidget_);
+  sizePolicy4.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
+  scrollArea->setSizePolicy(sizePolicy4);
+  scrollArea->setWidgetResizable(true);
+  scrollArea->setWidget(scrollWidget_);
 
   // add elements to gridLayout in subWidget
-  gridLayout_->addWidget(operationInput_, 0, 0, 1, 1);
-  gridLayout_->addWidget(addVarButton_, 0, 1, 1, 1);
-  gridLayout_->addWidget(QWidget::createWindowContainer(openGL3DWindow_), 1, 0, 1, 1);
-  gridLayout_->addWidget(scrollArea_, 1, 1, 1, 1);
+  gridLayout->addWidget(operationInput_, 0, 0, 1, 1);
+  gridLayout->addWidget(addVarButton, 0, 1, 1, 1);
+  gridLayout->addWidget(QWidget::createWindowContainer(openGL3DWindow_), 1, 0, 1, 1);
+  gridLayout->addWidget(scrollArea, 1, 1, 1, 1);
 
   connect(timeSlider_, &QSlider::valueChanged, openGL3DWindow_, &OpenGLWindow::setTime);
-  this->setCentralWidget(centralWidget_);
+  this->setCentralWidget(centralWidget);
 
   QMetaObject::connectSlotsByName(this);
 
@@ -126,7 +127,7 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   fixWidget->setMinimumSize(1, 1);
   //fixWidget->setVisible(false);
   fixWidget->setSizePolicy(sizePolicy5);
-  verticalScrollLayout_->addWidget(fixWidget);
+  verticalScrollLayout->addWidget(fixWidget);
 }
 
 void ComplexCalc::on_operationInput_textEdited(const QString& text)
@@ -142,9 +143,6 @@ void ComplexCalc::compute(const std::string& expr) {
   const auto tokens = exprToTokens(expr);
   auto queue = shuntingYard(tokens);
   std::vector<ComplexVar*> stack;
-
-  //printf("\nCalculation\n");
-  //printf(reportFmt, "Token", "Queue", "Stack", "");
 
   while (!queue.empty()) {
     std::string op;
@@ -171,7 +169,6 @@ void ComplexCalc::compute(const std::string& expr) {
         stack.pop_back();
         switch (token.str[0]) {
         default:
-          //printf("Operator error [%s]\n", token.str.c_str());
           assert(0 && "");
           break;
         case 'm':                   // Special operator name for unary '-'
@@ -191,7 +188,6 @@ void ComplexCalc::compute(const std::string& expr) {
           openGL3DWindow_->insertVariable(result, true);
           break;
         }
-        //op = "Push (unary) " + token.str + " " + std::to_string(rhs);
       }
       else if(stack.size() > 1) {
         // binary operators
@@ -243,7 +239,6 @@ void ComplexCalc::compute(const std::string& expr) {
           openGL3DWindow_->insertVariable(result, true);
           break;
         }
-        //op = "Push " + std::to_string(lhs) + " " + token.str + " " + std::to_string(rhs);
       }
     }
     break;
@@ -251,10 +246,7 @@ void ComplexCalc::compute(const std::string& expr) {
     default:
       assert(0 && "");
     }
-    //debugReport(token, queue, stack, op);
   }
-
-  //return stack.back();
 }
 
 std::deque<Token> ComplexCalc::exprToTokens(const std::string& expr) {
@@ -432,8 +424,6 @@ std::deque<Token> ComplexCalc::shuntingYard(const std::deque<Token>& tokens) {
       //printf("error (%s)\n", token.str.c_str());
       return {};
     }
-
-    //debugReport(token, queue, stack);
   }
 
   // When there are no more tokens to read:
@@ -450,10 +440,6 @@ std::deque<Token> ComplexCalc::shuntingYard(const std::deque<Token>& tokens) {
     queue.push_back(std::move(stack.back()));
     stack.pop_back();
   }
-
-  //debugReport(Token{ Token::Type::Unknown, "End" }, queue, stack);
-
-  //Exit.
   return queue;
 }
 

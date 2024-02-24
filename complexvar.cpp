@@ -21,8 +21,8 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   verticalLayout_(new QVBoxLayout(this)),
   openGL3DWindow_(nullptr),
   glWidget_(nullptr),
-  expandButton_(nullptr),
-  switchButton_(nullptr),
+  expandButton_(new QPushButton()),
+  switchButton_(new QPushButton()),
   nameInput_(new QLineEdit(this)),
   omegaInput_(new QLineEdit(this)),
   input1Label_(new QLabel(this)),
@@ -83,7 +83,7 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   horizontalLayout3->setAlignment(Qt::AlignLeft);
 
 
-  expandButton_ = new QPushButton(horizontalWidget1);
+  expandButton_->setParent(horizontalWidget1);
   expandButton_->setObjectName("expandButton");
   expandButton_->setText("Expand");
   expandButton_->setFixedHeight(24);
@@ -92,7 +92,7 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   sizePolicy1.setHeightForWidth(expandButton_->sizePolicy().hasHeightForWidth());
   expandButton_->setSizePolicy(sizePolicy1);
 
-  switchButton_ = new QPushButton(horizontalWidget1);
+  switchButton_->setParent(horizontalWidget1);
   switchButton_->setObjectName("switchButton");
   switchButton_->setText("Euler");
   switchButton_->setFixedHeight(24);
