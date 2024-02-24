@@ -1,3 +1,8 @@
+// regarding the methods compute, exprToTokens and shuntingYard:
+// SOURCE: https://gist.github.com/t-mat/b9f681b7591cdae712f6
+// Author: Takayuki Matsuoka
+// Edited to fit this usecase
+
 #include "complexcalc.h"
 #include "openglwindow.h"
 #include "complexvar.h"
@@ -145,15 +150,12 @@ void ComplexCalc::compute(const std::string& expr) {
   std::vector<ComplexVar*> stack;
 
   while (!queue.empty()) {
-    std::string op;
-
     const auto token = queue.front();
     queue.pop_front();
     ComplexVar* result = nullptr;
     switch (token.type) {
     /*case Token::Type::Number:
       stack.push_back(std::stoi(token.str));
-      op = "Push " + token.str;
       break;*/
 
     case Token::Type::Variable:
@@ -316,7 +318,7 @@ std::deque<Token> ComplexCalc::exprToTokens(const std::string& expr) {
   return tokens;
 }
 
-ComplexVar* ComplexCalc::findFirstVariableInString(QString text)
+ComplexVar* ComplexCalc::findFirstVariableInString(const QString text)
 {
   for (auto var_iter : scrollWidget_->variables_)
   {

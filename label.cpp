@@ -19,6 +19,10 @@ Label::Label(Qt3DCore::QEntity* rootEntity, QVector3D position, QString text, QC
   setText(text);
 }
 
+// regarding the methods update:
+// SOURCE: https://gamedev.stackexchange.com/questions/58245/problem-using-glmlookat/150705#150705
+// Author: omikun
+// Adapted to fit this usecase
 void Label::update(QVector3D cameraPosition, QVector3D upVector)
 {
   QVector3D look = cameraPosition - position_ - localTransform_->translation();

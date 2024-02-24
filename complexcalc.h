@@ -15,6 +15,10 @@ class QSlider;
 class ScrollWidget;
 class ComplexVar;
 
+// regarding the class Token:
+// SOURCE: https://gist.github.com/t-mat/b9f681b7591cdae712f6
+// Author: Takayuki Matsuoka
+// Edited to fit this usecase
 class Token {
 public:
   enum class Type {
@@ -63,7 +67,7 @@ private slots:
 private:
   void compute(const std::string& expr);
   std::deque<Token> exprToTokens(const std::string& expr);
-  ComplexVar* findFirstVariableInString(QString text);
+  ComplexVar* findFirstVariableInString(const QString text);
   std::deque<Token> shuntingYard(const std::deque<Token>& tokens);
 
   // Design elements

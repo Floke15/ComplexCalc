@@ -1,6 +1,7 @@
+// the code in this class
 // SOURCE: https://github.com/pinebit/JetPipes
 // Author: Andrei Smirnov
-// Edited to fit this usecase
+// Adapted to fit this usecase
 
 #include "trace.h"
 #include "complexvar.h"
