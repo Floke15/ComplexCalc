@@ -26,10 +26,8 @@ void ScrollWidget::deleteVariable(ComplexVar* variable)
     variables_to_delete_.push_back(variable);
     return;
   }
-  
-  qsizetype position = variables_to_delete_.indexOf(variable);
 
-  if (position == -1)
+  if (variables_to_delete_.indexOf(variable) == -1)
   {
     variables_to_delete_.push_back(variable);
   }
@@ -56,10 +54,10 @@ void ScrollWidget::update()
   if(variables_to_delete_.size())
     emit about_to_delete();
 
-  for (auto position = variables_to_delete_.begin(); position != variables_to_delete_.end(); ++position)
+  for (auto position : variables_to_delete_)
   {
-    this->layout()->removeWidget(*position);
-    delete *position;
+    this->layout()->removeWidget(position);
+    delete position;
   }
 
   if (variables_to_delete_.size())
