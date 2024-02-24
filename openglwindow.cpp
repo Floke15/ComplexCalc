@@ -22,41 +22,44 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   rootEntity_(new Qt3DCore::QEntity()),
   scale_(0),
   time_(0),
-  isDragging_(false),
   currentAngleX_(0),
   currentAngleZ_(0),
+  arrows_(),
+  traces_(),
+  timeAxis_(new CustomArrow(rootEntity_, -220, 0)),
+  lightTransform_(new Qt3DCore::QTransform()),
+  tickRealEntity_(new Qt3DCore::QEntity(rootEntity_)),
+  tickImagEntity_(new Qt3DCore::QEntity(rootEntity_)),
+  tickTimeEntity_(new Qt3DCore::QEntity(rootEntity_)),
+  realAxisLabel_(new Label(rootEntity_, QVector3D(110 - (CONE_LENGTH / 2), -9, -9), "Re", Qt::black)),
+  imagAxisLabel_(new Label(rootEntity_, QVector3D(9, 110 - (CONE_LENGTH / 2), -9), "Im", Qt::black)),
+  timeAxisLabel_(new Label(rootEntity_, QVector3D(9, 9, -(220 - (CONE_LENGTH / 2))), "t", Qt::black)),
+  tickRealLabel_(new Label(rootEntity_, QVector3D(100, 7, 1), QString::number(scale_), Qt::black, 5, Qt::AlignRight)),
+  tickImagLabel_(new Label(rootEntity_, QVector3D(-7, 100, 1), QString::number(scale_), Qt::black, 5, Qt::AlignRight)),
+  tickTimeLabel_(new Label(rootEntity_, QVector3D(-7, -7, -200), "2π/ω", Qt::black, 5)),
   Qt3DExtras::Qt3DWindow(nullptr, Qt3DRender::API::OpenGL)
 {
   defaultFrameGraph()->setClearColor(QColor(QRgb(0x4d4d4f)));
 
-  // Camera
-  Qt3DRender::QCamera* cameraEntity = camera();
-
   setOrthographicProjection();
 
-  cameraEntity->setPosition(QVector3D(0, 0, 300));
-  cameraEntity->setUpVector(QVector3D(0, 1, 0));
-  cameraEntity->setViewCenter(QVector3D(0, 0, -110));
+  camera()->setPosition(QVector3D(0, 0, 300));
+  camera()->setUpVector(QVector3D(0, 1, 0));
+  camera()->setViewCenter(QVector3D(0, 0, -110));
 
   Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(rootEntity_);
   Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
   light->setColor("white");
   light->setIntensity(1);
   lightEntity->addComponent(light);
-  lightTransform_ = new Qt3DCore::QTransform(lightEntity);
-  lightTransform_->setTranslation(cameraEntity->position());
+  lightTransform_->setTranslation(camera()->position());
   lightEntity->addComponent(lightTransform_);
 
   CustomArrow* realPositiveAxis = new CustomArrow(rootEntity_, 110, 0);
   CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, 110, 180.0f);
   CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, 110, 90.0f);
   CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, 110, 270.0f);
-  timeAxis_ = new CustomArrow(rootEntity_, -220, 0);
   timeAxis_->setVisible(false);
-
-  realAxisLabel_ = new Label(rootEntity_, QVector3D(110 - (CONE_LENGTH / 2), -9, -9), "Re", Qt::black);
-  imagAxisLabel_ = new Label(rootEntity_, QVector3D(9, 110 - (CONE_LENGTH / 2), -9), "Im", Qt::black);
-  timeAxisLabel_ = new Label(rootEntity_, QVector3D(9, 9, -(220 - (CONE_LENGTH / 2))), "t", Qt::black);
   timeAxisLabel_->setVisible(false);
 
   Qt3DExtras::QCylinderMesh* tick = new Qt3DExtras::QCylinderMesh();
@@ -72,33 +75,24 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   tickRealTransform->setTranslation(QVector3D(100 - 0.25, 0, 0));
   tickRealTransform->setRotationZ(90);
 
-  tickRealEntity_ = new Qt3DCore::QEntity(rootEntity_);
   tickRealEntity_->addComponent(tick);
   tickRealEntity_->addComponent(tickMaterial);
   tickRealEntity_->addComponent(tickRealTransform);
 
-  tickRealLabel_ = new Label(rootEntity_, QVector3D(100, 7, 1), QString::number(scale_), Qt::black, 5, Qt::AlignRight);
-
   Qt3DCore::QTransform* tickImagTransform = new Qt3DCore::QTransform();
   tickImagTransform->setTranslation(QVector3D(0, 100 - 0.25, 0));
 
-  tickImagEntity_ = new Qt3DCore::QEntity(rootEntity_);
   tickImagEntity_->addComponent(tick);
   tickImagEntity_->addComponent(tickMaterial);
   tickImagEntity_->addComponent(tickImagTransform);
-
-  tickImagLabel_ = new Label(rootEntity_, QVector3D(-7, 100, 1), QString::number(scale_), Qt::black, 5, Qt::AlignRight);
 
   Qt3DCore::QTransform* tickTimeTransform = new Qt3DCore::QTransform();
   tickTimeTransform->setTranslation(QVector3D(0, 0, -200 + 0.25));
   tickTimeTransform->setRotationX(90);
 
-  tickTimeEntity_ = new Qt3DCore::QEntity(rootEntity_);
   tickTimeEntity_->addComponent(tick);
   tickTimeEntity_->addComponent(tickMaterial);
   tickTimeEntity_->addComponent(tickTimeTransform);
-
-  tickTimeLabel_ = new Label(rootEntity_, QVector3D(-7, -7, -200), "2π/ω", Qt::black, 5);
 
   tickTimeLabel_->setVisible(false);
   tickTimeEntity_->setEnabled(false);
@@ -118,9 +112,8 @@ void OpenGLWindow::setOrthographicProjection() const
 {
   int width = this->width();
   int height = this->height();
-  int ref_size = 220;
-
   float ratio = static_cast<float>(width) / static_cast<float>(height);
+  int ref_size = 220;
 
   if (isMainWindow_)
     ref_size = 240;
@@ -158,13 +151,21 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
     if (is_at_limit_x && !was_at_limit_x)
     {
       setOrthographicProjection();
-      if((currentAngleX_ + angle_change_x) < 1)
+      if ((currentAngleX_ + angle_change_x) < 1)
+      {
         timeAxis_->setVisible(false);
+        timeAxisLabel_->setVisible(false);
+        tickTimeLabel_->setVisible(false);
+        tickTimeEntity_->setEnabled(false);
+      }
     }
     else if (!is_at_limit_x && was_at_limit_x)
     {
       camera()->lens()->setPerspectiveProjection(45, static_cast<float>(this->width()) / static_cast<float>(this->height()), 0.1, 1000);
       timeAxis_->setVisible(true);
+      timeAxisLabel_->setVisible(true);
+      tickTimeLabel_->setVisible(true);
+      tickTimeEntity_->setEnabled(true);
     }
 
     if (currentAngleX_ + angle_change_x < 0)
@@ -192,36 +193,16 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
     tickImagLabel_->update(camera()->position(), camera()->upVector());
     tickTimeLabel_->update(camera()->position(), camera()->upVector());
 
-    realAxisLabel_->setVisible(true);
-    imagAxisLabel_->setVisible(true);
-    timeAxisLabel_->setVisible(true);
-    tickRealLabel_->setVisible(true);
-    tickImagLabel_->setVisible(true);
-    tickRealEntity_->setEnabled(true);
-    tickImagEntity_->setEnabled(true);
-    tickTimeLabel_->setVisible(true);
-    tickTimeEntity_->setEnabled(true);
-    if (currentAngleX_ > 89)
-    {
-      if (currentAngleZ_ > -1)
-      {
-        realAxisLabel_->setVisible(false);
-        tickRealLabel_->setVisible(false);
-        tickRealEntity_->setEnabled(false);
-      }
-      else if (currentAngleZ_ < -89)
-      {
-        imagAxisLabel_->setVisible(false);
-        tickImagLabel_->setVisible(false);
-        tickImagEntity_->setEnabled(false);
-      }
-    }
-    else if (currentAngleX_ < 1)
-    {
-      timeAxisLabel_->setVisible(false);
-      tickTimeLabel_->setVisible(false);
-      tickTimeEntity_->setEnabled(false);
-    }
+    bool enableRealAxis = !(currentAngleX_ > 89 && currentAngleZ_ > -1);
+    bool enableImagAxis = !(currentAngleX_ > 89 && currentAngleZ_ < -89);
+
+    realAxisLabel_->setVisible(enableRealAxis);
+    tickRealLabel_->setVisible(enableRealAxis);
+    tickRealEntity_->setEnabled(enableRealAxis);
+
+    imagAxisLabel_->setVisible(enableImagAxis);
+    tickImagLabel_->setVisible(enableImagAxis);
+    tickImagEntity_->setEnabled(enableImagAxis);
   }
 }
 

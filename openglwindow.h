@@ -38,7 +38,6 @@ private:
   Qt3DCore::QEntity* rootEntity_;
   double scale_;
   double time_;
-  bool isDragging_;
   QPointF lastPos_;
   float currentAngleX_;
   float currentAngleZ_;
