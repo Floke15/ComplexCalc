@@ -1,6 +1,6 @@
-#include "scrollwidget.h"
-#include "complexvar.h"
-#include "complexcalc.h"
+#include "header/scrollwidget.h"
+#include "header/complexvar.h"
+#include "header/complexcalc.h"
 
 #include <QLayout>
 #include <QTimer>

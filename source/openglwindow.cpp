@@ -1,9 +1,9 @@
-#include "openglwindow.h"
-#include "customarrow.h"
-#include "complexvar.h"
-#include "complexcalc.h"
-#include "trace.h"
-#include "label.h"
+#include "header/openglwindow.h"
+#include "header/customarrow.h"
+#include "header/complexvar.h"
+#include "header/complexcalc.h"
+#include "header/trace.h"
+#include "header/label.h"
 
 #include <Qt3DExtras/qforwardrenderer.h>
 #include <Qt3DCore/qentity.h>

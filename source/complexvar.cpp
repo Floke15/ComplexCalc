@@ -1,5 +1,5 @@
-﻿#include "complexvar.h"
-#include "scrollwidget.h"
+﻿#include "header/complexvar.h"
+#include "header/scrollwidget.h"
 
 #include <QPushButton>
 #include <QVBoxLayout>

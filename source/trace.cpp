@@ -3,8 +3,8 @@
 // Author: Andrei Smirnov
 // Adapted to fit this usecase
 
-#include "trace.h"
-#include "complexvar.h"
+#include "header/trace.h"
+#include "header/complexvar.h"
 
 #include <QVector3D>
 #include <QMatrix4x4>

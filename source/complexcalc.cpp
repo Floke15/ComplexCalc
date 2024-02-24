@@ -3,10 +3,10 @@
 // Author: Takayuki Matsuoka
 // Edited to fit this usecase
 
-#include "complexcalc.h"
-#include "openglwindow.h"
-#include "complexvar.h"
-#include "scrollwidget.h"
+#include "header/complexcalc.h"
+#include "header/openglwindow.h"
+#include "header/complexvar.h"
+#include "header/scrollwidget.h"
 
 #include <Qt3DExtras>
 #include <QVBoxLayout>

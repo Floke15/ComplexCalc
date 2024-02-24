@@ -1,5 +1,5 @@
-#include "customarrow.h"
-#include "complexvar.h"
+#include "header/customarrow.h"
+#include "header/complexvar.h"
 
 #include <Qt3DExtras/QSphereMesh>
 #include <Qt3DExtras/QConeMesh>

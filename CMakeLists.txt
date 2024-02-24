@@ -16,24 +16,24 @@ set(CMAKE_PREFIX_PATH $ENV{QTDIR})
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Widgets LinguistTools OpenGL OpenGLWidgets 3DCore 3DRender 3DInput 3DExtras)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets LinguistTools OpenGL OpenGLWidgets 3DCore 3DRender 3DInput 3DExtras)
 
-set(TS_FILES ComplexCalc_en_150.ts)
+set(TS_FILES resources/ComplexCalc_en_150.ts)
 
 set(PROJECT_SOURCES
-        main.cpp
-        complexcalc.cpp
-        complexcalc.h
-        openglwindow.cpp
-        openglwindow.h
-        customarrow.cpp
-        customarrow.h
-        complexvar.cpp
-        complexvar.h
-        scrollwidget.cpp
-        scrollwidget.h
-        trace.cpp
-        trace.h
-        label.cpp
-        label.h
+        header/complexcalc.h
+        header/openglwindow.h
+        header/customarrow.h
+        header/complexvar.h
+        header/scrollwidget.h
+        header/trace.h
+        header/label.h
+        source/main.cpp
+        source/complexcalc.cpp
+        source/openglwindow.cpp
+        source/customarrow.cpp
+        source/complexvar.cpp
+        source/scrollwidget.cpp
+        source/trace.cpp
+        source/label.cpp
         ${TS_FILES}
 )
 

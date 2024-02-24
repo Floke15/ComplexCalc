@@ -1,4 +1,4 @@
-#include "label.h"
+#include "header/label.h"
 
 #include <QVector3D>
 #include <Qt3DExtras/QSphereMesh>
