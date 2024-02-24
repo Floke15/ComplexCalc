@@ -55,36 +55,14 @@ private:
 
   // Design elements
   QVBoxLayout* verticalLayout_;
-
-  QWidget* horizontalWidget1_;
-  QWidget* horizontalWidget2_;
-  QWidget* horizontalWidget3_;
   OpenGLWindow* openGL3DWindow_;
   QWidget* glWidget_;
-  
-  QHBoxLayout* horizontalLayout1_;
-  QHBoxLayout* horizontalLayout2_;
-  QHBoxLayout* horizontalLayout3_;
-  
   QPushButton* expandButton_;
   QPushButton* switchButton_;
-  QPushButton* deleteButton_;
-  
   QLineEdit* nameInput_;
-  
-  QWidget* omegaSubWidget_;
-  QHBoxLayout* horizontalLayoutOmega_;
-  QLabel* omegaLabel_;
   QLineEdit* omegaInput_;
-  
-  QWidget* varSubWidget1_;
-  QWidget* varSubWidget2_;
-  
-  QHBoxLayout* horizontalLayoutInput1_;
   QLabel* input1Label_;
   QLineEdit* input1Input_;
-  
-  QHBoxLayout* horizontalLayoutInput2_;
   QLabel* input2Label_;
   QLineEdit* input2Input_;
 };
