@@ -5,12 +5,11 @@
 #include "header/trace.h"
 #include "header/label.h"
 
-#include <Qt3DExtras/qforwardrenderer.h>
-#include <Qt3DCore/qentity.h>
-#include <Qt3DRender/qcamera.h>
-#include <Qt3DRender/qpointlight.h>
-#include <qmouseevent.h>
-
+#include <Qt3DExtras/QForwardRenderer>
+#include <Qt3DCore/QEntity>
+#include <Qt3DRender/QCamera>
+#include <Qt3DRender/QPointLight>
+#include <QMouseEvent>
 #include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DExtras/QCylinderMesh>
 #include <Qt3DCore/QTransform>

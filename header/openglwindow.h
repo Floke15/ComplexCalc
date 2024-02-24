@@ -1,7 +1,7 @@
 #ifndef OPENGLWINDOW_H
 #define OPENGLWINDOW_H
 
-#include <Qt3DExtras/qt3dwindow.h>
+#include <Qt3DExtras/Qt3DWindow>
 #include <Qt3DCore/QTransform>
 #include <complex>
 
