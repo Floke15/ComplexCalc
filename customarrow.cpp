@@ -5,22 +5,22 @@
 #include <Qt3DExtras/QConeMesh>
 #include <Qt3DExtras/QDiffuseSpecularMaterial>
 
-CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation) :
-  CustomArrow(rootEntity, translation, length, rotation, nullptr, QColor(QRgb(0x000000)), false)
+CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, float length, float rotation) :
+  CustomArrow(rootEntity, length, rotation, nullptr, QColor(QRgb(0x000000)), false)
 {
 }
 
-CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, ComplexVar* variable, QColor color) :
-  CustomArrow(rootEntity, translation, abs(variable->getValue()), (180 * arg(variable->getValue())) / M_PI, variable, color, true)
+CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, ComplexVar* variable, QColor color) :
+  CustomArrow(rootEntity, abs(variable->getValue()), (180 * arg(variable->getValue())) / M_PI, variable, color, true)
 {
 }
 
-CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable) :
+CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable) :
   rootEntity_(rootEntity),
-  sphereEntity_ (new Qt3DCore::QEntity(rootEntity_)),
-  sphereTransform_(new Qt3DCore::QTransform()),
   cylinder_(new Qt3DExtras::QCylinderMesh()),
   cylinderTransform_(new Qt3DCore::QTransform()),
+  cone_(new Qt3DExtras::QConeMesh()),
+  coneTransform_(new Qt3DCore::QTransform()),
   variable_(variable),
   color_(color),
   isVariable_(isVariable)
@@ -34,22 +34,6 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   if (is_time_axis)
     length = abs(length);
 
-  // Sphere shape data
-  Qt3DExtras::QSphereMesh* sphere = new Qt3DExtras::QSphereMesh();
-  sphere->setRadius(0);
-  sphere->setRings(2);
-  sphere->setSlices(1);
-
-  // SphereMesh Transform
-  if (is_time_axis)
-    sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1.0f, 0.0f, 0.0f), -90.0f));
-  else
-    sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), rotation - 90.0f));
-
-  // Sphere
-  sphereEntity_->addComponent(sphere);
-  sphereEntity_->addComponent(sphereTransform_);
-
   // Cylinder shape data
   if(isVariable_)
     cylinder_->setRadius(1);
@@ -60,19 +44,27 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   cylinder_->setSlices(20);
 
   // CylinderMesh Transform
-  cylinderTransform_->setTranslation(QVector3D(translation.x(), translation.y() + cylinder_->length() / 2, 0));
+  cylinderTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2, 0));
+
+  Qt3DCore::QTransform rot;
+
+  if (is_time_axis)
+    rot.setRotationX(-90.0f);
+  else
+    rot.setRotationZ(rotation - 90.0f);
+
+  cylinderTransform_->setMatrix(rot.matrix() * cylinderTransform_->matrix());
 
   Qt3DExtras::QDiffuseSpecularMaterial* cylinderMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
   cylinderMaterial->setDiffuse(color_);
 
   // Cylinder
-  Qt3DCore::QEntity* cylinderEntity = new Qt3DCore::QEntity(sphereEntity_);
+  Qt3DCore::QEntity* cylinderEntity = new Qt3DCore::QEntity(rootEntity_);
   cylinderEntity->addComponent(cylinder_);
   cylinderEntity->addComponent(cylinderMaterial);
   cylinderEntity->addComponent(cylinderTransform_);
 
   // Cone shape data
-  cone_ = new Qt3DExtras::QConeMesh();
   cone_->setTopRadius(0);
   if(isVariable_)
     cone_->setBottomRadius(3);
@@ -86,7 +78,6 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
   cone_->setSlices(20);
 
   // ConeMesh Transform
-  coneTransform_ = new Qt3DCore::QTransform();
   coneTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2 + cone_->length() / 2, 0));
 
   Qt3DExtras::QDiffuseSpecularMaterial* coneMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
@@ -101,33 +92,39 @@ CustomArrow::CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, f
 
 CustomArrow::~CustomArrow()
 {
-  // theoretically not needed
-  delete sphereTransform_;
   delete cylinder_;
   delete cylinderTransform_;
-
-  delete sphereEntity_;
+  delete cone_;
+  delete coneTransform_;
 }
 
 void CustomArrow::update(double scale, double rotationAngle, bool moveOnTimeAxis)
 {
-  sphereTransform_->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 0.0f, 1.0f), ((180*arg(variable_->getValue()))/M_PI - 90.0f) + rotationAngle));
-
-  cylinder_->setLength(abs(variable_->getValue())*100/scale - CONE_LENGTH);
-  
-  cylinderTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2, 0));
-  
-  coneTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2 + cone_->length() / 2, 0));
-
-  if (!isVariable_ || abs(variable_->getValue()) != 0)
+  if (!isVariable_ || abs(variable_->getValue()) != 0 || scale != 0)
+  {
+    cylinder_->setLength(abs(variable_->getValue()) * 100 / scale - CONE_LENGTH);
     cone_->setLength(CONE_LENGTH);
+  }
   else
+  {
+    cylinder_->setLength(0);
     cone_->setLength(0);
+  }
+  
+  QVector3D translation(0, cylinder_->length() / 2, 0);
 
   if (moveOnTimeAxis)
-    sphereTransform_->setTranslation(QVector3D(0, 0, -rotationAngle / 360 * 200));
-  else
-    sphereTransform_->setTranslation(QVector3D(0, 0, 0));
+    translation.setZ(-rotationAngle / 360 * 200);
+
+  QMatrix4x4 identity;
+  cylinderTransform_->setMatrix(identity);
+  cylinderTransform_->setTranslation(translation);
+
+  Qt3DCore::QTransform* rot = new Qt3DCore::QTransform();
+  rot->setRotationZ(((180 * arg(variable_->getValue())) / M_PI - 90.0f) + rotationAngle);
+  
+  cylinderTransform_->setMatrix(rot->matrix() * cylinderTransform_->matrix());
+  coneTransform_->setTranslation(QVector3D(0, cylinder_->length() / 2 + cone_->length() / 2, 0));
 }
 
 void CustomArrow::setVisible(bool visibility)

@@ -14,8 +14,8 @@ class ComplexVar;
 class CustomArrow
 {
 public:
-  CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation);
-  CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, ComplexVar* variable, QColor color);
+  CustomArrow(Qt3DCore::QEntity* rootEntity, float length, float rotation);
+  CustomArrow(Qt3DCore::QEntity* rootEntity, ComplexVar* variable, QColor color);
   ~CustomArrow();
 
   void update(double scale, double rotationAngle, bool moveOnTimeAxis = true);
@@ -23,11 +23,9 @@ public:
   ComplexVar* getVariable();
 
 private:
-  CustomArrow(Qt3DCore::QEntity* rootEntity, QVector2D translation, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable);
+  CustomArrow(Qt3DCore::QEntity* rootEntity, float length, float rotation, ComplexVar* variable, QColor color, bool isVariable);
 
   Qt3DCore::QEntity* rootEntity_;
-  Qt3DCore::QEntity* sphereEntity_;
-  Qt3DCore::QTransform* sphereTransform_;
   Qt3DExtras::QCylinderMesh* cylinder_;
   Qt3DCore::QTransform* cylinderTransform_;
   Qt3DExtras::QConeMesh* cone_;

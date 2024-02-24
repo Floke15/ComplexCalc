@@ -47,11 +47,11 @@ OpenGLWindow::OpenGLWindow(bool isMainWindow) :
   lightTransform_->setTranslation(cameraEntity->position());
   lightEntity->addComponent(lightTransform_);
 
-  CustomArrow* realPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 0);
-  CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 180.0f);
-  CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 90.0f);
-  CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, QVector2D(0, 0), 110, 270.0f);
-  timeAxis_ = new CustomArrow(rootEntity_, QVector2D(0, 0), -220, 0);
+  CustomArrow* realPositiveAxis = new CustomArrow(rootEntity_, 110, 0);
+  CustomArrow* realNegativeAxis = new CustomArrow(rootEntity_, 110, 180.0f);
+  CustomArrow* imagPositiveAxis = new CustomArrow(rootEntity_, 110, 90.0f);
+  CustomArrow* imagNegativeAxis = new CustomArrow(rootEntity_, 110, 270.0f);
+  timeAxis_ = new CustomArrow(rootEntity_, -220, 0);
   timeAxis_->setVisible(false);
 
   realAxisLabel_ = new Label(rootEntity_, QVector3D(110 - (CONE_LENGTH / 2), -9, -9), "Re", Qt::black);
@@ -230,7 +230,7 @@ void OpenGLWindow::insertVariable(ComplexVar* variable, bool with_trace)
   //TODO: other function that adds at other pos that origin
   //TODO: check if arrow of variable with the same origin already exists
 
-  CustomArrow* variable_arrow = new CustomArrow(rootEntity_, QVector2D(0, 0), variable, QColor(255, 0, 0, 255));
+  CustomArrow* variable_arrow = new CustomArrow(rootEntity_, variable, QColor(255, 0, 0, 255));
 
   if (with_trace)
   {
