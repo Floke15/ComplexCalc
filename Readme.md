@@ -37,28 +37,27 @@ The ComplexCalculator shall support high school students and prospective electri
 
 ### Ubuntu 22.04
 
-1.     sudo apt-get update && apt-get install libxcb-xinerama0 libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-shape0 libfreetype6 libfontconfig1 cmake ninja-build gcc g++ gdb
-2.     sudo apt-get install -qq libglu1-mesa-dev libx11-xcb-dev '^libxcb*'
-3. Download the QT-installer from https://www.qt.io/download-qt-installer
-4. Assign execute rights with
+1.     sudo apt-get update && apt-get install libxcb-xinerama0 libglu1-mesa-dev libx11-xcb-dev '^libxcb*' libfreetype6 libfontconfig1 cmake ninja-build g++ gdb
+2. Download the QT-installer from https://www.qt.io/download-qt-installer
+3. Assign execute rights with
 
        chmod +x <download_path>/qt-unified-linux-x64-<version>-online.run"
-5. Log in or create an account (it is free and you can use throwaway credentials)
-6. Agree to the GNU-License and check the box "not using QT for a company"
-7. Disable statistics
-8. Select "Custom Installation" and use the default path
-9. Now select the following within the newest QT version (at time of writing 6.4.0):
+4. Log in or create an account (it is free and you can use throwaway credentials)
+5. Agree to the GNU-License and check the box "not using QT for a company"
+6. Disable statistics
+7. Select "Custom Installation" and use the default path
+8. Now select the following within the newest QT version (at time of writing 6.4.0):
     - gcc 64-bit
-10. Under "Additional Libraries" select:
+9. Under "Additional Libraries" select:
     - Qt 3D
-11. Under "Developer and Designer Tools" select:
+10. Under "Developer and Designer Tools" select:
     - Qt Creator \<version\>
     - Qt Creator \<version\> Debug Symbols
     - CMake
     - Ninja
-12. Click next and agree to the license
-13. Finish the Installation
-14. QT Creator can be started by executing "<Qt-install-Dir>/Tools/QtCreator/bin/qtcreator.sh"
+11. Click next and agree to the license
+12. Finish the Installation
+13. QT Creator can be started by executing "<Qt-install-Dir>/Tools/QtCreator/bin/qtcreator.sh"
 
 ## Setting up the IDE and Build
 
