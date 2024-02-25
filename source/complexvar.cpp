@@ -158,6 +158,7 @@ ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::
   double_validator->setNotation(QDoubleValidator::ScientificNotation);
   omegaInput_->setValidator(double_validator);
   omegaInput_->setText(QString::number(omega_));
+  omegaInput_->setReadOnly(true);
 
   horizontalLayoutOmega->addWidget(omegaLabel);
   horizontalLayoutOmega->addWidget(omegaInput_);
