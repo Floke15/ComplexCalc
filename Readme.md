@@ -37,7 +37,7 @@ The ComplexCalculator shall support high school students and prospective electri
 
 ### Ubuntu 22.04
 
-1.     sudo apt-get update && apt-get install libxcb-xinerama0 libglu1-mesa-dev libx11-xcb-dev '^libxcb*' libfreetype6 libfontconfig1 cmake ninja-build g++ gdb
+1.     sudo apt-get update && apt-get install libxcb-xinerama0 libglu1-mesa-dev libx11-xcb-dev libxcb-randr0-dev libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-xkb-dev libxkbcommon-x11-0  libfreetype6 libfontconfig1 cmake ninja-build g++ gdb
 2. Download the QT-installer from https://www.qt.io/download-qt-installer
 3. Assign execute rights with
 
@@ -46,7 +46,7 @@ The ComplexCalculator shall support high school students and prospective electri
 5. Agree to the GNU-License and check the box "not using QT for a company"
 6. Disable statistics
 7. Select "Custom Installation" and use the default path
-8. Now select the following within the newest QT version (at time of writing 6.4.0):
+8. Now select the following within the newest QT version:
     - gcc 64-bit
 9. Under "Additional Libraries" select:
     - Qt 3D
@@ -67,7 +67,7 @@ Now QTCreator or Visual Studio can be used to open the project and build the sou
 1. Start QTCreator
 2. Select "File>Open File or Project..."
 3. Select the "CMakeLists.txt" inside the Repo.
-4. Tick "Desktop Qt \<version\> MinGW 64-bit" and "Desktop Qt \<version\> MinGW 64-bit"
+4. Tick "Desktop Qt \<version\> MinGW 64-bit" and "Desktop Qt \<version\> MinGW 64-bit" for Windows or "Desktop Qt \<version\> GCC 64-bit" for Linux
 5. For each of these configurations you can select which targets you want to be able to build, though the following two are recommended:
     - Debug
     - Minimum Size Release
@@ -75,7 +75,7 @@ Now QTCreator or Visual Studio can be used to open the project and build the sou
 7. Now you are able to build the Release or Debug build. Debugging is also possible.
 
 
-### Visual Studio (Windows):
+### Visual Studio (Windows)
 
 1. Start Visual Studio and "Continue without code".
 2. Go to "Extensions>Manage Extensions" and install the "Qt Visual Studio Tools" if they are not installed already.
