@@ -58,11 +58,10 @@ public:
   ComplexCalc(QWidget* parent = nullptr);
   //~ComplexCalc();
 
-private slots:
+public slots:
   void on_addVarButton_clicked();
   void on_operationInput_textEdited(const QString& text);
   void reparseText();
-  void clearMainWindow();
 
 private:
   void compute(const std::string& expr);

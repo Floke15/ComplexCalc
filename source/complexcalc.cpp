@@ -450,11 +450,6 @@ void ComplexCalc::reparseText()
   on_operationInput_textEdited(operationInput_->text());
 }
 
-void ComplexCalc::clearMainWindow()
-{
-  openGL3DWindow_->removeAllVariables();
-}
-
 void ComplexCalc::on_addVarButton_clicked()
 {
   ComplexVar* newVar = new ComplexVar(scrollWidget_, timeSlider_);

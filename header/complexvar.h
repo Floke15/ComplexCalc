@@ -33,7 +33,7 @@ public:
 signals:
   void variable_changed();
 
-private slots:
+public slots:
   void on_expandButton_clicked();
   void on_switchButton_clicked();
   void on_deleteButton_clicked();
