@@ -289,6 +289,7 @@ void ComplexVar::on_expandButton_clicked()
       openGL3DWindow_->setTime(timeSlider_->value());
       connect(timeSlider_, &QSlider::valueChanged, openGL3DWindow_, &OpenGLWindow::setTime);
     }
+    connect(this, &ComplexVar::variable_changed, openGL3DWindow_, &OpenGLWindow::update);
     verticalLayout_->addWidget(glWidget_);
     this->setMinimumSize(200, 272);
   }
