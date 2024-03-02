@@ -282,8 +282,11 @@ void ComplexVar::on_expandButton_clicked()
     glWidget_->setFixedHeight(200);
     glWidget_->setObjectName("glWidget_");
     glWidget_->setSizePolicy(sizePolicy12);
-    if(abs(value_) > 0)
+    if (abs(value_) > 0)
+    {
       openGL3DWindow_->insertVariable(this);
+      openGL3DWindow_->update();
+    }
     if (timeSlider_ != nullptr)
     {
       openGL3DWindow_->setTime(timeSlider_->value());

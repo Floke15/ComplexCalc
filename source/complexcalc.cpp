@@ -249,6 +249,8 @@ void ComplexCalc::compute(const std::string& expr) {
       assert(0 && "");
     }
   }
+
+  openGL3DWindow_->update();
 }
 
 std::deque<Token> ComplexCalc::exprToTokens(const std::string& expr) {

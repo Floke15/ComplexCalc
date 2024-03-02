@@ -218,8 +218,6 @@ void OpenGLWindow::insertVariable(ComplexVar* variable, bool with_trace)
   }
 
   arrows_.push_back(variable_arrow);
-
-  update();
 }
 
 void OpenGLWindow::removeAllVariables()
