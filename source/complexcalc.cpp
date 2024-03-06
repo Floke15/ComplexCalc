@@ -18,7 +18,7 @@
 ComplexCalc::ComplexCalc(QWidget* parent) :
   openGL3DWindow_(new OpenGLWindow(true)),
   operationInput_(new QLineEdit()),
-  scrollWidget_(new ScrollWidget()),
+  scrollWidget_(nullptr),
   timeSlider_(new QSlider()),
   QMainWindow(parent)
 {
@@ -87,31 +87,19 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9 +-]*"));   //match one word (aka one potential variable)
   operationInput_->setValidator(regex_validator);
   
-  scrollWidget_->setParent(subWidget);
-  scrollWidget_->setObjectName("scrollWidget");
-  QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-  sizePolicy3.setHorizontalStretch(0);
-  sizePolicy3.setVerticalStretch(0);
-  sizePolicy3.setHeightForWidth(scrollWidget_->sizePolicy().hasHeightForWidth());
+  scrollWidget_ = new ScrollWidget(subWidget);
   connect(scrollWidget_, &ScrollWidget::about_to_delete, openGL3DWindow_, &OpenGLWindow::removeAllVariables);
   connect(scrollWidget_, &ScrollWidget::variable_deleted, this, &ComplexCalc::reparseText);
-
-  // define verticalScrollLayout as Layout of scrollWidget
-  QVBoxLayout* verticalScrollLayout = new QVBoxLayout(scrollWidget_);
-  verticalScrollLayout->setContentsMargins(0, 0, 0, 0);
-  verticalScrollLayout->setSpacing(0);
-  verticalScrollLayout->setObjectName("verticalScrollLayout");
-  verticalScrollLayout->setAlignment(Qt::AlignTop);
 
   // initialize the scrollArea as part of subWidget
   QScrollArea* scrollArea = new QScrollArea(subWidget);
   scrollArea->setObjectName("scrollArea");
   scrollArea->setMinimumSize(220, 0);
-  QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-  sizePolicy4.setHorizontalStretch(1);
-  sizePolicy4.setVerticalStretch(0);
-  sizePolicy4.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
-  scrollArea->setSizePolicy(sizePolicy4);
+  QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+  sizePolicy3.setHorizontalStretch(1);
+  sizePolicy3.setVerticalStretch(0);
+  sizePolicy3.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
+  scrollArea->setSizePolicy(sizePolicy3);
   scrollArea->setWidgetResizable(true);
   scrollArea->setWidget(scrollWidget_);
 
@@ -125,14 +113,6 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   this->setCentralWidget(centralWidget);
 
   QMetaObject::connectSlotsByName(this);
-
-  OpenGLWindow* openGL3DWindow = new OpenGLWindow(false);
-  QWidget* fixWidget = QWidget::createWindowContainer(openGL3DWindow);
-  QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  fixWidget->setMinimumSize(1, 1);
-  //fixWidget->setVisible(false);
-  fixWidget->setSizePolicy(sizePolicy5);
-  verticalScrollLayout->addWidget(fixWidget);
 }
 
 void ComplexCalc::on_operationInput_textEdited(const QString& text)

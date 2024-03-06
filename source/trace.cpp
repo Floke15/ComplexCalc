@@ -15,7 +15,6 @@
 
 Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable, double scale) :
   Qt3DCore::QGeometry(rootEntity),
-  rootEntity_(rootEntity),
   variable_(variable),
   scale_(0),
   lastVal_(0),

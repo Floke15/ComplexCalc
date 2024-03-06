@@ -11,6 +11,27 @@ ScrollWidget::ScrollWidget(QWidget* parent) :
   QTimer* timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
   timer->start(100);
+
+  setObjectName("scrollWidget");
+  QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+  sizePolicy1.setHorizontalStretch(0);
+  sizePolicy1.setVerticalStretch(0);
+  sizePolicy1.setHeightForWidth(sizePolicy().hasHeightForWidth());
+
+  // define verticalScrollLayout as Layout of scrollWidget
+  QVBoxLayout* verticalScrollLayout = new QVBoxLayout(this);
+  verticalScrollLayout->setContentsMargins(0, 0, 0, 0);
+  verticalScrollLayout->setSpacing(0);
+  verticalScrollLayout->setObjectName("verticalScrollLayout");
+  verticalScrollLayout->setAlignment(Qt::AlignTop);
+
+  OpenGLWindow* openGL3DWindow = new OpenGLWindow(false);
+  QWidget* fixWidget = QWidget::createWindowContainer(openGL3DWindow);
+  QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  fixWidget->setMinimumSize(1, 1);
+  //fixWidget->setVisible(false);
+  fixWidget->setSizePolicy(sizePolicy2);
+  verticalScrollLayout->addWidget(fixWidget);
 }
 
 void ScrollWidget::deleteVariable(ComplexVar* variable)

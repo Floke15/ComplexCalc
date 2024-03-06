@@ -23,7 +23,6 @@ private:
   Qt3DCore::QAttribute* createIndexBuffer(const QVector<quint32>& indices, Qt3DCore::QGeometry* parent);
   Qt3DCore::QAttribute* create3DBuffer(const QVector<QVector3D>& vertices, const QString& name, Qt3DCore::QGeometry* parent);
 
-  Qt3DCore::QEntity* rootEntity_;
   ComplexVar* variable_;
   double scale_;
   std::complex<double> lastVal_;
