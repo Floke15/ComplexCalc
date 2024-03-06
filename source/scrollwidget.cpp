@@ -27,11 +27,11 @@ ScrollWidget::ScrollWidget(QWidget* parent, QSlider* timeSlider, ComplexCalc* co
   verticalScrollLayout->setObjectName("verticalScrollLayout");
   verticalScrollLayout->setAlignment(Qt::AlignTop);
 
-  OpenGLWindow* openGL3DWindow = new OpenGLWindow(false);
-  QWidget* fixWidget = QWidget::createWindowContainer(openGL3DWindow);
+  Qt3DExtras::Qt3DWindow* Qt3DWindow = new Qt3DExtras::Qt3DWindow();
+  QWidget* fixWidget = QWidget::createWindowContainer(Qt3DWindow);
   QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
   fixWidget->setMinimumSize(1, 1);
-  //fixWidget->setVisible(false);
+  fixWidget->setVisible(false);
   fixWidget->setSizePolicy(sizePolicy2);
   verticalScrollLayout->addWidget(fixWidget);
 }
@@ -83,8 +83,10 @@ void ScrollWidget::addVariable()
 
 void ScrollWidget::update()
 {
-  if(variables_to_delete_.size())
+  if (variables_to_delete_.size())
     emit about_to_delete();
+  else
+    return;
 
   for (auto position : variables_to_delete_)
   {
