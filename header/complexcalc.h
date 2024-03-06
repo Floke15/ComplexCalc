@@ -59,7 +59,6 @@ public:
   //~ComplexCalc();
 
 public slots:
-  void on_addVarButton_clicked();
   void on_operationInput_textEdited(const QString& text);
   void reparseText();
 

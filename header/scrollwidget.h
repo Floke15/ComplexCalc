@@ -4,21 +4,28 @@
 #include <QWidget>
 
 class ComplexVar;
+class ComplexCalc;
+class QSlider;
 
 class ScrollWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  ScrollWidget(QWidget* parent = 0);
+  ScrollWidget(QWidget* parent, QSlider* timeSlider, ComplexCalc* complexCalc);
 
   void deleteVariable(ComplexVar* variable);
   ComplexVar* getVariable(QString name);
   
   QVector<ComplexVar*> variables_;
 
+public slots:
+  void addVariable();
+
 private:
-    QVector<ComplexVar*> variables_to_delete_;
+  QSlider* timeSlider_;
+  ComplexCalc* complexCalc_;
+  QVector<ComplexVar*> variables_to_delete_;
 
 private slots:
   void update();

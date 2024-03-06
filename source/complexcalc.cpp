@@ -87,9 +87,10 @@ ComplexCalc::ComplexCalc(QWidget* parent) :
   QRegularExpressionValidator* regex_validator = new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9 +-]*"));   //match one word (aka one potential variable)
   operationInput_->setValidator(regex_validator);
   
-  scrollWidget_ = new ScrollWidget(subWidget);
+  scrollWidget_ = new ScrollWidget(subWidget, timeSlider_, this);
   connect(scrollWidget_, &ScrollWidget::about_to_delete, openGL3DWindow_, &OpenGLWindow::removeAllVariables);
   connect(scrollWidget_, &ScrollWidget::variable_deleted, this, &ComplexCalc::reparseText);
+  connect(addVarButton, &QPushButton::clicked, scrollWidget_, &ScrollWidget::addVariable);
 
   // initialize the scrollArea as part of subWidget
   QScrollArea* scrollArea = new QScrollArea(subWidget);
@@ -158,7 +159,7 @@ void ComplexCalc::compute(const std::string& expr) {
 
           if (!result)
           {
-            on_addVarButton_clicked();
+            scrollWidget_->addVariable();
             result = scrollWidget_->variables_.back();
             result->setName("-" + rhs->getName());
           }
@@ -197,7 +198,7 @@ void ComplexCalc::compute(const std::string& expr) {
 
           if (!result)
           {
-            on_addVarButton_clicked();
+            scrollWidget_->addVariable();
             result = scrollWidget_->variables_.back();
             result->setName(lhs->getName() + "+" + rhs->getName());
           }
@@ -211,7 +212,7 @@ void ComplexCalc::compute(const std::string& expr) {
 
           if (!result)
           {
-            on_addVarButton_clicked();
+            scrollWidget_->addVariable();
             result = scrollWidget_->variables_.back();
             result->setName(lhs->getName() + "-" + rhs->getName());
           }
@@ -430,13 +431,4 @@ std::deque<Token> ComplexCalc::shuntingYard(const std::deque<Token>& tokens) {
 void ComplexCalc::reparseText()
 {
   on_operationInput_textEdited(operationInput_->text());
-}
-
-void ComplexCalc::on_addVarButton_clicked()
-{
-  ComplexVar* newVar = new ComplexVar(scrollWidget_, timeSlider_);
-  scrollWidget_->layout()->addWidget(newVar);
-  scrollWidget_->variables_.push_back(newVar);
-
-  connect(newVar, &ComplexVar::variable_changed, this, &ComplexCalc::reparseText);
 }

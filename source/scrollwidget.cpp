@@ -5,7 +5,9 @@
 #include <QLayout>
 #include <QTimer>
 
-ScrollWidget::ScrollWidget(QWidget* parent) : 
+ScrollWidget::ScrollWidget(QWidget* parent, QSlider* timeSlider, ComplexCalc* complexCalc) :
+  timeSlider_(timeSlider),
+  complexCalc_(complexCalc),
   QWidget(parent)
 {
   QTimer* timer = new QTimer(this);
@@ -68,6 +70,15 @@ ComplexVar* ScrollWidget::getVariable(QString name)
   }
 
   return pos;
+}
+
+void ScrollWidget::addVariable()
+{
+  ComplexVar* newVar = new ComplexVar(this, timeSlider_);
+  layout()->addWidget(newVar);
+  variables_.push_back(newVar);
+
+  connect(newVar, &ComplexVar::variable_changed, complexCalc_, &ComplexCalc::reparseText);
 }
 
 void ScrollWidget::update()
