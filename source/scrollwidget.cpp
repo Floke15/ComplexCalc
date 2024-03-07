@@ -31,7 +31,7 @@ ScrollWidget::ScrollWidget(QWidget* parent, QSlider* timeSlider, ComplexCalc* co
   QWidget* fixWidget = QWidget::createWindowContainer(Qt3DWindow);
   QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
   fixWidget->setMinimumSize(1, 1);
-  fixWidget->setVisible(false);
+  //fixWidget->setVisible(false);
   fixWidget->setSizePolicy(sizePolicy2);
   verticalScrollLayout->addWidget(fixWidget);
 }
