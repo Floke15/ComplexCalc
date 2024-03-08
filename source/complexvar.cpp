@@ -12,8 +12,8 @@
 
 ComplexVar::ComplexVar(QWidget* parent, QSlider* timeSlider, QString name, std::complex<double> value, double omega, QColor color) :
   parent_(parent),
-  name_(name),
   timeSlider_(timeSlider),
+  name_(name),
   value_(value),
   omega_(omega),
   color_(color),
@@ -379,7 +379,7 @@ void ComplexVar::on_input1Input_editingFinished()
   else
     value_.real(QLocale::system().toDouble(input1Input_->text()));
 
-  if (this->findChild<QWidget*>("glWidget_") && !openGL3DWindow_->hasArrow() && abs(value_) > 0)
+  if (this->findChild<QWidget*>("glWidget_") && openGL3DWindow_->isEmpty() && abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
 
   emit variable_changed();
@@ -401,7 +401,7 @@ void ComplexVar::on_input2Input_editingFinished()
   else
     value_.imag(QLocale::system().toDouble(input2Input_->text()));
 
-  if (this->findChild<QWidget*>("glWidget_") && !openGL3DWindow_->hasArrow() && abs(value_) > 0)
+  if (this->findChild<QWidget*>("glWidget_") && openGL3DWindow_->isEmpty() && abs(value_) > 0)
     openGL3DWindow_->insertVariable(this);
   
   emit variable_changed();

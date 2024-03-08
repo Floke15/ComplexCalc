@@ -46,8 +46,8 @@ public slots:
 
 private:
   QWidget* parent_;
-  QString name_;
   QSlider* timeSlider_;
+  QString name_;
   std::complex<double> value_;
   QColor color_;
   double omega_;

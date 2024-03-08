@@ -147,26 +147,6 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
     bool was_at_limit_x = currentAngleX_ < 1 || currentAngleX_ > 89;
     bool is_at_limit_x = (currentAngleX_ + angle_change_x) < 1 || (currentAngleX_ + angle_change_x) > 89;
 
-    if (is_at_limit_x && !was_at_limit_x)
-    {
-      setOrthographicProjection();
-      if ((currentAngleX_ + angle_change_x) < 1)
-      {
-        timeAxis_->setVisible(false);
-        timeAxisLabel_->setVisible(false);
-        tickTimeLabel_->setVisible(false);
-        tickTimeEntity_->setEnabled(false);
-      }
-    }
-    else if (!is_at_limit_x && was_at_limit_x)
-    {
-      camera()->lens()->setPerspectiveProjection(45, static_cast<float>(this->width()) / static_cast<float>(this->height()), 0.1, 1000);
-      timeAxis_->setVisible(true);
-      timeAxisLabel_->setVisible(true);
-      tickTimeLabel_->setVisible(true);
-      tickTimeEntity_->setEnabled(true);
-    }
-
     if (currentAngleX_ + angle_change_x < 0)
       angle_change_x = -currentAngleX_;
     else if (currentAngleX_ + angle_change_x > 90)
@@ -183,6 +163,26 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 
     currentAngleX_ += angle_change_x;
     currentAngleZ_ += angle_change_z;
+
+    if (is_at_limit_x && !was_at_limit_x)
+    {
+      setOrthographicProjection();
+      if (currentAngleX_ < 1)
+      {
+        timeAxis_->setVisible(false);
+        timeAxisLabel_->setVisible(false);
+        tickTimeLabel_->setVisible(false);
+        tickTimeEntity_->setEnabled(false);
+      }
+    }
+    else if (!is_at_limit_x && was_at_limit_x)
+    {
+      camera()->lens()->setPerspectiveProjection(45, static_cast<float>(this->width()) / static_cast<float>(this->height()), 0.1, 1000);
+      timeAxis_->setVisible(true);
+      timeAxisLabel_->setVisible(true);
+      tickTimeLabel_->setVisible(true);
+      tickTimeEntity_->setEnabled(true);
+    }
 
     realAxisLabel_->update(camera()->position(), camera()->upVector());
     imagAxisLabel_->update(camera()->position(), camera()->upVector());
@@ -286,12 +286,12 @@ void OpenGLWindow::findScale()
 
   scale_ = pow(10.0, (double) ceil_value);
 
-  if ((double) ceil_value - 1 + 0.69897 > log_value)     // log(5) = 0,69897
+  if(biggest_value < scale_/2)
       scale_ /= 2;
 }
 
-bool OpenGLWindow::hasArrow()
+bool OpenGLWindow::isEmpty()
 {
-  return !arrows_.empty();
+  return arrows_.empty();
 }
 

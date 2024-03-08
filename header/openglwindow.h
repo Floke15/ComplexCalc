@@ -23,7 +23,7 @@ public:
   void mousePressEvent(QMouseEvent* mouseEvent) override;
   void mouseMoveEvent(QMouseEvent* mouseEvent) override;
   void insertVariable(ComplexVar* variable, bool with_trace = false);
-  bool hasArrow();
+  bool isEmpty();
 
 public slots:
   void removeAllVariables();
