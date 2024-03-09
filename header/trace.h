@@ -15,7 +15,7 @@ public:
   void update(double scale, double rotationAngle = 360);
 
 private:
-  void calculatePoints(double scale);
+  void createGeometry(double scale);
   void init3DElements(Qt3DCore::QEntity* rootEntity);
   QVector3D getOrthogonalVector(const QVector3D& vec);
   QVector<QVector3D> buildCircleNormals(const QVector3D& dir);

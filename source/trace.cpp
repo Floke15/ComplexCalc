@@ -22,7 +22,7 @@ Trace::Trace(Qt3DCore::QEntity* rootEntity, ComplexVar* variable, double scale) 
   normals_(new QVector<QVector3D>()),
   indices_(new QVector<QVector<quint32>*>())
 {
-  calculatePoints(scale);
+  createGeometry(scale);
   init3DElements(rootEntity);
 }
 
@@ -44,7 +44,7 @@ void Trace::init3DElements(Qt3DCore::QEntity* rootEntity)
   traceEntity->addComponent(traceTransform_);
 }
 
-void Trace::calculatePoints(double scale)
+void Trace::createGeometry(double scale)
 {
   int trace_points = 1000;
   std::complex<double> scaled_value = variable_->getValue() * (100 / scale);
@@ -136,7 +136,7 @@ void Trace::update(double scale, double rotationAngle)
 {
   if (scale != scale_ || lastVal_ != variable_->getValue())
   {
-    calculatePoints(scale);
+    createGeometry(scale);
     scale_ = scale;
     lastVal_ = variable_->getValue();
   }
