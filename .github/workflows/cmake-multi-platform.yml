@@ -41,24 +41,21 @@ jobs:
           modules:      qt3d
           setup-python: false
 
-      - name: (4) Download JOM
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url:    http://download.qt.io/official_releases/jom/jom.zip
-          target: ${{ runner.temp }}\
+      #- name: (4) Download JOM
+      #  uses: suisei-cn/actions-download-file@v1
+      #  with:
+      #    url:    http://download.qt.io/official_releases/jom/jom.zip
+      #    target: ${{ runner.temp }}\
 
-      - name: (5) Unzip JOM
-        working-directory: ${{ runner.temp }}
-        run:  |
-              7z x jom.zip -ojom        
+      #- name: (5) Unzip JOM
+      #  working-directory: ${{ runner.temp }}
+      #  run:  |
+      #        7z x jom.zip -ojom        
               
       - name: (7) Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
         with:
           arch: x64
-
-      - name: (6) Create build directory
-        run:  mkdir ${{ runner.temp }}\build
     
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -67,15 +64,21 @@ jobs:
         working-directory: ${{ env.SOURCE_DIR }}
         run:  |
               cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+              mkdir ${{ runner.temp }}\build
               cp ${{github.workspace}}\build\Release\ComplexCalc.exe ${{ runner.temp }}\build\ComplexCalc.exe
-              
-      - name: (9) Zip build
-        working-directory: ${{ runner.temp }}
-        run:  |
-              7z a complexcalc-build.zip ${{ runner.temp }}\build\* -r
-              
-      - name: (10) Save build artifact
-        uses: actions/upload-artifact@master
+
+      - name: archive code
+        uses: action/upload-artifact@v4
         with:
-          name: ${{ env.ARTIFACT }}
-          path: ${{ runner.temp }}\${{ env.ARTIFACT }}
+          name: ComplexCalc
+          path: ${{ runner.temp }}\build
+      #- name: (9) Zip build
+      #  working-directory: ${{ runner.temp }}
+      #  run:  |
+      #        7z a complexcalc-build.zip ${{ runner.temp }}\build\* -r
+              
+      #- name: (10) Save build artifact
+      #  uses: actions/upload-artifact@master
+      #  with:
+      #    name: ${{ env.ARTIFACT }}
+      #    path: ${{ runner.temp }}\${{ env.ARTIFACT }}
