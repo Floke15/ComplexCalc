@@ -60,12 +60,12 @@ jobs:
           arch: x64
 
       - name: (8) Build
-        working-directory: ${{ runner.temp }}\build
+        working-directory: ${{ env.SOURCE_DIR }}
         run:  |
-              cmake --build ${{ env.SOURCE_DIR }} --target all
+              cmake --build ${{ runner.temp }}\build --target all
               ${{ runner.temp }}\jom\jom -j2
               cd release
-              windeployqt --qmldir ${{ env.SOURCE_DIR }} complexcalc-qml.exe --pdb --release --compiler-runtime
+              windeployqt --qmldir ${{ runner.temp }}\build complexcalc.exe --pdb --release --compiler-runtime
               
       - name: (9) Zip build
         working-directory: ${{ runner.temp }}
