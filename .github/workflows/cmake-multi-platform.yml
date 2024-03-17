@@ -41,19 +41,19 @@ jobs:
           modules:      qt3d
           setup-python: false
 
-      #- name: (4) Download JOM
-      #  uses: suisei-cn/actions-download-file@v1
-      #  with:
-      #    url:    http://download.qt.io/official_releases/jom/jom.zip
-      #    target: ${{ runner.temp }}\
+      - name: (4) Download JOM
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url:    http://download.qt.io/official_releases/jom/jom.zip
+          target: ${{ runner.temp }}\
 
-      #- name: (5) Unzip JOM
-      #  working-directory: ${{ runner.temp }}
-      #  run:  |
-      #        7z x jom.zip -ojom
+      - name: (5) Unzip JOM
+        working-directory: ${{ runner.temp }}
+        run:  |
+              7z x jom.zip -ojom
               
-      #- name: (6) Create build directory
-      #  run:  mkdir ${{ runner.temp }}\build
+      - name: (6) Create build directory
+        
 
       - name: (7) Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
@@ -65,18 +65,21 @@ jobs:
 
       - name: (8) Build
         working-directory: ${{ env.SOURCE_DIR }}
-        run:  cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-              #${{ runner.temp }}\jom\jom -j2
-              #cd ${{ runner.temp }}\build
-              #windeployqt --qmldir ${{ runner.temp }}\build ComplexCalc.exe --pdb --release --compiler-runtime
+        run:  |
+              cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+              mkdir ${{ runner.temp }}\build
+              cp ${{github.workspace}}\build\ComplexCalc.exe {{ runner.temp }}\build
+              ${{ runner.temp }}\jom\jom -j2
+              cd ${{ runner.temp }}\build
+              windeployqt --qmldir ${{ runner.temp }}\build ComplexCalc.exe --pdb --release --compiler-runtime
               
-      #- name: (9) Zip build
-      #  working-directory: ${{ runner.temp }}
-      #  run:  |
-      #        7z a qt-complexcalc-build.zip ${{ runner.temp }}\build\* -r
+      - name: (9) Zip build
+        working-directory: ${{ runner.temp }}
+        run:  |
+              7z a qt-complexcalc-build.zip ${{ runner.temp }}\build\* -r
               
-      #- name: (10) Save build artifact
-      #  uses: actions/upload-artifact@master
-      #  with:
-      #    name: ${{ env.ARTIFACT }}
-      #    path: ${{ runner.temp }}\${{ env.ARTIFACT }}
+      - name: (10) Save build artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ runner.temp }}\${{ env.ARTIFACT }}
