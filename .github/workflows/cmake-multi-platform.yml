@@ -67,7 +67,7 @@ jobs:
         working-directory: ${{ env.SOURCE_DIR }}
         run:  |
               cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-              cp ${{github.workspace}}\build\ComplexCalc.exe {{runner.temp}}\build\ComplexCalc.exe
+              cp ${{github.workspace}}\build\Release\ComplexCalc.exe {{runner.temp}}\build\ComplexCalc.exe
               ${{ runner.temp }}\jom\jom -j2
               cd ${{ runner.temp }}\build
               windeployqt6 --qmldir ${{ runner.temp }}\build ComplexCalc.exe --pdb --release --compiler-runtime
