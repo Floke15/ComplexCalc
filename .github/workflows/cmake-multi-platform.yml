@@ -50,10 +50,7 @@ jobs:
       - name: (5) Unzip JOM
         working-directory: ${{ runner.temp }}
         run:  |
-              7z x jom.zip -ojom
-              
-      - name: (6) Create build directory
-        
+              7z x jom.zip -ojom        
 
       - name: (7) Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
