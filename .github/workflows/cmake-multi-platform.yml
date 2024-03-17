@@ -51,7 +51,7 @@ jobs:
         working-directory: ${{ runner.temp }}
         run:  |
               7z x jom.zip -ojom        
-
+              
       - name: (7) Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
         with:
@@ -64,8 +64,8 @@ jobs:
         working-directory: ${{ env.SOURCE_DIR }}
         run:  |
               cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-              mkdir ${{ runner.temp }}\build
-              cp ${{github.workspace}}\build\ComplexCalc.exe {{ runner.temp }}\build\
+              mkdir ${{ runner.temp }}\build\
+              cp ${{github.workspace}}\build\ComplexCalc.exe {{ runner.temp }}\build\ComplexCalc.exe
               ${{ runner.temp }}\jom\jom -j2
               cd ${{ runner.temp }}\build
               windeployqt --qmldir ${{ runner.temp }}\build ComplexCalc.exe --pdb --release --compiler-runtime
