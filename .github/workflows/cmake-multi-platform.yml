@@ -64,8 +64,9 @@ jobs:
         run:  |
               cmake --build ${{ runner.temp }}\build --target all
               ${{ runner.temp }}\jom\jom -j2
-              cd release
-              windeployqt --qmldir ${{ runner.temp }}\build complexcalc.exe --pdb --release --compiler-runtime
+              cd ${{ runner.temp }}\build
+              ll
+              windeployqt --qmldir ${{ runner.temp }}\build ComplexCalc.exe --pdb --release --compiler-runtime
               
       - name: (9) Zip build
         working-directory: ${{ runner.temp }}
