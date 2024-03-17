@@ -68,7 +68,7 @@ jobs:
               cp ${{github.workspace}}\build\Release\ComplexCalc.exe ${{ runner.temp }}\build\ComplexCalc.exe
 
       - name: archive code
-        uses: action/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: ComplexCalc
           path: ${{ runner.temp }}\build
