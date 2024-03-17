@@ -62,7 +62,7 @@ jobs:
       - name: (8) Build
         working-directory: ${{ runner.temp }}\build
         run:  |
-              qmake -r ${{ env.SOURCE_DIR }}\CMakeLists.txt
+              cmake --build ${{ env.SOURCE_DIR }} --target all
               ${{ runner.temp }}\jom\jom -j2
               cd release
               windeployqt --qmldir ${{ env.SOURCE_DIR }} complexcalc-qml.exe --pdb --release --compiler-runtime
