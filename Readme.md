@@ -2,6 +2,8 @@
 
 The ComplexCalculator shall support high school students and prospective electrical engineering students with getting to know the complex number range for the first time. The application represents arithmetic operations (at this point addition and substraction) in the complex plane. This two-dimensional illustration is supplemented by a third axis, which represents the time axis. In combination the relationship between Complex numbers, the Euler identity and the trigonometric functions is visualized. In the future more mathematical operations can be added and the usage of different circular frequencies could be added.
 
+This application was initially developed as a bachelors project by Florian Köttl within the Institute of Interactive Systems and Data Science at the Graz University of Technology.
+
 # Repository structure
 
   - source -> contains the cpp-files
