@@ -2,7 +2,7 @@
 
 The ComplexCalculator shall support high school students and prospective electrical engineering students with getting to know the complex number range for the first time. The application represents arithmetic operations (at this point addition and substraction) in the complex plane. This two-dimensional illustration is supplemented by a third axis, which represents the time axis. In combination the relationship between Complex numbers, the Euler identity and the trigonometric functions is visualized. In the future more mathematical operations can be added and the usage of different circular frequencies could be added.
 
-This application was initially developed as a bachelors project by Florian Köttl within the Institute of Interactive Systems and Data Science at the Graz University of Technology.
+This application was initially developed as a bachelors project by Florian Kï¿½ttl within the Institute of Interactive Systems and Data Science at the Graz University of Technology.
 
 # Repository structure
 
@@ -39,7 +39,7 @@ This application was initially developed as a bachelors project by Florian Köttl
 
 ### Ubuntu 22.04
 
-1.     sudo apt-get update && apt-get install libxcb-xinerama0 libglu1-mesa-dev libx11-xcb-dev libxcb-randr0-dev libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-xkb-dev libxkbcommon-x11-0  libfreetype6 libfontconfig1 cmake ninja-build g++ gdb
+1.     sudo apt-get update && sudo apt-get install libxcb-xinerama0 libglu1-mesa-dev libx11-xcb-dev libxcb-randr0-dev libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-xkb-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libegl1 qtwayland5 libfreetype6 libfontconfig1 cmake ninja-build g++ gdb
 2. Download the QT-installer from https://www.qt.io/download-qt-installer
 3. Assign execute rights with
 

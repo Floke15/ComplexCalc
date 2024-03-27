@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=ComplexCalc
+Comment=Visualization of calculations in the complex domain
+Exec=ComplexCalc
+Keywords=complex;calculator;
+Icon=ComplexCalc
+Type=Application
+Terminal=false
+StartupNotify=true
+Categories=Utility;
